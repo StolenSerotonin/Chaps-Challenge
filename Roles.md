@@ -1,4 +1,3 @@
-
 Group Role Planning Team 23
 
 | Module Name | Name             | GitLab Username |
