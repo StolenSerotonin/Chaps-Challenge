@@ -1,7 +1,13 @@
 <!--
+    @author: Tomin Jessil
+
     level: main root element that contains everything
     row: contains all the elements for a row of the game
-    tile: the type of tile that is to be in a row
+    tile: the type of tile that is to be in a row - also notes the state
+    Tile types that can be used: floor, wall, microchip, portal, 
+    lockedGreenDoor, lockedBlueDoor, lockedYellowDoor, lockedRedDoor,
+    unlockedGreenDoor, unlockedBlueDoor, unlockedYellowDoor, unlockedRedDoor,
+    greenKey, blueKey, yellowKey, redKey. 
 -->
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
@@ -152,11 +158,11 @@
         <tile>wall</tile>
         <tile>wall</tile>
         <tile>wall</tile>
-        <tile>greenDoor</tile>
+        <tile>lockedGreenDoor</tile>
         <tile>wall</tile>
         <tile>barrier</tile>
         <tile>wall</tile>
-        <tile>greenDoor</tile>
+        <tile>lockedGreenDoor</tile>
         <tile>wall</tile>
         <tile>wall</tile>
         <tile>wall</tile>
@@ -174,13 +180,13 @@
         <tile>floor</tile>
         <tile>yellowKey</tile>
         <tile>wall</tile>
-        <tile>blueDoor</tile>
+        <tile>lockedBlueDoor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
-        <tile>redDoor</tile>
+        <tile>lockedRedDoor</tile>
         <tile>floor</tile>
         <tile>yellowKey</tile>
         <tile>floor</tile>
@@ -266,13 +272,13 @@
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
-        <tile>redDoor</tile>
+        <tile>lockedRedDoor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
-        <tile>blueDoor</tile>
+        <tile>lockedBlueDoor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
@@ -291,9 +297,9 @@
         <tile>wall</tile>
         <tile>wall</tile>
         <tile>wall</tile>
-        <tile>yellowDoor</tile>
+        <tile>lockedYellowDoor</tile>
         <tile>wall</tile>
-        <tile>yellowDoor</tile>
+        <tile>lockedYellowDoor</tile>
         <tile>wall</tile>
         <tile>wall</tile>
         <tile>wall</tile>
