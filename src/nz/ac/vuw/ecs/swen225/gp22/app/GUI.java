@@ -15,6 +15,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 
 
@@ -36,7 +38,7 @@ public class GUI extends JFrame{
     
     private JMenuItem Exit;
     private JMenuItem Save;
-    
+    private JMenuItem Rules;
     
     
     private ArrayList<JMenuItem> menuItems = new ArrayList<>();
@@ -69,15 +71,19 @@ public class GUI extends JFrame{
         
         Exit = new JMenuItem();
         Save = new JMenuItem();
+        Rules = new JMenuItem();
         
         populateMenuItems(Save, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(Exit, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(Rules, "Rules", KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK);
         
         menuItems.add(Save);
         menuItems.add(Exit);
+        menuItems.add(Rules);
         
         Game.add(Save);
         Game.add(Exit);
+        Help.add(Rules);
         
         add(WelcomeText, BorderLayout.CENTER);
         add(menuBar, BorderLayout.NORTH);
@@ -110,19 +116,15 @@ public class GUI extends JFrame{
         ArrayList<JButton> buttons = new ArrayList<>();
         JPanel pausePanel = new JPanel();
         JDialog pauseWindow = new JDialog();
-        pauseWindow.setSize(300, 200);
-        pauseWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pauseWindow.setResizable(false);
-        pauseWindow.setLocationRelativeTo(null);
-        pauseWindow.setVisible(true);
-        pauseWindow.setTitle("Pause");
-        
         var p = new JLabel("Game Paused");
+        var resumeButton = new JButton("Resume");
+        var saveButton = new JButton("Save & Exit");
+
+        populatePopUp(pauseWindow, "Pause", 300, 200, false);
+        
         p.setHorizontalAlignment(JLabel.CENTER);
         pauseWindow.add(p, BorderLayout.CENTER);
         
-        var resumeButton = new JButton("Resume");
-        var saveButton = new JButton("Save & Exit");
         buttons.add(resumeButton);  
         buttons.add(saveButton);
         buttons.forEach((button) -> {
@@ -140,6 +142,42 @@ public class GUI extends JFrame{
         pauseWindow.getRootPane().registerKeyboardAction(e -> pauseWindow.dispose(), escape, JComponent.WHEN_IN_FOCUSED_WINDOW);
         pauseWindow.add(pausePanel, BorderLayout.SOUTH);
     }
+
+    //print rules
+    public void rules(){
+        JPanel rulesPanel = new JPanel();
+        JDialog rulesWindow = new JDialog();
+        var tArea = new JTextArea();
+        JScrollPane scroll = new JScrollPane(tArea);
+        var okButton = new JButton("OK");
+
+        populatePopUp(rulesWindow, "Rules", 300, 200, true);
+
+        tArea.setEditable(false);
+        tArea.setLineWrap(true);
+        tArea.setWrapStyleWord(true);
+        tArea.setText("Rules of Chap's Challenge:\n\n1. Move Chap around the maze using the arrow keys.\n\n2. Collect all the keys to unlock the door.\n\n3. Collect all the gems to win the game.\n\n4. Avoid the ghosts and the fire.\n\n5. Press space to pause the game.\n\n6. Press escape to exit the game.\n\n7. Press ctrl + s to save the game.\n\n8. Press ctrl + x to exit the game.\n\n9. Press ctrl + h to view the rules.\n\n10. Press ctrl + r to resume a saved game -.\n\n11. Press ctrl + 1 to start a new game at level 1.\n\n12. Press ctrl + 2 to start a new game at level 2.");
+        scroll.getVerticalScrollBar().setValue(0);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        rulesWindow.add(scroll, BorderLayout.CENTER);
+
+        okButton.addActionListener((ActionEvent e) -> {
+            rulesWindow.dispose();
+        });
+        rulesWindow.add(rulesPanel, BorderLayout.SOUTH);
+    }
+
+    //make a method to populate the window with the menu items
+    public void populatePopUp(JDialog window, String title, int width, int height, boolean resizable){
+        window.setSize(width, height);
+        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        window.setResizable(resizable);
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+        window.setTitle(title);
+    }
+
     public void populateShortCuts(KeyStroke kStroke, Action action, String actionName, int keyEvent, int inputEvent){
         kStroke = KeyStroke.getKeyStroke(keyEvent, inputEvent);
         action = new AbstractAction(actionName) {
@@ -169,6 +207,9 @@ public class GUI extends JFrame{
                 }
                 else if(item.getText().equals("Save")){
                     save();
+                }
+                else if(item.getText().equals("Rules")){
+                    rules();
                 }
             }
         });
