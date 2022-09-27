@@ -18,11 +18,6 @@ public class Persistency {
     private static int ROWS = 20;
     private static int COLUMNS = 21;
 
-    //DELETE MAIN METHOD - Only for testing
-    public static void main(String[] args) throws JDOMException, IOException {
-        Persistency.loadBoard("level1.xml");
-    }
-
     /*
     *  Takes in a file and generates a new level
     */
@@ -45,7 +40,7 @@ public class Persistency {
             List<Element> tiles = row.getChildren("tile");
             for(int x = 0; x < COLUMNS; x++){
                 String tileText = tiles.get(x).getText();
-                if(tileText.contains("wall") || tileText.contains("floor") || tileText.contains("exit")){
+                if(tileText.contains("wall") || tileText.contains("floor") || (tileText.contains("exit") && !tileText.contains("exitLock"))){
                     newLevel.setTile(y, x, getTile(tileText, y, x));
                 }
                 else{
@@ -81,10 +76,10 @@ public class Persistency {
     public static SolidObject getSolidObject(String solidObj, int xPos, int yPos){
         SolidObject sObject = null;
         if(solidObj.contains("Key")){
-            if(solidObj.contains("Yellow")){sObject = new Key(xPos, yPos, KeyC.YELLOW);}
-            else if(solidObj.contains("Red")){sObject = new Key(xPos, yPos, KeyC.RED);}
-            else if(solidObj.contains("Blue")){sObject = new Key(xPos, yPos, KeyC.BLUE);}
-            else if(solidObj.contains("Green")){sObject = new Key(xPos, yPos, KeyC.GREEN);}
+            if(solidObj.contains("yellow")){sObject = new Key(xPos, yPos, KeyC.YELLOW);}
+            else if(solidObj.contains("red")){sObject = new Key(xPos, yPos, KeyC.RED);}
+            else if(solidObj.contains("blue")){sObject = new Key(xPos, yPos, KeyC.BLUE);}
+            else if(solidObj.contains("green")){sObject = new Key(xPos, yPos, KeyC.GREEN);}
         }
         else if(solidObj.contains("Door")){
             if(solidObj.contains("Yellow")){sObject = new Door(xPos, yPos, DoorC.YELLOW);}
