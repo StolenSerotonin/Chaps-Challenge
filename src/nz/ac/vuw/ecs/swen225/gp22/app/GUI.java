@@ -1,6 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -16,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -27,25 +27,27 @@ public class GUI extends JFrame{
     //menu Dock
     private JMenuBar menuBar;
     
-    private JLabel WelcomeText;
-    
     private KeyStroke exitWindow;
     private KeyStroke saveGame;
     private KeyStroke escape;
-    private KeyStroke saveGameAs;
     private KeyStroke loadGame;
+    private KeyStroke loadL1;
+    private KeyStroke loadL2;
     
     private int pause = KeyEvent.VK_SPACE;
     
     private Action exitAction;
     private Action saveAction;
-    private Action saveAsAction;
     private Action loadAction;
+    private Action loadlevel1;
+    private Action loadlevel2;
     
     private JMenuItem Exit;
     private JMenuItem Save;
     private JMenuItem Rules;
     private JMenuItem Load;
+    private JMenuItem lvl1;
+    private JMenuItem lvl2;
 
     public final int upArrow = KeyEvent.VK_UP;
     public final int downArrow = KeyEvent.VK_DOWN;
@@ -53,6 +55,8 @@ public class GUI extends JFrame{
     public final int rightArrow = KeyEvent.VK_RIGHT;
 
     private JFileChooser fileChooser;
+    private File l1;
+    private File l2;
     
     
     private ArrayList<JMenuItem> menuItems = new ArrayList<>();
@@ -65,13 +69,40 @@ public class GUI extends JFrame{
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        addMenu();
+
+        getContentPane().setBackground(new Color(0,110,51));
         
-        WelcomeText = new JLabel("Welcome to Chap's Challenge!");
-        WelcomeText.setFont(new Font("Monospaced", Font.BOLD, 40));
-        WelcomeText.setForeground(Color.WHITE);
-        WelcomeText.setHorizontalAlignment(JLabel.CENTER);
-        
-        //add menu bar to frame
+        //add listen for when space is pressed
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == pause){
+                    pause();
+                }
+            }
+        });
+        populateShortCuts(exitWindow, exitAction, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(saveGame, saveAction, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(loadGame, loadAction, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(loadL1, loadlevel1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(loadL2, loadlevel2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void addMenu(){
         menuBar = new JMenuBar();
         var Game = new JMenu("Game");
         var Options = new JMenu("Options");
@@ -87,11 +118,15 @@ public class GUI extends JFrame{
         Save = new JMenuItem();
         Rules = new JMenuItem();
         Load = new JMenuItem();
+        lvl1 = new JMenuItem();
+        lvl2 = new JMenuItem();
         
         populateMenuItems(Save, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(Exit, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(Rules, "Rules", KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(Load, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(lvl1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(lvl2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
         
         menuItems.add(Save);
         menuItems.add(Exit);
@@ -102,34 +137,41 @@ public class GUI extends JFrame{
         Game.add(Exit);
         Options.add(Load);
         Help.add(Rules);
-        
-        add(WelcomeText, BorderLayout.CENTER);
-        add(menuBar, BorderLayout.NORTH);
-        //add a background colour different shade of green
-        getContentPane().setBackground(new Color(0,110,51));
-        
-        //add listen for when space is pressed
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == pause){
-                    pause();
-                }
-            }
-        });
-        
-        populateShortCuts(exitWindow, exitAction, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
-        populateShortCuts(saveGame, saveAction, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
-        populateShortCuts(loadGame, loadAction, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
-
+        Level.add(lvl1);
+        Level.add(lvl2);
+        add(menuBar, BorderLayout.NORTH); 
     }
+
+    public File loadLevel1(){
+        fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        int result = fileChooser.showOpenDialog(this);
+        if(result == JFileChooser.APPROVE_OPTION){
+            l1 = fileChooser.getSelectedFile();
+        }
+        return l1;
+    }
+    public File loadLevel2(){
+        fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        int result = fileChooser.showOpenDialog(this);
+        if(result == JFileChooser.APPROVE_OPTION){
+            l2 = fileChooser.getSelectedFile();
+        }
+        return l2;
+    }
+
     //exit window
     public void exit(){
         System.exit(0);
     }
 
     public void save(){
-        System.out.println("Game Saved");
+        // System.out.println("Game Saved");
+        
+
+        JOptionPane.showMessageDialog(this, "Game Saved");
+
     }
 
     public File load(){
@@ -186,7 +228,7 @@ public class GUI extends JFrame{
         tArea.setEditable(false);
         tArea.setLineWrap(true);
         tArea.setWrapStyleWord(true);
-        tArea.setText("Rules of Chap's Challenge:\n\n1. Move Chap around the maze using the arrow keys.\n\n2. Collect all the keys to unlock the door.\n\n3. Collect all the chips to win the game.\n\n4. Avoid the ghosts and the fire.\n\n5. Press space to pause the game.\n\n6. Press escape to exit the game.\n\n7. Press ctrl + s to save the game.\n\n8. Press ctrl + x to exit the game.\n\n9. Press ctrl + h to view the rules.\n\n10. Press ctrl + r to resume a saved game -.\n\n11. Press ctrl + 1 to start a new game at level 1.\n\n12. Press ctrl + 2 to start a new game at level 2.");
+        tArea.setText("Rules of Chap's Challenge:\n\n1. Move Chap around the maze using the arrow keys.\n\n2. Collect all the keys to unlock the door.\n\n3. Collect all the gems to win the game.\n\n4. Avoid the ghosts and the fire.\n\n5. Press space to pause the game.\n\n6. Press escape to exit the game.\n\n7. Press ctrl + s to save the game.\n\n8. Press ctrl + x to exit the game.\n\n9. Press ctrl + h to view the rules.\n\n10. Press ctrl + r to resume a saved game -.\n\n11. Press ctrl + 1 to start a new game at level 1.\n\n12. Press ctrl + 2 to start a new game at level 2.");
         scroll.getVerticalScrollBar().setValue(0);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -213,15 +255,11 @@ public class GUI extends JFrame{
         action = new AbstractAction(actionName) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(actionName.equals("Exit")){
-                    exit();
-                }
-                else if(actionName.equals("Save")){
-                    save();
-                }
-                else if(actionName.equals("Load")){
-                    load();
-                }
+                if(actionName.equals("Exit")){exit();}
+                else if(actionName.equals("Save")){save();}
+                else if(actionName.equals("Load")){load();}
+                else if(actionName.equals("Load Level 1")){loadLevel1();}
+                else if(actionName.equals("Load Level 2")){loadLevel2();}
             }
         };
         getRootPane().getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW).put(kStroke, actionName);
@@ -235,15 +273,12 @@ public class GUI extends JFrame{
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(item.getText().equals("Exit")){
-                    exit();
-                }
-                else if(item.getText().equals("Save")){
-                    save();
-                }
-                else if(item.getText().equals("Rules")){
-                    rules();
-                }
+                if(item.getText().equals("Exit")){exit();}
+                else if(item.getText().equals("Save")){save();}
+                else if(item.getText().equals("Rules")){rules();}
+                else if(item.getText().equals("Load")){load();}
+                else if(item.getText().equals("Load Level 1")){loadLevel1();}
+                else if(item.getText().equals("Load Level 2")){loadLevel2();}
             }
         });
     }
