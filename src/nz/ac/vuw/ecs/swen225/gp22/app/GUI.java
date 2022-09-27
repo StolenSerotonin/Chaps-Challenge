@@ -3,12 +3,14 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -30,15 +32,27 @@ public class GUI extends JFrame{
     private KeyStroke exitWindow;
     private KeyStroke saveGame;
     private KeyStroke escape;
+    private KeyStroke saveGameAs;
+    private KeyStroke loadGame;
     
     private int pause = KeyEvent.VK_SPACE;
     
     private Action exitAction;
     private Action saveAction;
+    private Action saveAsAction;
+    private Action loadAction;
     
     private JMenuItem Exit;
     private JMenuItem Save;
     private JMenuItem Rules;
+    private JMenuItem Load;
+
+    public final int upArrow = KeyEvent.VK_UP;
+    public final int downArrow = KeyEvent.VK_DOWN;
+    public final int leftArrow = KeyEvent.VK_LEFT;
+    public final int rightArrow = KeyEvent.VK_RIGHT;
+
+    private JFileChooser fileChooser;
     
     
     private ArrayList<JMenuItem> menuItems = new ArrayList<>();
@@ -72,17 +86,21 @@ public class GUI extends JFrame{
         Exit = new JMenuItem();
         Save = new JMenuItem();
         Rules = new JMenuItem();
+        Load = new JMenuItem();
         
         populateMenuItems(Save, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(Exit, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(Rules, "Rules", KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(Load, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
         
         menuItems.add(Save);
         menuItems.add(Exit);
         menuItems.add(Rules);
+        menuItems.add(Load);
         
         Game.add(Save);
         Game.add(Exit);
+        Options.add(Load);
         Help.add(Rules);
         
         add(WelcomeText, BorderLayout.CENTER);
@@ -102,15 +120,27 @@ public class GUI extends JFrame{
         
         populateShortCuts(exitWindow, exitAction, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
         populateShortCuts(saveGame, saveAction, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(loadGame, loadAction, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
+
     }
     //exit window
     public void exit(){
         System.exit(0);
     }
+
     public void save(){
         System.out.println("Game Saved");
     }
-    
+
+    public File load(){
+        //System.out.println("Game Loaded");
+        fileChooser = new JFileChooser(".");
+        int res = fileChooser.showOpenDialog(this);
+        if(res == JFileChooser.APPROVE_OPTION){
+            return fileChooser.getSelectedFile();
+        }
+        return null;
+    }
     //pause game
     public void pause(){
         ArrayList<JButton> buttons = new ArrayList<>();
@@ -156,7 +186,7 @@ public class GUI extends JFrame{
         tArea.setEditable(false);
         tArea.setLineWrap(true);
         tArea.setWrapStyleWord(true);
-        tArea.setText("Rules of Chap's Challenge:\n\n1. Move Chap around the maze using the arrow keys.\n\n2. Collect all the keys to unlock the door.\n\n3. Collect all the gems to win the game.\n\n4. Avoid the ghosts and the fire.\n\n5. Press space to pause the game.\n\n6. Press escape to exit the game.\n\n7. Press ctrl + s to save the game.\n\n8. Press ctrl + x to exit the game.\n\n9. Press ctrl + h to view the rules.\n\n10. Press ctrl + r to resume a saved game -.\n\n11. Press ctrl + 1 to start a new game at level 1.\n\n12. Press ctrl + 2 to start a new game at level 2.");
+        tArea.setText("Rules of Chap's Challenge:\n\n1. Move Chap around the maze using the arrow keys.\n\n2. Collect all the keys to unlock the door.\n\n3. Collect all the chips to win the game.\n\n4. Avoid the ghosts and the fire.\n\n5. Press space to pause the game.\n\n6. Press escape to exit the game.\n\n7. Press ctrl + s to save the game.\n\n8. Press ctrl + x to exit the game.\n\n9. Press ctrl + h to view the rules.\n\n10. Press ctrl + r to resume a saved game -.\n\n11. Press ctrl + 1 to start a new game at level 1.\n\n12. Press ctrl + 2 to start a new game at level 2.");
         scroll.getVerticalScrollBar().setValue(0);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -188,6 +218,9 @@ public class GUI extends JFrame{
                 }
                 else if(actionName.equals("Save")){
                     save();
+                }
+                else if(actionName.equals("Load")){
+                    load();
                 }
             }
         };
