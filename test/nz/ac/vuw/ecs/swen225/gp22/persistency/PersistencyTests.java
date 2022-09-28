@@ -16,7 +16,7 @@ public class PersistencyTests {
 
     public static void check(Level l) {
         for(int i = 0; i < l.getTiles().length; i++){
-            System.out.print("| ");
+            System.out.print(i + " | ");
             for(int j = 0; j < l.getTiles()[i].length; j++){
                 if(l.getTile(i, j) != null && l.getObject(i, j) != null){
                     System.out.print(getSolidObject(l.getObject(i, j)) + " | ");   

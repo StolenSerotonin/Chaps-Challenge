@@ -15,8 +15,8 @@ import org.w3c.dom.ElementTraversal;
 
 public class Persistency {
 
-    private static int ROWS = 20;
-    private static int COLUMNS = 21;
+    private static int ROWS = 13;
+    private static int COLUMNS = 13;
 
     /*
     *  Takes in a file and generates a new level
@@ -34,7 +34,7 @@ public class Persistency {
         List<Element> rowsList = rootElement.getChildren();
         
         //Iterating through all the rows
-        String[][] array = new String[ROWS][COLUMNS];
+        String[][] array = new String[ROWS][COLUMNS]; 
         for(int y = 0; y < ROWS; y++){
             Element row = rowsList.get(y);
             List<Element> tiles = row.getChildren("tile");
