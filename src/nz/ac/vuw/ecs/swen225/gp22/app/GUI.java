@@ -42,12 +42,17 @@ public class GUI extends JFrame{
     private Action loadlevel1;
     private Action loadlevel2;
     
-    private JMenuItem Exit;
-    private JMenuItem Save;
-    private JMenuItem Rules;
-    private JMenuItem Load;
+    private JMenuItem exitItem;
+    private JMenuItem saveItem;
+    private JMenuItem rulesItem;
+    private JMenuItem loadItem;
     private JMenuItem lvl1;
     private JMenuItem lvl2;
+    private JMenu recordGame;
+    private JMenuItem startRecording;
+    private JMenuItem stopRecording;
+
+    
 
     public final int upArrow = KeyEvent.VK_UP;
     public final int downArrow = KeyEvent.VK_DOWN;
@@ -63,6 +68,7 @@ public class GUI extends JFrame{
     private JButton save = new JButton("Save");
     private JButton pause = new JButton("Pause");
 
+    private static boolean isRecording = false;
     private int lvl;
     
     private ArrayList<JMenuItem> menuItems = new ArrayList<>();
@@ -114,20 +120,19 @@ public class GUI extends JFrame{
                 else if (e.getSource() == load){load();}});
         }
         populateShortCuts(exitWindow, exitAction, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
-        populateShortCuts(saveGame, saveAction, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
         populateShortCuts(loadGame, loadAction, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
     }
 
     public void loadLevel1(){
         GUI g1 = new GUI("Level 1", 800, 600, 1);
         g1.setVisible(true);
-        lvl = 1;
+        //lvl = 1;
         this.dispose();
     }
     public void loadLevel2(){
         GUI g2 = new GUI("Level 2", 800, 600, 2);
         g2.setVisible(true);
-        lvl = 2;
+       // lvl = 2;
         this.dispose();
     }
 
@@ -163,29 +168,39 @@ public class GUI extends JFrame{
         menuBar.add(Level);
         menuBar.add(Help);
         
-        Exit = new JMenuItem();
-        Save = new JMenuItem();
-        Rules = new JMenuItem();
-        Load = new JMenuItem();
+        exitItem = new JMenuItem();
+        saveItem = new JMenuItem();
+        rulesItem = new JMenuItem();
+        loadItem = new JMenuItem();
         lvl1 = new JMenuItem();
         lvl2 = new JMenuItem();
+        recordGame = new JMenu("Record Game");
+        startRecording = new JMenuItem("Start Recording");
+        stopRecording = new JMenuItem("Stop Recording");
         
-        populateMenuItems(Save, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
-        populateMenuItems(Exit, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
-        populateMenuItems(Rules, "Rules", KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK);
-        populateMenuItems(Load, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(saveItem, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(exitItem, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(rulesItem, "Rules", KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(loadItem, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(lvl1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(lvl2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
         
-        menuItems.add(Save);
-        menuItems.add(Exit);
-        menuItems.add(Rules);
-        menuItems.add(Load);
+        menuItems.add(saveItem);
+        menuItems.add(exitItem);
+        menuItems.add(rulesItem);
+        menuItems.add(loadItem);
+        menuItems.add(lvl1);
+        menuItems.add(lvl2);
+        menuItems.add(recordGame);
         
-        Game.add(Save);
-        Game.add(Exit);
-        Options.add(Load);
-        Help.add(Rules);
+        //add start and stop recording to recordGame
+        recordGame.add(startRecording);
+        recordGame.add(stopRecording);
+        Game.add(saveItem);
+        Game.add(exitItem);
+        Options.add(loadItem);
+        Options.add(recordGame);
+        Help.add(rulesItem);
         Level.add(lvl1);
         Level.add(lvl2);
         add(menuBar, BorderLayout.NORTH); 
