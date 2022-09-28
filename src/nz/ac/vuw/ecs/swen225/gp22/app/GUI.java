@@ -48,10 +48,15 @@ public class GUI extends JFrame{
     private JMenuItem loadItem;
     private JMenuItem lvl1;
     private JMenuItem lvl2;
-    private JMenu recordGame;
+
     private JMenuItem startRecording;
     private JMenuItem stopRecording;
+    private JMenuItem replaySpeedx125;
+    private JMenuItem replaySpeedx150;
+    private JMenuItem replaySpeedx200;
 
+    private JMenu recordGame;
+    private JMenu replayGame;
     
 
     public final int upArrow = KeyEvent.VK_UP;
@@ -71,7 +76,6 @@ public class GUI extends JFrame{
     private static boolean isRecording = false;
     private int lvl;
     
-    private ArrayList<JMenuItem> menuItems = new ArrayList<>();
     
     public GUI(String title, int width, int height, int level){
         super(title);
@@ -167,14 +171,18 @@ public class GUI extends JFrame{
         menuBar.add(Options);
         menuBar.add(Level);
         menuBar.add(Help);
-        
+
+        recordGame = new JMenu("Record Game");
+        replayGame = new JMenu("Replay Game");
         exitItem = new JMenuItem();
         saveItem = new JMenuItem();
         rulesItem = new JMenuItem();
         loadItem = new JMenuItem();
         lvl1 = new JMenuItem();
         lvl2 = new JMenuItem();
-        recordGame = new JMenu("Record Game");
+        replaySpeedx125 = new JMenuItem("x1.25");
+        replaySpeedx150 = new JMenuItem("x1.5");
+        replaySpeedx200 = new JMenuItem("x2");
         startRecording = new JMenuItem("Start Recording");
         stopRecording = new JMenuItem("Stop Recording");
         
@@ -185,21 +193,16 @@ public class GUI extends JFrame{
         populateMenuItems(lvl1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(lvl2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
         
-        menuItems.add(saveItem);
-        menuItems.add(exitItem);
-        menuItems.add(rulesItem);
-        menuItems.add(loadItem);
-        menuItems.add(lvl1);
-        menuItems.add(lvl2);
-        menuItems.add(recordGame);
-        
-        //add start and stop recording to recordGame
         recordGame.add(startRecording);
         recordGame.add(stopRecording);
+        replayGame.add(replaySpeedx125);
+        replayGame.add(replaySpeedx150);
+        replayGame.add(replaySpeedx200);
         Game.add(saveItem);
         Game.add(exitItem);
         Options.add(loadItem);
         Options.add(recordGame);
+        Options.add(replayGame);
         Help.add(rulesItem);
         Level.add(lvl1);
         Level.add(lvl2);
