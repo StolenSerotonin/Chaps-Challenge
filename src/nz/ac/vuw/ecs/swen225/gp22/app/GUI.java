@@ -34,7 +34,7 @@ public class GUI extends JFrame{
     private KeyStroke loadL1;
     private KeyStroke loadL2;
     
-    private int pause = KeyEvent.VK_SPACE;
+    private int pauseKey = KeyEvent.VK_SPACE;
     
     private Action exitAction;
     private Action saveAction;
@@ -42,12 +42,17 @@ public class GUI extends JFrame{
     private Action loadlevel1;
     private Action loadlevel2;
     
-    private JMenuItem Exit;
-    private JMenuItem Save;
-    private JMenuItem Rules;
-    private JMenuItem Load;
+    private JMenuItem exitItem;
+    private JMenuItem saveItem;
+    private JMenuItem rulesItem;
+    private JMenuItem loadItem;
     private JMenuItem lvl1;
     private JMenuItem lvl2;
+    private JMenu recordGame;
+    private JMenuItem startRecording;
+    private JMenuItem stopRecording;
+
+    
 
     public final int upArrow = KeyEvent.VK_UP;
     public final int downArrow = KeyEvent.VK_DOWN;
@@ -55,39 +60,80 @@ public class GUI extends JFrame{
     public final int rightArrow = KeyEvent.VK_RIGHT;
 
     private JFileChooser fileChooser;
-    private File l1;
-    private File l2;
-    
+    // private File l1;
+    // private File l2;
+    private JButton start = new JButton("Start");
+    private JButton exit = new JButton("Exit");
+    private JButton load = new JButton("Load");
+    private JButton save = new JButton("Save");
+    private JButton pause = new JButton("Pause");
+
+    private static boolean isRecording = false;
+    private int lvl;
     
     private ArrayList<JMenuItem> menuItems = new ArrayList<>();
     
-    //run the GUI
-    public GUI(String title, int width, int height, int delay){
+    public GUI(String title, int width, int height, int level){
         super(title);
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
-
-        addMenu();
-
+        this.lvl = level;
         getContentPane().setBackground(new Color(0,110,51));
-        
-        //add listen for when space is pressed
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == pause){
-                    pause();
+        setLevel();
+        this.requestFocus();
+    }
+    public void setLevel(){
+        if (lvl == 0){
+            level0();
+        }
+        else{
+            addComponents();
+            this.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == pauseKey){
+                        pause();
+                    }
                 }
-            }
-        });
+            });
+        }
+    }
+    public void level0(){
+        //add start button to a panel
+        JPanel panel = new JPanel();
+        //array of buttons
+        JButton[] lvl0Buttons = {start, exit, load};
+        panel.setLayout(new GridLayout(1,1));
+        panel.add(start);
+        panel.add(load);
+        panel.add(exit);
+        panel.setBackground(new Color(0,110,51));
+        add(panel, BorderLayout.SOUTH);
+        //add action listeners to buttons using lambda expressions
+        for(JButton b : lvl0Buttons){
+            b.addActionListener(e -> {
+                if (e.getSource() == start){loadLevel1(); lvl = 1; setLevel();}
+                else if (e.getSource() == exit){exit();}
+                else if (e.getSource() == load){load();}});
+        }
         populateShortCuts(exitWindow, exitAction, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
-        populateShortCuts(saveGame, saveAction, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
         populateShortCuts(loadGame, loadAction, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
-        populateShortCuts(loadL1, loadlevel1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
-        populateShortCuts(loadL2, loadlevel2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
+    }
+
+    public void loadLevel1(){
+        GUI g1 = new GUI("Level 1", 800, 600, 1);
+        g1.setVisible(true);
+        //lvl = 1;
+        this.dispose();
+    }
+    public void loadLevel2(){
+        GUI g2 = new GUI("Level 2", 800, 600, 2);
+        g2.setVisible(true);
+       // lvl = 2;
+        this.dispose();
     }
 
 
@@ -101,7 +147,15 @@ public class GUI extends JFrame{
 
 
 
-
+    public void addComponents(){
+        addButtons();
+        addMenu();
+        populateShortCuts(exitWindow, exitAction, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(saveGame, saveAction, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(loadGame, loadAction, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(loadL1, loadlevel1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
+        populateShortCuts(loadL2, loadlevel2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
+    }
     public void addMenu(){
         menuBar = new JMenuBar();
         var Game = new JMenu("Game");
@@ -114,66 +168,73 @@ public class GUI extends JFrame{
         menuBar.add(Level);
         menuBar.add(Help);
         
-        Exit = new JMenuItem();
-        Save = new JMenuItem();
-        Rules = new JMenuItem();
-        Load = new JMenuItem();
+        exitItem = new JMenuItem();
+        saveItem = new JMenuItem();
+        rulesItem = new JMenuItem();
+        loadItem = new JMenuItem();
         lvl1 = new JMenuItem();
         lvl2 = new JMenuItem();
+        recordGame = new JMenu("Record Game");
+        startRecording = new JMenuItem("Start Recording");
+        stopRecording = new JMenuItem("Stop Recording");
         
-        populateMenuItems(Save, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
-        populateMenuItems(Exit, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
-        populateMenuItems(Rules, "Rules", KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK);
-        populateMenuItems(Load, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(saveItem, "Save", KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(exitItem, "Exit", KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(rulesItem, "Rules", KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK);
+        populateMenuItems(loadItem, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(lvl1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(lvl2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
         
-        menuItems.add(Save);
-        menuItems.add(Exit);
-        menuItems.add(Rules);
-        menuItems.add(Load);
+        menuItems.add(saveItem);
+        menuItems.add(exitItem);
+        menuItems.add(rulesItem);
+        menuItems.add(loadItem);
+        menuItems.add(lvl1);
+        menuItems.add(lvl2);
+        menuItems.add(recordGame);
         
-        Game.add(Save);
-        Game.add(Exit);
-        Options.add(Load);
-        Help.add(Rules);
+        //add start and stop recording to recordGame
+        recordGame.add(startRecording);
+        recordGame.add(stopRecording);
+        Game.add(saveItem);
+        Game.add(exitItem);
+        Options.add(loadItem);
+        Options.add(recordGame);
+        Help.add(rulesItem);
         Level.add(lvl1);
         Level.add(lvl2);
         add(menuBar, BorderLayout.NORTH); 
     }
 
-    public File loadLevel1(){
-        fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        int result = fileChooser.showOpenDialog(this);
-        if(result == JFileChooser.APPROVE_OPTION){
-            l1 = fileChooser.getSelectedFile();
-        }
-        return l1;
-    }
-    public File loadLevel2(){
-        fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        int result = fileChooser.showOpenDialog(this);
-        if(result == JFileChooser.APPROVE_OPTION){
-            l2 = fileChooser.getSelectedFile();
-        }
-        return l2;
+    public void addButtons(){
+        ArrayList<JButton>buttons = new ArrayList<>();
+        var buttonPanel = new JPanel();
+        buttonPanel.setFocusable(false);
+        buttonPanel.setLayout(new GridLayout(1, 4));
+        buttonPanel.setBackground(new Color(0,110,51));
+        buttons.add(pause); buttons.add(load); buttons.add(save); buttons.add(exit);
+        buttonPanel.add(pause); buttonPanel.add(load); buttonPanel.add(save); buttonPanel.add(exit);
+        buttons.forEach(button -> button.addActionListener(e -> {
+            if(button.getText().equals("Pause")){pause(); setFocusable(false);}
+            else if(button.getText().equals("Load")){load(); setFocusable(false);}
+            else if(button.getText().equals("Save")){save(); setFocusable(false);}
+            else if(button.getText().equals("Exit")){exit(); setFocusable(false);}
+            setFocusable(false);
+        }));
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    //exit window
+    public void startGame(){
+        start.addActionListener(e -> loadLevel1());
+        start.setVisible(false);
+    }
+
     public void exit(){
         System.exit(0);
     }
-
     public void save(){
-        // System.out.println("Game Saved");
-        
-
         JOptionPane.showMessageDialog(this, "Game Saved");
-
     }
-
     public File load(){
         //System.out.println("Game Loaded");
         fileChooser = new JFileChooser(".");
@@ -191,12 +252,9 @@ public class GUI extends JFrame{
         var p = new JLabel("Game Paused");
         var resumeButton = new JButton("Resume");
         var saveButton = new JButton("Save & Exit");
-
         populatePopUp(pauseWindow, "Pause", 300, 200, false);
-        
         p.setHorizontalAlignment(JLabel.CENTER);
         pauseWindow.add(p, BorderLayout.CENTER);
-        
         buttons.add(resumeButton);  
         buttons.add(saveButton);
         buttons.forEach((button) -> {
@@ -222,18 +280,14 @@ public class GUI extends JFrame{
         var tArea = new JTextArea();
         JScrollPane scroll = new JScrollPane(tArea);
         var okButton = new JButton("OK");
-
         populatePopUp(rulesWindow, "Rules", 300, 200, true);
-
         tArea.setEditable(false);
         tArea.setLineWrap(true);
         tArea.setWrapStyleWord(true);
         tArea.setText("Rules of Chap's Challenge:\n\n1. Move Chap around the maze using the arrow keys.\n\n2. Collect all the keys to unlock the door.\n\n3. Collect all the gems to win the game.\n\n4. Avoid the ghosts and the fire.\n\n5. Press space to pause the game.\n\n6. Press escape to exit the game.\n\n7. Press ctrl + s to save the game.\n\n8. Press ctrl + x to exit the game.\n\n9. Press ctrl + h to view the rules.\n\n10. Press ctrl + r to resume a saved game -.\n\n11. Press ctrl + 1 to start a new game at level 1.\n\n12. Press ctrl + 2 to start a new game at level 2.");
         scroll.getVerticalScrollBar().setValue(0);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
         rulesWindow.add(scroll, BorderLayout.CENTER);
-
         okButton.addActionListener((ActionEvent e) -> {
             rulesWindow.dispose();
         });
