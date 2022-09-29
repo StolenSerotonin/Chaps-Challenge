@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 
 import javax.swing.AbstractAction;
@@ -57,7 +58,7 @@ public class GUI extends JFrame {
     private Action loadAction;
     private Action loadlevel1;
     private Action loadlevel2;
-    
+
     private JMenuItem exitItem;
     private JMenuItem saveItem;
     private JMenuItem rulesItem;
@@ -89,6 +90,7 @@ public class GUI extends JFrame {
     private JButton pause = new JButton("Pause");
     
     private static boolean isRecording = false;
+    private boolean isPaused = false;
     private int lvl;
 
     private static Timer timer;
@@ -120,10 +122,12 @@ public class GUI extends JFrame {
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if (e.getKeyCode() == pauseKey) {pause();}
-                    else if (e.getKeyCode() == upArrow) {System.out.println("up");}
-                    else if (e.getKeyCode() == downArrow) {System.out.println("down");}
-                    else if (e.getKeyCode() == leftArrow) {System.out.println("left");}
-                    else if (e.getKeyCode() == rightArrow) {System.out.println("right");}
+                    else if(isPaused == false) {
+                        if (e.getKeyCode() == upArrow) {System.out.println("up");}
+                        else if (e.getKeyCode() == downArrow) {System.out.println("down");}
+                        else if (e.getKeyCode() == leftArrow) {System.out.println("left");}
+                        else if (e.getKeyCode() == rightArrow) {System.out.println("right");}
+                    }
                 }
             });
         }
@@ -250,20 +254,21 @@ public class GUI extends JFrame {
         buttonPanel.setFocusable(false);
         buttonPanel.setLayout(new GridLayout(1, 4));
         buttonPanel.setBackground(new Color(0, 110, 51));
-        buttons.add(pause);
-        buttons.add(load);
-        buttons.add(save);
-        buttons.add(exit);
-        buttonPanel.add(pause);
-        buttonPanel.add(load);
-        buttonPanel.add(save);
-        buttonPanel.add(exit);
-        buttons.forEach(button -> button.addActionListener(e -> {
-            if (button.getText().equals("Pause")) {pause(); setFocusable(false);} 
-            else if (button.getText().equals("Load")) {load(); setFocusable(false);} 
-            else if (button.getText().equals("Save")) {save(); setFocusable(false);} 
-            else if (button.getText().equals("Exit")) {exit(); setFocusable(false);}
-            setFocusable(false);}));
+        buttons.addAll(Arrays.asList(pause, save, load, exit));
+        for(JButton jb : buttons) {
+            buttonPanel.add(jb);
+            jb.setFocusable(false);
+        }
+        for (JButton b : buttons) {
+            b.setFocusCycleRoot(false);
+            b.addActionListener(e -> {
+                if (b.getText().equals("Pause")) {pause();} 
+                else if (b.getText().equals("Save")) {save();} 
+                else if (b.getText().equals("Load")) {load();} 
+                else if (b.getText().equals("Exit")) {exit();}});
+        }
+
+
         add(buttonPanel, BorderLayout.SOUTH);
     }
     
@@ -297,10 +302,12 @@ public class GUI extends JFrame {
         return null;
     }
     
-    // pause game
     public void pause() {
+        isPaused = true;
         ArrayList<JButton> buttons = new ArrayList<>();
         JPanel pausePanel = new JPanel();
+        pausePanel.setFocusable(false);
+        pausePanel.setFocusCycleRoot(false);
         JDialog pauseWindow = new JDialog();
         var p = new JLabel("Game Paused");
         var resumeButton = new JButton("Resume");
@@ -312,24 +319,32 @@ public class GUI extends JFrame {
         buttons.add(resumeButton);
         buttons.add(saveButton);
         buttons.add(exitUnsaved);
-        buttons.forEach((button) -> {
+        for(JButton button : buttons) {
+
             button.addActionListener((ActionEvent e) -> {
                 if (button.getText().equals("Resume")) {
+                    isPaused = false;
                     pauseWindow.dispose();
-                    System.out.println("Game Resumed");
+                    System.out.println("Game Resumed  " + isPaused);
                 } else if (button.getText().equals("Save & Exit")) {
-                    if (isRecording == true) {save(); pauseWindow.dispose(); exit();} 
-                    else {JOptionPane.showMessageDialog(this, "Game is not being recorded");}
+                    if (isRecording == true) {save(); isPaused=false; pauseWindow.dispose(); exit();} 
+                    else {JOptionPane.showMessageDialog(this, "Game is not being recorded"); isPaused = false; pauseWindow.dispose();}
                 } else if (button.getText().equals("Exit without Saving")) {pauseWindow.dispose(); exit();}});
             pausePanel.add(button);
-        });
+            }
         escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-        pauseWindow.getRootPane().registerKeyboardAction(e -> pauseWindow.dispose(), escape,
-        JComponent.WHEN_IN_FOCUSED_WINDOW);
+        pauseWindow.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escape, "ESCAPE");
+        pauseWindow.getRootPane().getActionMap().put("ESCAPE", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isPaused = false;
+                pauseWindow.dispose();
+            }
+        });
         pauseWindow.add(pausePanel, BorderLayout.SOUTH);
         
     }
-    
+
     public void rules() {
         JPanel rulesPanel = new JPanel();
         JDialog rulesWindow = new JDialog();
