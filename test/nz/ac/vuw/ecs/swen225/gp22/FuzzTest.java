@@ -11,54 +11,52 @@ import javax.management.timer.TimerNotification;
 
 import org.junit.Test;
 
-public class FuzzTest {
+public class FuzzTest{
+     int keys [] = { KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
     
     Random rand = new Random();
     @Test
-    public void FuzzTest(){
-        new GUI("Chap's Challenge", 800, 600, 2);
-        test1();
-        test2();
+    public void FuzzTest(){      
+        try {
+            test1();
+            test2();
+        } catch (Throwable e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println("ERROR");
+        }
+           
     }
 
-    public void test1(){
+    public void test1 () throws AWTException, Throwable{
         GUI gui1 = new GUI("Chap's Challenge", 800, 600, 1);
         System.out.println("TESTING LEVEL 1\n---------------------------------");
+        Robot rob = new Robot();
 
-        KeyEvent[] keyEvents1 = {
-            new KeyEvent(gui1, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP,'A'),
-            new KeyEvent(gui1, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN,'B'),
-            new KeyEvent(gui1, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT,'C'),
-            new KeyEvent(gui1, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT,'D')
-        };
-        
-        // Helper helper1 = new Helper();
-        // Timer timer1 = new Timer();
-        // timer1.schedule(helper1, 1000, 10000);
-        for(int i = 0; i < 100; i++){
-            gui1.getKeyListeners()[0].keyPressed(keyEvents1[rand.nextInt(4)]);
-            System.out.println(i);
+        for(int i = 0; i < 50; ++i){
+            // gui1.getKeyListeners()[0].keyPressed(keyEvents1[rand.nextInt(4)]);
+            int key = keys[rand.nextInt(4)];
+            System.out.println(i+"\nKEY:"+ key);
+            rob.delay(200);
+            rob.keyPress(key);
+            //System.out.println(key);
             
         }
     }
-    public void test2(){
+    public void test2() throws AWTException, Throwable{
         GUI gui2 = new GUI("Chap's Challenge", 800, 600, 2);
         System.out.println("\nTESTING LEVEL 2\n---------------------------------");
-        KeyEvent[] keyEvents2 = {
-            new KeyEvent(gui2, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP,'A'),
-            new KeyEvent(gui2, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN,'B'),
-            new KeyEvent(gui2, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT,'C'),
-            new KeyEvent(gui2, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT,'D')
-        };
-        // Helper helper2 = new Helper();
-        // Timer timer1 = new Timer();
-        // timer1.schedule(helper2, 1000, 10000);
-        //while(helper2.getLvlTime()){
-        for(int i = 0; i < 100 ;i++){
-            gui2.getKeyListeners()[0].keyPressed(keyEvents2[rand.nextInt(4)]);
-            System.out.println(i);
-        
-        }
+        Robot rob = new Robot();
+       
+            for(int i = 0; i < 50; i++){
+              
+                int key = keys[rand.nextInt(4)];
+                System.out.println(i+"\nKEY:"+ key);
+                rob.delay(200);
+                rob.keyPress(key);
+                //System.out.println(key);
+                
+            }
     }
     class Helper extends TimerTask{
         boolean lvlTime = true;
@@ -73,3 +71,14 @@ public class FuzzTest {
 
     }
 }
+
+        // KeyEvent[] keyEvents1 = {
+        //     new KeyEvent(gui1, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP,'A'),
+        //     new KeyEvent(gui1, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN,'B'),
+        //     new KeyEvent(gui1, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_LEFT,'C'),
+        //     new KeyEvent(gui1, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT,'D')
+        // };
+        
+        // Helper helper1 = new Helper();
+        // Timer timer1 = new Timer();
+        // timer1.schedule(helper1, 1000, 10000);
