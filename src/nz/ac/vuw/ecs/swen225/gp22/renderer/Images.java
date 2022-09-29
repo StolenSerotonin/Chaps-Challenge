@@ -8,9 +8,10 @@ import javax.imageio.ImageIO;
 public enum Images {
     Wall("wall"),
     Floor("floor"),
+    
     Exit("exit"),                     //Portal
     ExitLock("exit_lock"),            //Locked Portal Door 
-
+    InfoTile("info"),
     ComputerChip("computer_chip"),
 
     Chap("chap"),
