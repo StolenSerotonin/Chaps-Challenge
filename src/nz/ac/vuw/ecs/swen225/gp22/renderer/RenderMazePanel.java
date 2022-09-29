@@ -44,13 +44,25 @@ public class RenderMazePanel extends JPanel{
 
         for(int i = 0; i < tiles.length; i++){
             for(int j = 0; j < tiles[i].length; j++){
+                
                 Tile tile = tiles[i][j];
+                if(tile!=null){
                 BufferedImage img = getImg(tile);
+                System.out.println("tile: " + tile.getImg().getName());
                 g.drawImage(img, i*width, j*height, width, height, null);
                 //might have to error check here
                 SolidObject t = tileObjects[i][j];
-                BufferedImage objImg = getImg(t);
-                g.drawImage(objImg, i*width, j*height, width, height, null);
+                if(t!=null){
+                    BufferedImage objImg = getImg(t);
+                    System.out.println("tile: " + t.getImg().getName());
+                    g.drawImage(objImg, i*width, j*height, width, height, null);
+                } else {
+                    System.out.println("obj is null");
+                }
+                } else{
+                    System.out.println("tile is null");
+                }
+                
                 
             }
         }
