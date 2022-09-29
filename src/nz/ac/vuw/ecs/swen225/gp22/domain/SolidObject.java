@@ -1,8 +1,10 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
+
 public abstract class SolidObject {
 	private int x, y, xPos, yPos;
-	private String img;
+	private Images img;
 	private boolean collided; // Has the object collided with Chip or been altered in some way?
 	
 	public int getX(){
@@ -25,7 +27,7 @@ public abstract class SolidObject {
 		this.collided = collided;
 	}
 	
-	public String getImg(){
+	public Images getImg(){
 		return img;
 	}
 	
@@ -55,7 +57,7 @@ public abstract class SolidObject {
 		move(-1, 0);
 	}
 	
-	public void setImg(String img){
+	public void setImg(Images img){
 		this.img = img;
 	}
 	

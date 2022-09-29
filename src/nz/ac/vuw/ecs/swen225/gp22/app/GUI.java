@@ -28,11 +28,11 @@ import javax.swing.KeyStroke;
 
 import org.jdom2.JDOMException;
 
-//import some package domain
-// import nz.ac.vuw.ecs.swen225.gp22.domain.*;
-// import nz.ac.vuw.ecs.swen225.gp22.recorder.*;
-// import nz.ac.vuw.ecs.swen225.gp22.renderer.*;
-// import nz.ac.vuw.ecs.swen225.gp22.persistency.*;
+
+import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.recorder.*;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.*;
+import nz.ac.vuw.ecs.swen225.gp22.persistency.*;
 
 /**
 * This class is the GUI of the game.
@@ -92,23 +92,27 @@ public class GUI extends JFrame {
     private static boolean isRecording = false;
     private boolean isPaused = false;
     private int lvl;
+    public static RenderMazePanel r1;
+    public static GUI g1;
 
     private static Timer timer;
+
+    public static Chap chap;
     
     public GUI(String title, int width, int height, int level) {
         super(title);
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
         this.lvl = level;
         getContentPane().setBackground(new Color(0, 110, 51));
-        setLevel();
+        setUpLevel();
         this.requestFocus();
     }
     
-    public void setLevel() {
+    public void setUpLevel() {
         if (lvl == 0) {
             level0();
         } else {
@@ -118,15 +122,44 @@ public class GUI extends JFrame {
                 timer = new Timer();
             }
             addComponents();
+
             this.addKeyListener(new KeyAdapter() {
                 @Override
-                public void keyPressed(KeyEvent e) {
+                public void keyReleased(KeyEvent e) {
+                    
                     if (e.getKeyCode() == pauseKey) {pause();}
                     else if(isPaused == false) {
-                        if (e.getKeyCode() == upArrow) {System.out.println("up");}
-                        else if (e.getKeyCode() == downArrow) {System.out.println("down");}
-                        else if (e.getKeyCode() == leftArrow) {System.out.println("left");}
-                        else if (e.getKeyCode() == rightArrow) {System.out.println("right");}
+                        if (e.getKeyCode() == upArrow) {
+                            System.out.println("up");
+                            r1.paintComponent(g1.getGraphics());
+                            chap.moveUp();
+                            // r1.removeAll();
+
+                            // loadLevel1();
+                            if(isRecording){
+                            }
+                    }
+                        else if (e.getKeyCode() == downArrow) {
+                            System.out.println("down");
+                            r1.paintComponent(g1.getGraphics());
+                            chap.moveDown();
+                            if(isRecording){
+                            }
+                        }
+                        else if (e.getKeyCode() == leftArrow) {
+                            System.out.println("left");
+                            r1.paintComponent(g1.getGraphics());
+                            chap.moveLeft();
+                            if(isRecording){
+                            }
+                    }
+                        else if (e.getKeyCode() == rightArrow) {
+                            System.out.println("right");
+                            r1.paintComponent(g1.getGraphics());
+                            chap.moveRight();
+                            if(isRecording){
+                            }
+                        }
                     }
                 }
             });
@@ -150,7 +183,7 @@ public class GUI extends JFrame {
                     catch (JDOMException e1) {e1.printStackTrace();} 
                     catch (IOException e1) {e1.printStackTrace();}
                     lvl = 1;
-                    setLevel();} 
+                    setUpLevel();} 
                 else if (e.getSource() == exit) {exit();} 
                 else if (e.getSource() == load) {load();}});
         }
@@ -159,10 +192,13 @@ public class GUI extends JFrame {
     }
     
     public void loadLevel1() throws JDOMException, IOException {
-        GUI g1 = new GUI("Level 1", 800, 600, 1);
+        g1 = new GUI("Level 1", 800, 600, 1);
         g1.setVisible(true);
-        // Level l1 = Persistency.loadBoard("level1.xml");
-        // Renderer r1 = new Renderer(l1, g1);
+        Level l1 = Persistency.loadBoard("level1.xml");
+        r1 = new RenderMazePanel(l1);
+        chap = new Chap(l1.getStartingX(), l1.getStartingY());
+        g1.add(r1);
+        r1.paintComponent(g1.getGraphics() );
         lvl = 1;
         this.dispose();
     }

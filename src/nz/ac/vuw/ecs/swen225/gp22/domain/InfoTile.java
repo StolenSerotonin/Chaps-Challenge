@@ -2,17 +2,17 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
-public class Exit extends Tile{
+public class InfoTile extends Tile{
 
-	public Exit(int xp, int yp){
+	public InfoTile(int xp, int yp){
 		setPosition(xp, yp);
-		setImg(Images.Exit);
+		setImg(Images.InfoTile);
 		setPassable(true);
 		setPushable(false);
 	}
 	
 	public void onWalk(Chap c){
-		c.getState().win();
+		//display info
 	}
 	
 	//public void onPush(Block b){}

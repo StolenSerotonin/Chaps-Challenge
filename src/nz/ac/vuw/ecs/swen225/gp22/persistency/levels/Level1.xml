@@ -4,7 +4,7 @@
     level: main root element that contains everything
     row: contains all the elements for a row of the game
     tile: the type of tile that is to be in a row - also notes the state
-    Tile types that can be used: floor, wall, computerChip, exit, chap,exitLock,  
+    Tile types that can be used: floor, wall, computerChip, exit, chap,exitLock,infoField,  
     lockedGreenDoor, lockedBlueDoor, lockedYellowDoor, lockedRedDoor,
     unlockedGreenDoor, unlockedBlueDoor, unlockedYellowDoor, unlockedRedDoor,
     greenKey, blueKey, yellowKey, redKey. 
@@ -12,381 +12,186 @@
 
 <level>
     <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
     </row>
     <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
         <tile>wall</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>    
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>computerChip</tile>
         <tile>floor</tile>
         <tile>wall</tile>
         <tile>exit</tile>
         <tile>wall</tile>
         <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+    </row>
+    <row>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
         <tile>computerChip</tile>
         <tile>floor</tile>
         <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
     </row>
     <row>
+        <tile>wall</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>lockedGreenDoor</tile>
+        <tile>floor</tile>
         <tile>wall</tile>
         <tile>exitLock</tile>
         <tile>wall</tile>
-        <tile>lockedGreenDoor</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
     </row>
     <row>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>infoField</tile>
         <tile>floor</tile>
         <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+    </row>
+    <row>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+    </row>
+    <row>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>lockedBlueDoor</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+    </row>
+    <row>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+    </row>
+    <row>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>lockedYellowDoor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>computerChip</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+    </row>
+    <row>
+        <tile>wall</tile>
+        <tile>computerChip</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+    </row>
+    <row>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>blueKey</tile>
         <tile>floor</tile>
         <tile>wall</tile>
         <tile>floor</tile>
         <tile>yellowKey</tile>
-        <tile>wall</tile>
-        <tile>lockedBlueDoor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>lockedRedDoor</tile>
-        <tile>floor</tile>
-        <tile>yellowKey</tile>
         <tile>floor</tile>
         <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
     </row>
     <row>
+        <tile>wall</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>wall</tile>
         <tile>floor</tile>
-        <tile>computerChip</tile>
         <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>blueKey</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>redKey</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>computerChip</tile>
         <tile>floor</tile>
         <tile>wall</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
+        <tile>wall</tile>
     </row>
     <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>computerChip</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>computerChip</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>computerChip</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>blueKey</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>redKey</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>computerChip</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>lockedRedDoor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>lockedBlueDoor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>lockedYellowDoor</tile>
-        <tile>wall</tile>
-        <tile>lockedYellowDoor</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>computerChip</tile>
-        <tile>wall</tile>
-        <tile>computerChip</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>greenKey</tile>
-        <tile>floor</tile>
-        <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
         <tile>wall</tile>
         <tile>wall</tile>
         <tile>wall</tile>
@@ -394,81 +199,11 @@
         <tile>wall</tile>
         <tile>wall</tile>
         <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
     </row>
 </level>
