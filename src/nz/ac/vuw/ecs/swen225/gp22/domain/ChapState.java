@@ -1,5 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-public class ChapState {
-
+public interface ChapState {
+	
+	public void die();
+	public void revive();
+	public void win();
+	
 }
