@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -88,6 +90,8 @@ public class GUI extends JFrame {
     
     private static boolean isRecording = false;
     private int lvl;
+
+    private static Timer timer;
     
     public GUI(String title, int width, int height, int level) {
         super(title);
@@ -106,6 +110,11 @@ public class GUI extends JFrame {
         if (lvl == 0) {
             level0();
         } else {
+            if(lvl == 1) {
+                timer = new Timer();
+            } else {
+                timer = new Timer();
+            }
             addComponents();
             this.addKeyListener(new KeyAdapter() {
                 @Override
@@ -150,14 +159,14 @@ public class GUI extends JFrame {
         g1.setVisible(true);
         // Level l1 = Persistency.loadBoard("level1.xml");
         // Renderer r1 = new Renderer(l1, g1);
-        // lvl = 1;
+        lvl = 1;
         this.dispose();
     }
     
     public void loadLevel2() {
         GUI g2 = new GUI("Level 2", 800, 600, 2);
         g2.setVisible(true);
-        // lvl = 2;
+        lvl = 2;
         this.dispose();
     }
     
@@ -272,7 +281,10 @@ public class GUI extends JFrame {
     
     public void save() {
         if (isRecording == false) {JOptionPane.showMessageDialog(this, "Game is not being recorded");} 
-        else {JOptionPane.showMessageDialog(this, "Game Saved");}
+        else {
+            
+            JOptionPane.showMessageDialog(this, "Game Saved");
+        }
     }
     
     public File load() {
