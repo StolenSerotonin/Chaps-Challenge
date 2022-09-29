@@ -1,46 +1,44 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
+
 public class Key extends SolidObject{
-	private KeyC colour;
+	private Images colour;
 	
-	public enum KeyC {
-		RED, GREEN, BLUE, YELLOW
-	}
-	
-	public Key(int xp, int yp, KeyC colour){
+	public Key(int xp, int yp, Images colour){
 		setPosition(xp, yp);
 		this.colour = colour;
-		setImg(this.colour.name()+"key.jpg"); //eg BLUEkey.jpg
+		setImg(colour); //eg BLUEkey.jpg
 		initialize();
 	}
 	
 	public void onCollision(Chap c, Level l){
 		if(!getCollided()){
-			if(this.colour == KeyC.BLUE) {
+			if(this.colour == Images.BlueKey) {
 				c.getBlueKey();
-				setImg("Blank img");
+				setImg(Images.Floor);
 				setCollided(true);
 			}
-			else if(this.colour == KeyC.RED) {
+			else if(this.colour == Images.RedKey) {
 				c.getRedKey();
-				setImg("Blank img");
+				setImg(Images.Floor);
 				setCollided(true);
 			}
-			else if(this.colour == KeyC.GREEN) {
+			else if(this.colour == Images.GreenKey) {
 				c.getGreenKey();
-				setImg("Blank img");
+				setImg(Images.Floor);
 				setCollided(true);
 			}
-			else if(this.colour == KeyC.YELLOW) {
+			else if(this.colour == Images.YellowKey) {
 				c.getYellowKey();
-				setImg("Blank img");
+				setImg(Images.Floor);
 				setCollided(true);
 			}
 		}
 	}
 	
 	public void initialize(){
-		setImg(this.colour.name()+"key.jpg");
+		setImg(this.colour);
 		setCollided(false);
 	}
 	

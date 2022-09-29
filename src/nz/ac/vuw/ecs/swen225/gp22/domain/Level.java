@@ -9,6 +9,7 @@ public class Level implements Iterable<Point>{
 	private Point startingPosition;
 	private Point chapPosition;
 	private int chipsRequired;
+	private int timer;
 	
 	public Level(int xDimension, int yDimension, int startX, int startY, int chipsRequired){
 		tiles = new Tile[xDimension][yDimension];
