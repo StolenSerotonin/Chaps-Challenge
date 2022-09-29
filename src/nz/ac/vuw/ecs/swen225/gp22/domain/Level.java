@@ -109,6 +109,14 @@ public class Level implements Iterable<Point>{
 	public void setChipsRequired(int chipsRequired){
 		this.chipsRequired = chipsRequired;
 	}
+
+	public int getTimer(){
+		return this.timer;
+	}
+
+	public void setTimer(int timer){
+		this.timer = timer;
+	}
 	
 	public void reset(){
 		for(int i = 0; i < objects.length; i++){
