@@ -5,12 +5,10 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
-import org.w3c.dom.ElementTraversal;
 
 public class Persistency {
 
