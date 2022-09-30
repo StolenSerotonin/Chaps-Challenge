@@ -8,10 +8,9 @@ import javax.imageio.ImageIO;
 public enum Images {
     Wall("wall"),
     Floor("floor"),
-    
     Exit("exit"),                     //Portal
     ExitLock("exit_lock"),            //Locked Portal Door 
-    InfoTile("info"),
+
     ComputerChip("computer_chip"),
 
     Chap("chap"),
@@ -28,6 +27,8 @@ public enum Images {
     GreenKey("green_key"),
     BlueKey("blue_key"),
     YellowKey("yellow_key"),
+
+    InfoTile("info"),
     ;
     
     private BufferedImage img;
@@ -46,6 +47,7 @@ public enum Images {
         return name;
     }
 
+
     /**
      * load the image from the disk
      * 
@@ -54,10 +56,10 @@ public enum Images {
      */
     public BufferedImage loadImg(String path){
         try {
-            File file = new File("images/" + path + ".png");
-            BufferedImage img = ImageIO.read(file);
+            BufferedImage img = ImageIO.read(new File("src/nz/ac/vuw/ecs/swen225/gp22/renderer/images/" + path + ".png"));
             return img;
         } catch (IOException e) {
+            
             throw new RuntimeException(e);}
     }
 }
