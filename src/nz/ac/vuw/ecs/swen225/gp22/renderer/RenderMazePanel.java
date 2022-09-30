@@ -42,7 +42,6 @@ public class RenderMazePanel extends JPanel{
         // System.out.println("width: " + width + " height: " + height);
         for(int i = 0; i < tiles.length; i++){
             for(int j = 0; j < tiles[i].length; j++){
-                
                 Tile tile = tiles[j][i];
                 if(tile!=null){
                 BufferedImage img = getImg(tile);
@@ -53,11 +52,14 @@ public class RenderMazePanel extends JPanel{
                     g.drawImage(objImg, i*width, j*height, width, height, null);
                 } 
                 } 
-                if(i == GUI.chap.getX()/width && j == GUI.chap.getY()/height && i != 0 && j != 0){
-                    g.drawImage(Images.Chap.getImg(), i*width, j*height, width, height, null);
+                if(GUI.chap.getX() != 0 && GUI.chap.getY() != 0 && i != 0 && j != 0 && width != 0 && height != 0){
+                    if(i == GUI.chap.getX()/width && j == GUI.chap.getY()/height){
+                        g.drawImage(Images.Chap.getImg(), i*width, j*height, width, height, null);
+                    }
                 }
             }
         }
+        //repaint();
         //g.drawImage(Images.Chap.getImg(), GUI.chap.getX(), GUI.chap.getY(), width, height, null);
     }
 

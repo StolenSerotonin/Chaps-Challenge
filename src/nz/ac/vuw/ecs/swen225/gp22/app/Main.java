@@ -6,11 +6,12 @@ import javax.swing.SwingUtilities;
 public class Main{
     public static int width = 800;
     public static int height = 600;
+    public static GUI gui;
     public static void main(String[] args){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new GUI("Chap's Challenge", width, height, 0);
+                gui = new GUI("Chap's Challenge", width, height, 0);
             }
         });
     }
