@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import java.util.stream.Stream;
 
+import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
+import nz.ac.vuw.ecs.swen225.gp22.app.Main;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.domain.SolidObject;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
@@ -12,11 +14,9 @@ public class RenderMazePanel extends JPanel{
     
     private Tile[][] tiles;
     private SolidObject[][] tileObjects;
-
     private Level level;
-    //private domain_controler con
-    public RenderMazePanel(/*domain_controler con*/ Level level){
-        //this.con = con
+
+    public RenderMazePanel(Level level){
         this.level = level;
     }
 
@@ -25,48 +25,39 @@ public class RenderMazePanel extends JPanel{
     }
 
     private BufferedImage getImg(Tile t){
-        return Images.Wall.getImg();
+        return t.getImg().getImg();
     }
 
     private BufferedImage getImg(SolidObject o){
-        return Images.Wall.getImg();
+        return o.getImg().getImg();
     }
 
     @Override
     public void paintComponent(java.awt.Graphics g){
         super.paintComponent(g);
-        //maze = con.getMaze();
         tiles = level.getTiles();
         tileObjects = level.getObjects();
-
-        int height = getWidth()/tiles.length;
-        int width = getHeight()/tiles[0].length;
-
+        int height = getHeight()/tiles.length;
+        int width = (int) ((int) getWidth()/tiles[0].length/1.5);
+        // System.out.println("width: " + width + " height: " + height);
         for(int i = 0; i < tiles.length; i++){
             for(int j = 0; j < tiles[i].length; j++){
-                
-                Tile tile = tiles[i][j];
+                Tile tile = tiles[j][i];
                 if(tile!=null){
                 BufferedImage img = getImg(tile);
-                System.out.println("tile: " + tile.getImg().getName());
                 g.drawImage(img, i*width, j*height, width, height, null);
-                //might have to error check here
-                SolidObject t = tileObjects[i][j];
+                SolidObject t = tileObjects[j][i];
                 if(t!=null){
                     BufferedImage objImg = getImg(t);
-                    System.out.println("tile: " + t.getImg().getName());
                     g.drawImage(objImg, i*width, j*height, width, height, null);
-                } else {
-                    System.out.println("obj is null");
+                } 
+                } 
+                if(GUI.chap.getX() != 0 && GUI.chap.getY() != 0 && i != 0 && j != 0 && width != 0 && height != 0){
+                    if(i == GUI.chap.getX()/width && j == GUI.chap.getY()/height){
+                        g.drawImage(Images.Chap.getImg(), i*width, j*height, width, height, null);
+                    }
                 }
-                } else{
-                    System.out.println("tile is null");
-                }
-                
-                
             }
         }
     }
-
-    
 }
