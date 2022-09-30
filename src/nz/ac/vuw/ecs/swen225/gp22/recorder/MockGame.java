@@ -1,4 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
+import org.jdom2.*;
 
 public class MockGame {
     static Recorder recorder = new Recorder();
@@ -24,8 +25,8 @@ class Main{
         game.move("chap", Direction.DOWN);
         game.move("enemy", Direction.LEFT);
         game.move("chap", Direction.RIGHT);
-
-        Recorder.saveRecording();
+        try{Recorder.saveRecording();}
+        catch (Exception e ) {System.out.println("ERROR : Error Saving xml file");}        
 
     }
 
