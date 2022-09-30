@@ -1,8 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Door.DoorC;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Key.KeyC;
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class Persistency {
         Document doc = sax.build(new File(levelDirectory + file));
         Element rootElement = doc.getRootElement();
         
-        Level newLevel = new Level(COLUMNS,ROWS,10,9,1);
+        Level newLevel = new Level(COLUMNS,ROWS,3,3,1);
         //Storing all the rows within the level in a list
         List<Element> rowsList = rootElement.getChildren();
         
@@ -80,16 +79,16 @@ public class Persistency {
     public static SolidObject getSolidObject(String solidObj, int yPos, int xPos){
         SolidObject sObject = null;
         if(solidObj.contains("Key")){
-            if(solidObj.contains("yellow")){sObject = new Key(yPos, xPos, KeyC.YELLOW);}
-            else if(solidObj.contains("red")){sObject = new Key(yPos, xPos, KeyC.RED);}
-            else if(solidObj.contains("blue")){sObject = new Key(yPos, xPos, KeyC.BLUE);}
-            else if(solidObj.contains("green")){sObject = new Key(yPos, xPos, KeyC.GREEN);}
+            if(solidObj.contains("yellow")){sObject = new Key(yPos, xPos, Images.YellowKey);}
+            else if(solidObj.contains("red")){sObject = new Key(yPos, xPos, Images.RedKey);}
+            else if(solidObj.contains("blue")){sObject = new Key(yPos, xPos, Images.BlueKey);}
+            else if(solidObj.contains("green")){sObject = new Key(yPos, xPos, Images.GreenKey);}
         }
         else if(solidObj.contains("Door")){
-            if(solidObj.contains("Yellow")){sObject = new Door(yPos, xPos, DoorC.YELLOW);}
-            else if(solidObj.contains("Red")){sObject = new Door(yPos, xPos, DoorC.RED);}
-            else if(solidObj.contains("Blue")){sObject = new Door(yPos, xPos, DoorC.BLUE);}
-            else if(solidObj.contains("Green")){sObject = new Door(yPos, xPos, DoorC.GREEN);}
+            if(solidObj.contains("Yellow")){sObject = new Door(yPos, xPos, Images.YellowDoor);}
+            else if(solidObj.contains("Red")){sObject = new Door(yPos, xPos, Images.RedDoor);}
+            else if(solidObj.contains("Blue")){sObject = new Door(yPos, xPos, Images.BlueDoor);}
+            else if(solidObj.contains("Green")){sObject = new Door(yPos, xPos, Images.GreenDoor);}
         }
         else if(solidObj.contains("exitLock")){
             sObject = new ExitLock(yPos, xPos);

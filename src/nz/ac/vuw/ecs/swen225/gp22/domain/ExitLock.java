@@ -1,17 +1,19 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
+
 public class ExitLock extends SolidObject{
 	
 	public ExitLock(int xp, int yp){
 		setPosition(xp, yp);
-		setImg("exit lock.jpg");
+		setImg(Images.ExitLock);
 		initialize();
 	}
 	
 	public void onCollision(Chap c, Level l){
 		if(getCollided()){}
 		else if(c.getChips() >= l.getChipsRequired()){
-			setImg("Blank img");
+			setImg(Images.Floor);
 			setCollided(true);
 		}
 		else{
@@ -20,7 +22,7 @@ public class ExitLock extends SolidObject{
 	}
 	
 	public void initialize(){
-		setImg("exit lock");
+		setImg(Images.ExitLock);
 		setCollided(false);
 	}
 }

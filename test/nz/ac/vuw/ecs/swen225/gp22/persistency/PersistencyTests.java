@@ -12,7 +12,7 @@ import org.junit.Test;
 public class PersistencyTests {
     @Test
     public void test1() throws JDOMException, IOException{
-        Level level1 = Persistency.loadBoard("level1.xml");
+        Level level1 = Persistency.loadBoard("Level1.xml");
         String expected = 
           "|W|W|W|W|W|W|W|W|W|W|W|W|W|\n"+
           "|W|F|F|F|F|W|E|W|F|F|F|F|W|\n"+
