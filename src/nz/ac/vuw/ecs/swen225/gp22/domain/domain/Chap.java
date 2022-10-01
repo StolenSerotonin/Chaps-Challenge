@@ -174,7 +174,7 @@ public class Chap {
 	}
 	
 	public void move(int dx, int dy){
-		if(Level.getTile(xPos, yPos).isPassable()) {
+		if(Level.getTile(xPos+dx, yPos+dy).isPassable()) {
 			lastYPos = yPos;
 			xPos += dx;
 			yPos += dy;
