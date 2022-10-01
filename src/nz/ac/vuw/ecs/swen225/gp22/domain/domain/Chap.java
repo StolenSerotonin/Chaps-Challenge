@@ -174,12 +174,13 @@ public class Chap {
 	}
 	
 	public void move(int dx, int dy){
-		lastXPos = xPos;
-		lastYPos = yPos;
-		xPos += dx;
-		yPos += dy;
-		x += (dx * 32);
-		y += (dy * 32);
+		if(Level.getTile(xPos, yPos).isPassable()) {
+			lastYPos = yPos;
+			xPos += dx;
+			yPos += dy;
+			x += (dx * 32);
+			y += (dy * 32);
+		}
 	}
 	
 	public void moveUp(){
