@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Moves><move id="0"><direction>UP</direction><player>chap</player></move><move id="1"><direction>DOWN</direction><player>chap</player></move><move id="2"><direction>LEFT</direction><player>enemy</player></move><move id="3"><direction>RIGHT</direction><player>chap</player></move></Moves>
+<Moves>
+  <move id="0">
+    <direction>UP</direction>
+    <player>chap</player>
+  </move>
+  <move id="1">
+    <direction>DOWN</direction>
+    <player>chap</player>
+  </move>
+  <move id="2">
+    <direction>LEFT</direction>
+    <player>enemy</player>
+  </move>
+  <move id="3">
+    <direction>RIGHT</direction>
+    <player>chap</player>
+  </move>
+</Moves>

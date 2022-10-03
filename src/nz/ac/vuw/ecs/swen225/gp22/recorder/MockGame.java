@@ -1,4 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.recorder;
+import java.io.IOException;
+
 import org.jdom2.*;
 
 public class MockGame {
@@ -14,6 +16,15 @@ public class MockGame {
         }
     }
 
+    public static void load () {
+        try {
+            recorder.loadRecording();
+        } catch (JDOMException | IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading the file");
+        }
+    }
+
 
 }
 
@@ -26,7 +37,9 @@ class Main{
         game.move("enemy", Direction.LEFT);
         game.move("chap", Direction.RIGHT);
         try{Recorder.saveRecording();}
-        catch (Exception e ) {System.out.println("ERROR : Error Saving xml file");}        
+        catch (Exception e ) {System.out.println("ERROR : Error Saving xml file");}   
+        
+        MockGame.load();
 
     }
 
