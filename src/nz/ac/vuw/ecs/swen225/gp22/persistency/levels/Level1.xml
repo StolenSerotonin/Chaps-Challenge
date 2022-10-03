@@ -3,11 +3,9 @@
 
     level: main root element that contains everything
     row: contains all the elements for a row of the game
-    tile: the type of tile that is to be in a row - also notes the state
-    Tile types that can be used: floor, wall, computerChip, exit, chap,exitLock,infoField,  
-    lockedGreenDoor, lockedBlueDoor, lockedYellowDoor, lockedRedDoor,
-    unlockedGreenDoor, unlockedBlueDoor, unlockedYellowDoor, unlockedRedDoor,
-    greenKey, blueKey, yellowKey, redKey. 
+    tile: the type of tile that is to be in a row (basically the block type)
+    Tile types that can be used: floor, wall, computerChip, exit, exitLock,infoField,  
+    greenDoor, blueDoor, yellowDoor, redDoor, greenKey, blueKey, yellowKey, redKey. 
 -->
 
 <level>
@@ -112,7 +110,7 @@
         <tile>floor</tile>
         <tile>wall</tile>
         <tile>wall</tile>
-        <tile>lockedBlueDoor</tile>
+        <tile>blueDoor</tile>
         <tile>wall</tile>
         <tile>wall</tile>
     </row>
@@ -136,7 +134,7 @@
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
-        <tile>lockedYellowDoor</tile>
+        <tile>yellowDoor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
