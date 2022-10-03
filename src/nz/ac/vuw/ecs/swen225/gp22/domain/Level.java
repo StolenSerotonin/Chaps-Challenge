@@ -50,7 +50,7 @@ public class Level implements Iterable<Point>{
 		return objects;
 	}
 	
-	public Tile getTile(int x, int y){
+	public static Tile getTile(int x, int y){
 		return tiles[x][y];
 	}
 	
