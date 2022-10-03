@@ -1,13 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
-
+// import java.awt.Image;
+// import java.io.File;
+// import java.io.IOException;
+// import javax.imageio.ImageIO;
+// import java.awt.Graphics2D;
+// import java.awt.Point;
 
 //import app.PlayChip; something along these lines
 
@@ -17,7 +15,7 @@ public class Chap {
 	
 	private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
-	private Images upimg, downimg, rightimg, leftimg;
+	// private String upimg, downimg, rightimg, leftimg;
 	private Direction direction; 
 	
 	public enum Direction{
@@ -32,7 +30,9 @@ public class Chap {
 	private DeadState dead;
 	private WinState victory;
 	
-	public Chap(int xPos, int yPos){
+	//private PlayChap game; // Chip needs to tell the game when he's won.
+	
+	public Chap(int xPos, int yPos /*, PlayChap game */){
 		this.xPos = xPos;
 		this.yPos = yPos;
 		x = xPos * 32; //Each tile is 32 x 32 pixels.
@@ -43,21 +43,22 @@ public class Chap {
 		dead = new DeadState(this);
 		victory = new WinState(this);
 		state = alive;
-		loadImages();
+		//this.game = game;
+		// loadImages();
 	}
 	
-	private void loadImages(){
-		try{
-			upimg = Images.Chap;
-			downimg = Images.Chap;
-			leftimg = Images.Chap;
-			rightimg = Images.Chap;
+	// private void loadImages(){
+	// 	//try{
+	// 		upimg = "";
+	// 		downimg = "";
+	// 		leftimg = "";
+	// 		rightimg = "";
 
-		} catch(IOException e){
-			System.err.println("An exception occurred while to load image");
-			System.exit(1);
-		}
-	}
+	// 	// } catch(IOException e){
+	// 	// 	System.err.println("An exception occurred while to load image");
+	// 	// 	System.exit(1);
+	// 	// }
+	// }
 	
 	public int getXPos(){
 		return xPos;
@@ -172,32 +173,39 @@ public class Chap {
 			key[GREEN]--;
 	}
 	
-	static public void move(int dx, int dy){
-		lastXPos = xPos;
-		lastYPos = yPos;
-		xPos += dx;
-		yPos += dy;
-		x += (dx * 32);
-		y += (dy * 32);
+	public void move(int dx, int dy){
+		if(Level.getTile(xPos+dx, yPos+dy).isPassable()) {
+			lastYPos = yPos;
+			xPos += dx;
+			yPos += dy;
+			x += (dx * 32);
+			y += (dy * 32);
+		}
 	}
 	
-	static public void moveUp(){
+	public void moveUp(){
 		if(state == alive){
 			move(0, -1);
 			if(direction != Direction.UP)
 				direction = Direction.UP;
 		}
-	}		this.game = game;
+	}
+	public void moveDown(){
+		if(state == alive){
+			move(0, 1);
+			if(direction != Direction.DOWN)
+				direction = Direction.DOWN;
+		}
 		
 	}
-	static public void moveLeft(){
+	public void moveLeft(){
 		if(state == alive){
 			move(-1, 0);
 			if(direction != Direction.LEFT)
 				direction = Direction.LEFT;
 		}
 	}
-	static public void moveRight(){
+	public void moveRight(){
 		if(state == alive){
 			move(1, 0);
 			if(direction != Direction.RIGHT)
@@ -205,4 +213,8 @@ public class Chap {
 		}
 	}
 	
+
+	// public PlayChip getGame(){
+	// 	return game;
+	// }
 }
