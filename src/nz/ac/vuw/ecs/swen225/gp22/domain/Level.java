@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.Iterator;
 
 public class Level implements Iterable<Point>{
-	private Tile[][] tiles;
+	private static Tile[][] tiles;
 	private SolidObject[][] objects;
 	private Point startingPosition;
 	private Point chapPosition;
