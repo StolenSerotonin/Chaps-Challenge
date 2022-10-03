@@ -22,4 +22,8 @@ public class ComputerChip extends SolidObject{
 		setCollided(false);
 		setImg(Images.ComputerChip);
 	}
+
+	public String toString(){
+		return "ComputerChip";
+	}
 }

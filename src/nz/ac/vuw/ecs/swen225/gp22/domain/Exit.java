@@ -15,8 +15,10 @@ public class Exit extends Tile{
 		c.getState().win();
 	}
 	
-	//public void onPush(Block b){}
-	
 	public void reset(){}
+
+	public String toString(){
+		return "exit";
+	}
 	
 }

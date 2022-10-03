@@ -15,8 +15,10 @@ public class FloorTile extends Tile{
 		
 	}
 	
-	//public void onPush(Block b){}
-	
 	public void reset(){}
+
+	public String toString(){
+		return "floortile";
+	}
 	
 }

@@ -8,7 +8,7 @@ public class Key extends SolidObject{
 	public Key(int xp, int yp, Images colour){
 		setPosition(xp, yp);
 		this.colour = colour;
-		setImg(colour); //eg BLUEkey.jpg
+		setImg(colour);
 		initialize();
 	}
 	
@@ -40,6 +40,10 @@ public class Key extends SolidObject{
 	public void initialize(){
 		setImg(this.colour);
 		setCollided(false);
+	}
+
+	public String toString(){
+		return this.colour.name();
 	}
 	
 }

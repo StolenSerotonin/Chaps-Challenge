@@ -15,8 +15,10 @@ public class InfoTile extends Tile{
 		//display info
 	}
 	
-	//public void onPush(Block b){}
-	
 	public void reset(){}
+
+	public String toString(){
+		return "infotile";
+	}
 	
 }

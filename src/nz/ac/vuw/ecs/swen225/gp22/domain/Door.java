@@ -9,7 +9,7 @@ public class Door extends SolidObject{
 	public Door(int xp, int yp, Images colour){
 		setPosition(xp, yp);
 		this.colour = colour;
-		setImg(colour);//example BLUEdoor.jpg
+		setImg(colour);
 		initialize();
 	}
 	
@@ -51,5 +51,9 @@ public class Door extends SolidObject{
 	public void initialize(){
 		setImg(this.colour);
 		setCollided(false);
+	}
+
+	public String toString(){
+		return this.colour.getName();
 	}
 }
