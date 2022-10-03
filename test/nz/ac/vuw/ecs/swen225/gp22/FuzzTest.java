@@ -33,11 +33,11 @@ public class FuzzTest{
         System.out.println("TESTING LEVEL 1\n---------------------------------");
         Robot rob = new Robot();
 
-        for(int i = 0; i < 50; ++i){
+        for(int i = 0; i < 120; ++i){
             // gui1.getKeyListeners()[0].keyPressed(keyEvents1[rand.nextInt(4)]);
             int key = keys[rand.nextInt(4)];
             System.out.println(i+"\nKEY:"+ key);
-            rob.delay(200);
+            rob.delay(500);
             rob.keyPress(key);
             //System.out.println(key);
             
@@ -48,11 +48,11 @@ public class FuzzTest{
         System.out.println("\nTESTING LEVEL 2\n---------------------------------");
         Robot rob = new Robot();
        
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 120; i++){
               
                 int key = keys[rand.nextInt(4)];
                 System.out.println(i+"\nKEY:"+ key);
-                rob.delay(200);
+                rob.delay(500);
                 rob.keyPress(key);
                 //System.out.println(key);
                 
