@@ -4,11 +4,12 @@ import java.awt.Point;
 import java.util.Iterator;
 
 public class Level implements Iterable<Point>{
-	private Tile[][] tiles;
+	private static Tile[][] tiles;
 	private SolidObject[][] objects;
 	private Point startingPosition;
-	private Point chipPosition;
+	private Point chapPosition;
 	private int chipsRequired;
+	private int timer;
 	
 	public Level(int xDimension, int yDimension, int startX, int startY, int chipsRequired){
 		tiles = new Tile[xDimension][yDimension];
@@ -21,7 +22,7 @@ public class Level implements Iterable<Point>{
 		tiles = new Tile[xDimension][yDimension];
 		objects = new SolidObject[xDimension][yDimension];
 		startingPosition = new Point(0, 0);
-		chipPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
+		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		this.chipsRequired = chipsRequired;
 	}
 	
@@ -29,7 +30,7 @@ public class Level implements Iterable<Point>{
 		tiles = new Tile[25][25];
 		objects = new SolidObject[25][25];
 		startingPosition = new Point(0, 0);
-		chipPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
+		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		this.chipsRequired = chipsRequired;
 	}
 	
@@ -37,7 +38,7 @@ public class Level implements Iterable<Point>{
 		tiles = new Tile[25][25];
 		objects = new SolidObject[25][25];
 		startingPosition = new Point(0, 0);
-		chipPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
+		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		chipsRequired = 0;
 	}
 	
@@ -49,7 +50,7 @@ public class Level implements Iterable<Point>{
 		return objects;
 	}
 	
-	public Tile getTile(int x, int y){
+	public static Tile getTile(int x, int y){
 		return tiles[x][y];
 	}
 	
@@ -98,8 +99,8 @@ public class Level implements Iterable<Point>{
 	public int getYMax(){
 		return tiles[0].length - 1;
 	}
-	public Point getChipPosition(){
-		return chipPosition;
+	public Point getChapPosition(){
+		return chapPosition;
 	}
 	
 	public int getChipsRequired(){
@@ -107,6 +108,14 @@ public class Level implements Iterable<Point>{
 	}
 	public void setChipsRequired(int chipsRequired){
 		this.chipsRequired = chipsRequired;
+	}
+
+	public int getTimer(){
+		return this.timer;
+	}
+
+	public void setTimer(int timer){
+		this.timer = timer;
 	}
 	
 	public void reset(){

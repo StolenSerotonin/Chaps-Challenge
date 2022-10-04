@@ -1,23 +1,29 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
+
 public class ComputerChip extends SolidObject{
 	
 	public ComputerChip(int xp, int yp){
 		setPosition(xp, yp);
-		setImg("computerchip.jpeg");
+		setImg(Images.ComputerChip);
 		initialize();
 	}
 	
 	public void onCollision(Chap c, Level l){
 		if(!getCollided()){
 			setCollided(true);
-			setImg("Blank img jpg");
+			setImg(Images.Floor);
 			c.obtainChip();
 		}
 	}
 	
 	public void initialize(){
 		setCollided(false);
-		setImg("computerchip jpeg");
+		setImg(Images.ComputerChip);
+	}
+
+	public String toString(){
+		return "computerChip";
 	}
 }

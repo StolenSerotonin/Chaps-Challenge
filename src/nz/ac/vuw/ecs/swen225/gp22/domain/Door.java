@@ -1,46 +1,45 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
+
 public class Door extends SolidObject{
-	private DoorC colour;
+
+	private Images colour;
 	
-	public enum DoorC {
-		RED, GREEN, BLUE, YELLOW
-	}
-	
-	public Door(int xp, int yp, DoorC colour){
+	public Door(int xp, int yp, Images colour){
 		setPosition(xp, yp);
 		this.colour = colour;
-		setImg(this.colour.name()+"door.jpg");//example BLUEdoor.jpg
+		setImg(colour);
 		initialize();
 	}
 	
 	public void onCollision(Chap c, Level l){
 		if(getCollided()){}
-		else if(this.colour == DoorC.BLUE){
+		else if(this.colour == Images.BlueDoor){
 			if(c.hasBlueKey()){
 				c.useBlueKey();
-				setImg("blank");
+				setImg(Images.Floor);
 				setCollided(true);
 			}
 		}
-		else if(this.colour == DoorC.RED){
+		else if(this.colour == Images.RedDoor){
 			if(c.hasRedKey()){
 				c.useRedKey();
-				setImg("blank");
+				setImg(Images.Floor);
 				setCollided(true);
 			}
 		}
-		else if(this.colour == DoorC.GREEN){
+		else if(this.colour == Images.GreenDoor){
 			if(c.hasGreenKey()){
 				c.useGreenKey();
-				setImg("blank");
+				setImg(Images.Floor);
 				setCollided(true);
 			}
 		}
-		else if(this.colour == DoorC.YELLOW){
+		else if(this.colour == Images.YellowDoor){
 			if(c.hasYellowKey()){
 				c.useYellowKey();
-				setImg("blank");
+				setImg(Images.Floor);
 				setCollided(true);
 			}
 		}
@@ -50,7 +49,11 @@ public class Door extends SolidObject{
 	}
 	
 	public void initialize(){
-		setImg(this.colour.name()+"door.jpg");
+		setImg(this.colour);
 		setCollided(false);
+	}
+
+	public String toString(){
+		return this.colour.getName();
 	}
 }
