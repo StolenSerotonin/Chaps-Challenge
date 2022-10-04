@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 // import javax.swing.Renderer;
 
@@ -347,7 +347,15 @@ public class GUI extends JFrame {
         if (isRecording == false) {
             JOptionPane.showMessageDialog(this, "Game is not being recorded");
         } else {
-            Recorder.saveRecording();
+            try {
+                Recorder.saveRecording();
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JDOMException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             JOptionPane.showMessageDialog(this, "Game Saved");
         }
     }
