@@ -54,24 +54,6 @@ public class RenderMazePanel extends JPanel{
     }
 
     /**
-     * Return the BufferedImage of the tile
-     * 
-     * @param t the tile to get the image of
-     */
-    private BufferedImage getImg(Tile t){
-        return t.getImg().getImg();
-    }
-
-    /**
-     * Return the BufferedImage of the tileObject
-     * 
-     * @param o the solid Object that needs to get the image of
-     */
-    private BufferedImage getImg(SolidObject o){
-        return o.getImg().getImg();
-    }
-
-    /**
      * Paint the maze to the screen using the graphics object and the tile and tileObject arrays
      * 
      * @param g the graphics object used to draw the maze
@@ -82,38 +64,29 @@ public class RenderMazePanel extends JPanel{
         this.setBackground(new Color(34,30,28));
         tiles = level.getTiles(); 
         tileObjects = level.getObjects(); 
-
         worldX = GUI.chap.getX();
         worldY = GUI.chap.getY();
         maxWorldCol = tiles.length;
         maxWorldRow = tiles[0].length; 
+        for(int worldRow = 0; worldRow < maxWorldRow; worldRow++){
+            for(int worldCol = 0; worldCol < maxWorldCol; worldCol++){
+                Tile tile = tiles[worldRow][worldCol];
+                SolidObject object = tileObjects[worldRow][worldCol];
 
-        
-        int worldRow = 0; 
-        int worldCol = 0; 
-        while(worldCol < maxWorldCol && worldRow < maxWorldRow){
-            Tile tile = tiles[worldRow][worldCol];
-            SolidObject object = tileObjects[worldRow][worldCol];
+                int wX = worldCol * tileSize;
+                int wY = worldRow * tileSize; 
+                int sX = wX - worldX + screenX;
+                int sY = wY - worldY + screenY; 
 
-            int wX = worldCol * tileSize;
-            int wY = worldRow * tileSize; 
-            int sX = wX - worldX + screenX;
-            int sY = wY - worldY + screenY; 
-
-            if(wX + (tileSize*2) > worldX - screenX && 
-                wX < worldX + screenX && 
-                wY + (tileSize*2)> worldY - screenX && 
-                wY - (tileSize*2)< worldY + screenY){
-                g.drawImage(tile.getImg().getImg(), sX, sY, tileSize, tileSize, null);
-                if(object != null) g.drawImage(object.getImg().getImg(), sX, sY, tileSize, tileSize, null);
-            }
-            worldCol++;
-            if(worldCol == maxWorldCol){
-                worldCol = 0;
-                worldRow++; 
+                if(wX + (tileSize*2) > worldX - screenX && 
+                    wX < worldX + screenX && 
+                    wY + (tileSize*2)> worldY - screenX && 
+                    wY - (tileSize*2)< worldY + screenY){
+                    g.drawImage(tile.getImg().getImg(), sX, sY, tileSize, tileSize, null);
+                    if(object != null) g.drawImage(object.getImg().getImg(), sX, sY, tileSize, tileSize, null);
+                }
             }
         }
         g.drawImage(Images.Chap.getImg(), screenX, screenY, tileSize, tileSize, null);
-    
     }
 }
