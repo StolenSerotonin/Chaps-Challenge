@@ -24,6 +24,6 @@ public class ComputerChip extends SolidObject{
 	}
 
 	public String toString(){
-		return "ComputerChip";
+		return "computerChip";
 	}
 }
