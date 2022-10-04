@@ -18,7 +18,7 @@ public class FloorTile extends Tile{
 	public void reset(){}
 
 	public String toString(){
-		return "floortile";
+		return "floor";
 	}
 	
 }
