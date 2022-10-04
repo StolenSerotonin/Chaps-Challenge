@@ -68,7 +68,6 @@ public enum Images {
         return name;
     }
 
-
     /**
      * load the image from the disk
      * 

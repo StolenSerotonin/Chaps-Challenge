@@ -53,7 +53,8 @@ public abstract class Tile {
 	
 	public abstract void onWalk(Chap c);
 	
-	//public abstract void onPush(Block b); for if we add the moving blocks
-	
 	public abstract void reset();
+
+	public abstract String toString();
 }
+

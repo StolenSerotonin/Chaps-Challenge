@@ -64,6 +64,9 @@ public abstract class SolidObject {
 	public abstract void onCollision(Chap c, Level l);
 	
 	public abstract void initialize();
+
+	public abstract String toString();
 	
 	
 }
+
