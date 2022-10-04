@@ -19,8 +19,7 @@ public enum Images {
 
     ComputerChip("computer_chip"),
 
-    Chap("chap"),
-    ChapDead("chap_dead"),     
+    Chap("chap"),   
     
     //All the coloured doors
     RedDoor("redDoor"),
@@ -35,6 +34,8 @@ public enum Images {
     YellowKey("yellowKey"),
 
     InfoTile("info"),
+
+    SideBar("sidebar"), 
     ;
     
     private BufferedImage img;
@@ -67,6 +68,7 @@ public enum Images {
     public String getName(){
         return name;
     }
+
 
     /**
      * load the image from the disk
