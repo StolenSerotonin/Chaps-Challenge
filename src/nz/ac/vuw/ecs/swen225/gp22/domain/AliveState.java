@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+//alive state class
+
 public class AliveState implements ChapState {
 	
 	private Chap chap;
@@ -18,6 +20,5 @@ public class AliveState implements ChapState {
 	
 	public void win(){
 		chap.setState(chap.getWinState());
-		//chap.getGame().win();
 	}
 }

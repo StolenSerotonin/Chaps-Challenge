@@ -13,9 +13,11 @@ public class WallTile extends Tile{
 	
 	public void onWalk(Chap c){}
 	
-	//public void onPush(Block b){}
-	
 	public void reset(){}
+
+	public String toString(){
+		return "wall";
+	}
 	
 }
 

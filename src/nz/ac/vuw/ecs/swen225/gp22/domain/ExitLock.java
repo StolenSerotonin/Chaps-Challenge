@@ -25,4 +25,8 @@ public class ExitLock extends SolidObject{
 		setImg(Images.ExitLock);
 		setCollided(false);
 	}
+
+	public String toString(){
+		return "exitlock";
+	}
 }

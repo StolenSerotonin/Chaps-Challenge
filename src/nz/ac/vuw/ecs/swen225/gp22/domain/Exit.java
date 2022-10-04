@@ -13,10 +13,13 @@ public class Exit extends Tile{
 	
 	public void onWalk(Chap c){
 		c.getState().win();
+		System.out.println("You found exit"); //testing
 	}
 	
-	//public void onPush(Block b){}
-	
 	public void reset(){}
+
+	public String toString(){
+		return "exit";
+	}
 	
 }
