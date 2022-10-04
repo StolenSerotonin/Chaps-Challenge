@@ -1,7 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
-import nz.ac.vuw.ecs.swen225.gp22.app*;
+import nz.ac.vuw.ecs.swen225.gp22.app.Main;
 
 
 public class InfoTile extends Tile{

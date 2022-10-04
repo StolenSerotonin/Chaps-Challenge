@@ -1,9 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.util.Map;
+import java.util.stream.Stream;
+
 public class Chap {
-	
-	final static int RED = 0, BLUE = 1, YELLOW = 2, GREEN = 3;
-	
+	private Map<String, Integer> inventory;
+	private int chips;
 	private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
 	private Direction direction; 
@@ -11,9 +13,6 @@ public class Chap {
 	public enum Direction{
 		UP, DOWN, LEFT, RIGHT
 	}
-	
-	private int[] key; 
-	private int chips;
 	
 	private ChapState state; 
 	private AliveState alive;
@@ -26,7 +25,7 @@ public class Chap {
 		this.yPos = yPos;
 		x = xPos * 32; //Each tile is 32 x 32 pixels.
 		y = yPos * 32;
-		key = new int[4];
+		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 		direction = Direction.DOWN;
 		alive = new AliveState(this);
 		dead = new DeadState(this);
@@ -83,21 +82,21 @@ public class Chap {
 		this.state = state;
 	}
 	
-	public int[] keyStatus(){
-		return key;
+	public Map keyStatus(){
+		return inventory;
 	}
 	
 	public boolean hasRedKey(){
-		return key[RED] > 0;
+		return inventory.get("red") > 0;
 	}
 	public boolean hasBlueKey(){
-		return key[BLUE] > 0;
+		return inventory.get("blue") > 0;
 	}
 	public boolean hasYellowKey(){
-		return key[YELLOW] > 0;
+		return inventory.get("yellow") > 0;
 	}
 	public boolean hasGreenKey(){
-		return key[GREEN] > 0;
+		return inventory.get("green") > 0;
 	}
 	
 	public int getChips(){
@@ -113,38 +112,48 @@ public class Chap {
 	}
 	
 	public void getRedKey(){
-		key[RED]++;
+		int count = inventory.get("red");
+		inventory.put("red", count+1);
 	}
 	public void getBlueKey(){
-		key[BLUE]++;
+		int count = inventory.get("blue");
+		inventory.put("blue", count+1);
 	}
 	public void getYellowKey(){
-		key[YELLOW]++;
+		int count = inventory.get("yellow");
+		inventory.put("yellow", count+1);
 	}
 	public void getGreenKey(){
-		key[GREEN]++;
+		int count = inventory.get("green");
+		inventory.put("green", count+1);
 	}
 	public void loseKeys(){
-		for(int i = 0; i < 4; i++){
-			key[i] = 0;
-		}
+		inventory.forEach((k, v) -> inventory.put(k,0));
 	}
 	
 	public void useRedKey(){
-		if(hasRedKey())
-			key[RED]--;
+		int count = inventory.get("red");
+		if(count>0){
+			inventory.put("red", count-1);
+		}
 	}
 	public void useBlueKey(){
-		if(hasBlueKey())
-			key[BLUE]--;
+		int count = inventory.get("blue");
+		if(count>0){
+			inventory.put("blue", count-1);
+		}
 	}
 	public void useYellowKey(){
-		if(hasYellowKey())
-			key[YELLOW]--;
+		int count = inventory.get("yellow");
+		if(count>0){
+			inventory.put("yellow", count-1);
+		}
 	}
 	public void useGreenKey(){
-		if(hasGreenKey())
-			key[GREEN]--;
+		int count = inventory.get("green");
+		if(count>0){
+			inventory.put("green", count-1);
+		}
 	}
 	
 	public void move(int dx, int dy){

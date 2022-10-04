@@ -20,6 +20,5 @@ public class AliveState implements ChapState {
 	
 	public void win(){
 		chap.setState(chap.getWinState());
-		chap.getGame().win();
 	}
 }
