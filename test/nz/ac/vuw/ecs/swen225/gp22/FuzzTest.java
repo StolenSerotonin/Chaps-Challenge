@@ -1,6 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22;
 import nz.ac.vuw.ecs.swen225.gp22.*;
-import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
+import nz.ac.vuw.ecs.swen225.gp22.app.*;
 import java.awt.event.*;
 import java.awt.Robot;
 import java.awt.AWTException;
@@ -8,6 +8,62 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.junit.Test;
 
+
+public class FuzzTest{
+    Random rand = new Random();
+
+    @Test
+    public void fuzzTest() throws Throwable{
+        GUI gui = new GUI("Chap's Challenge", 800, 600, 1);
+        MyRobot rob;
+        rob = new MyRobot();
+        testLvl1(gui,rob);
+    }
+     /**
+     * @throws AWTException
+     * @throws Throwable
+     * Tests the first level
+     * Runs the game, press random arrow keys
+     */
+    public void testLvl1 (GUI g, MyRobot rob) throws AWTException, Throwable{
+       g.loadLevel1();
+        System.out.println("TESTING LEVEL 1\n---------------------------------");
+        rob.keyPress(17);
+        rob.keyPress(KeyEvent.VK_1);
+        rob.keyRelease(17);
+        rob.keyRelease(KeyEvent.VK_1);
+
+        Direction preDir = Direction.values()[rand.nextInt(4)];
+
+        for(int i = 0; i < 120; ++i){ //created robot presses random key 120 times every half second
+            Direction key = preDir.notOppDir().get(rand.nextInt(3)); //Never uses opposite direction as previous
+            preDir = key;
+            rob.pressAndRelease(key.keyInt());
+            //System.out.println(i+"\nKEY:"+ key);
+            // System.out.println(key.notOppDir());
+            // System.out.println("");
+        }
+    }
+    /**
+     * @throws AWTException
+     * @throws Throwable
+     * Tests the second level
+     * Runs the game, press random arrow keys
+     */
+    public void testLvl2(GUI gui, MyRobot rob) throws AWTException, Throwable{
+        gui.loadLevel2();
+        System.out.println("\nTESTING LEVEL 2\n---------------------------------");
+        Direction preDir = Direction.values()[rand.nextInt(4)];
+        for(int i = 0; i < 120; i++){//created robot presses random key 120 times every half second
+            Direction key = preDir.notOppDir().get(rand.nextInt(3)); //Never uses opposite direction as previous
+            preDir = key;
+            rob.pressAndRelease(key.keyInt());
+            // System.out.println(i+"\nKEY:"+ key);
+            // System.out.println(key.notOppDir());
+            // System.out.println("");
+        }
+    }
+}
 enum Direction{
     UP{
         int keyInt(){
@@ -66,55 +122,15 @@ enum Direction{
         this.printString();
     }
 }
-public class FuzzTest{
-    Random rand = new Random();
-    @Test
-    public void FuzzTest(){
-        try {
-            testLvl1();
-            testLvl2();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            System.out.println("ERROR");
-        }
+class MyRobot extends Robot{
+    
+    public MyRobot() throws AWTException {
+        super();
     }
-    public void testLvl1 () throws AWTException, Throwable{
-        GUI gui1 = new GUI("Chap's Challenge", 800, 600, 1);
-        System.out.println("TESTING LEVEL 1\n---------------------------------");
-        Robot rob = new Robot();
-        Direction preDir = Direction.values()[rand.nextInt(4)];
-        for(int i = 0; i < 120; ++i){ //created robot presses random key 120 times every half second
-            Direction key = preDir.notOppDir().get(rand.nextInt(3)); //Never uses opposite direction as previous
-            preDir = key;
-            System.out.println(i+"\nKEY:"+ key);
-            rob.delay(500);
-            rob.keyPress(key.keyInt());
-            System.out.println(key.notOppDir());
-            System.out.println("");
-        }
-    }
-    /**
-     * @throws AWTException
-     * @throws Throwable
-     * Tests the second level
-     * Runs the game, press random arrow keys
-     */
-    public void testLvl2() throws AWTException, Throwable{
-        GUI gui2 = new GUI("Chap's Challenge", 800, 600, 2);
-        System.out.println("\nTESTING LEVEL 2\n---------------------------------");
-        Robot rob = new Robot();
-        Direction preDir = Direction.values()[rand.nextInt(4)];
-            for(int i = 0; i < 120; i++){//created robot presses random key 120 times every half second
-                Direction key = preDir.notOppDir().get(rand.nextInt(3)); //Never uses opposite direction as previous
-                preDir = key;
-                System.out.println(i+"\nKEY:"+ key);
-                rob.delay(500);
-                rob.keyPress(key.keyInt());
-                System.out.println(key.notOppDir());
-                System.out.println("");
-
-                
-
-            }
+    public void pressAndRelease(int keyCode){
+        keyPress(keyCode);
+        delay(400);                
+        keyRelease(keyCode);
+        delay(100);
     }
 }
