@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Timer;
+import javax.swing.Timer;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 // import javax.swing.Renderer;
 
@@ -95,10 +96,11 @@ public class GUI extends JFrame {
     public static RenderMazePanel r1;
     public static GUI g1;
     private Recorder recorder = new Recorder();
-
-    private static Timer timer;
-
+    private Timer t1;
+    private Timer t2;
     public static Chap chap;
+    private int lv1Time = 60;
+    private int lv2Time = 60;
 
     public GUI(String title, int width, int height, int level) {
         super(title);
@@ -110,27 +112,25 @@ public class GUI extends JFrame {
         this.lvl = level;
         getContentPane().setBackground(new Color(0, 110, 51));
         setUpLevel();
-        // this.requestFocus();
     }
 
     public void setUpLevel() {
         if (lvl == 0) {
             level0();
-
-        } else {
+        } else if(lvl == 1){
+            loadLv1Timer();
             addComponents();
             this.setFocusTraversalKeysEnabled(false);
             this.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
-                    
                     if (e.getKeyCode() == pauseKey) {
                         pause();
                     } else if (isPaused == false) {
                         if (e.getKeyCode() == upArrow) {
                             System.out.println("up");
                             r1.repaint();
-                            chap.moveUp();
+                            chap.moveUp(); 
                             if (isRecording) {
                                 recorder.chapMove(Direction.UP); // calling Recorder enum
                             }
@@ -145,7 +145,6 @@ public class GUI extends JFrame {
                             System.out.println("left");
                             r1.repaint();
                             chap.moveLeft();
-
                             if (isRecording) {
                                 recorder.chapMove(Direction.LEFT);
                             }
@@ -160,16 +159,11 @@ public class GUI extends JFrame {
                     }
                 }
             });
-
-        //allow only one key to be pressed at a time
-            // this.setFocusable(true);
-            // this.requestFocus();
-
         }
     }
+    
 
     public void level0() {
-        // add start button to a panel
         JPanel panel = new JPanel();
         // array of buttons
         JButton[] lvl0Buttons = { start, exit, load };
@@ -185,13 +179,14 @@ public class GUI extends JFrame {
                 if (e.getSource() == start) {
                     try {
                         loadLevel1();
+                        
                     } catch (JDOMException e1) {
+                        // print error message
                         e1.printStackTrace();
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                    lvl = 1;
-                    setUpLevel();
+                    // setUpLevel();
                 } else if (e.getSource() == exit) {
                     exit();
                 } else if (e.getSource() == load) {
@@ -207,8 +202,8 @@ public class GUI extends JFrame {
         this.dispose();
         g1 = new GUI("Level 1", 800, 600, 1);
         g1.setVisible(true);
+     
         Level l1 = Persistency.loadBoard("level1.xml");
-
         r1 = new RenderMazePanel(l1);
         chap = new Chap(l1.getStartingX(), l1.getStartingY());
         r1.loadAllImages();
@@ -235,6 +230,8 @@ public class GUI extends JFrame {
         populateShortCuts(loadGame, loadAction, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
         populateShortCuts(loadL1, loadlevel1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
         populateShortCuts(loadL2, loadlevel2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
+
+        
     }
 
     public void addMenu() {
@@ -367,6 +364,7 @@ public class GUI extends JFrame {
 
     public void pause() {
         isPaused = true;
+        t1.stop();
         ArrayList<JButton> buttons = new ArrayList<>();
         JPanel pausePanel = new JPanel();
         pausePanel.setFocusable(false);
@@ -387,6 +385,7 @@ public class GUI extends JFrame {
             button.addActionListener((ActionEvent e) -> {
                 if (button.getText().equals("Resume")) {
                     isPaused = false;
+                    t1.start();
                     pauseWindow.dispose();
                     System.out.println("Game Resumed  " + isPaused);
                 } else if (button.getText().equals("Save & Exit")) {
@@ -413,13 +412,13 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 isPaused = false;
+                t1.start();
                 pauseWindow.dispose();
             }
         });
         pauseWindow.add(pausePanel, BorderLayout.SOUTH);
 
     }
-
     public void rules() {
         JPanel rulesPanel = new JPanel();
         JDialog rulesWindow = new JDialog();
@@ -450,6 +449,22 @@ public class GUI extends JFrame {
         window.setTitle(title);
     }
 
+    /**
+     * 
+     * @param kStroke    - KeyStroke to be added to the input map
+     * @param action     - Action to be performed when the key is pressed
+     * @param actionName - Name of the action
+     * @param keyEvent   - KeyEvent to be added to the input map
+     * @param inputEvent - InputEvent to be added to the input map
+     * 
+     *                   This method is used to add key bindings to the game.
+     *                   It takes in a key stroke, an action, an action name, a key
+     *                   event and an input event.
+     *                   It then adds the key stroke to the input map and the action
+     *                   to the action map.
+     * 
+     */
+
     public void populateShortCuts(KeyStroke kStroke, Action action, String actionName, int keyEvent, int inputEvent) {
         kStroke = KeyStroke.getKeyStroke(keyEvent, inputEvent);
         action = new AbstractAction(actionName) {
@@ -479,7 +494,16 @@ public class GUI extends JFrame {
         getRootPane().getActionMap().put(actionName, action);
     }
 
-    // populate Menu Items
+    /**
+     * 
+     * @param item       - the item to be added to the inventory
+     * @param title      - the title of the item
+     * @param keyEvent   - the key event to be used for the shortcut
+     * @param inputEvent - the input event to be used for the shortcut
+     * 
+     *                   This method populates the menu bar with the menu items and
+     *                   shortcuts
+     */
     public void populateMenuItems(JMenuItem item, String title, int keyEvent, int inputEvent) {
         item.setText(title);
         item.setAccelerator(KeyStroke.getKeyStroke(keyEvent, inputEvent));
@@ -509,4 +533,31 @@ public class GUI extends JFrame {
             }
         });
     }
+
+    public void loadLv1Timer(){
+    t1 = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (lv1Time > 0) {
+                lv1Time--;
+                //format lv1Time to display as mm:ss
+                String timeDString = String.format("%02d:%02d", lv1Time / 60, lv1Time % 60);
+                System.out.print("\r " + timeDString);
+            } else {
+                t1.stop();
+                JOptionPane.showMessageDialog(null, "Time's Up!");
+                exit();
+            }
+        }
+    });
+    t1.start();
+    }
+
+    //method that restarts the timer
+    public void restartTimer(){
+        if(lvl == 1)t1.restart();
+        else if(lvl == 2)t2.restart();
+        else t1.restart(); t2.restart();
+    }
+
 }
