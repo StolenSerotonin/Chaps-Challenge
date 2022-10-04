@@ -3,9 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.Timer;
@@ -25,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 // import javax.swing.Renderer;
 
@@ -101,6 +100,7 @@ public class GUI extends JFrame {
     private Timer t2;
     public static Chap chap;
     private int lv1Time = 60;
+    private int lv2Time = 60;
 
     public GUI(String title, int width, int height, int level) {
         super(title);
@@ -112,13 +112,13 @@ public class GUI extends JFrame {
         this.lvl = level;
         getContentPane().setBackground(new Color(0, 110, 51));
         setUpLevel();
-
     }
 
     public void setUpLevel() {
         if (lvl == 0) {
             level0();
         } else if(lvl == 1){
+            loadLv1Timer();
             addComponents();
             this.setFocusTraversalKeysEnabled(false);
             this.addKeyListener(new KeyAdapter() {
@@ -127,7 +127,6 @@ public class GUI extends JFrame {
                     if (e.getKeyCode() == pauseKey) {
                         pause();
                     } else if (isPaused == false) {
-                        loadLv1Timer();
                         if (e.getKeyCode() == upArrow) {
                             System.out.println("up");
                             r1.repaint();
@@ -180,14 +179,14 @@ public class GUI extends JFrame {
                 if (e.getSource() == start) {
                     try {
                         loadLevel1();
+                        
                     } catch (JDOMException e1) {
                         // print error message
                         e1.printStackTrace();
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-                    lvl = 1;
-                    setUpLevel();
+                    // setUpLevel();
                 } else if (e.getSource() == exit) {
                     exit();
                 } else if (e.getSource() == load) {
@@ -231,6 +230,8 @@ public class GUI extends JFrame {
         populateShortCuts(loadGame, loadAction, "Load", KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
         populateShortCuts(loadL1, loadlevel1, "Load Level 1", KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK);
         populateShortCuts(loadL2, loadlevel2, "Load Level 2", KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK);
+
+        
     }
 
     public void addMenu() {
@@ -346,15 +347,7 @@ public class GUI extends JFrame {
         if (isRecording == false) {
             JOptionPane.showMessageDialog(this, "Game is not being recorded");
         } else {
-            try {
-                Recorder.saveRecording();
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (JDOMException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            Recorder.saveRecording();
             JOptionPane.showMessageDialog(this, "Game Saved");
         }
     }
@@ -542,7 +535,6 @@ public class GUI extends JFrame {
     }
 
     public void loadLv1Timer(){
-
     t1 = new Timer(1000, new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -550,8 +542,7 @@ public class GUI extends JFrame {
                 lv1Time--;
                 //format lv1Time to display as mm:ss
                 String timeDString = String.format("%02d:%02d", lv1Time / 60, lv1Time % 60);
-                System.out.println(timeDString);
-
+                System.out.print("\r " + timeDString);
             } else {
                 t1.stop();
                 JOptionPane.showMessageDialog(null, "Time's Up!");
@@ -561,4 +552,12 @@ public class GUI extends JFrame {
     });
     t1.start();
     }
+
+    //method that restarts the timer
+    public void restartTimer(){
+        if(lvl == 1)t1.restart();
+        else if(lvl == 2)t2.restart();
+        else t1.restart(); t2.restart();
+    }
+
 }
