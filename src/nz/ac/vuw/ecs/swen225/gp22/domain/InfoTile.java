@@ -18,7 +18,7 @@ public class InfoTile extends Tile{
 	public void reset(){}
 
 	public String toString(){
-		return "infotile";
+		return "infoField";
 	}
 	
 }
