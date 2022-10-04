@@ -5,11 +5,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * This class is used to store all the images used in the game
+ * 
+ * @author livapurane
+ *
+ */
 public enum Images {
     Wall("wall"),
     Floor("floor"),
-    Exit("exit"),                     //Portal
-    ExitLock("exit_lock"),            //Locked Portal Door 
+    Exit("exit"),                     
+    ExitLock("exit_lock"),            
 
     ComputerChip("computer_chip"),
 
@@ -17,30 +23,47 @@ public enum Images {
     ChapDead("chap_dead"),     
     
     //All the coloured doors
-    RedDoor("red_door"),
-    GreenDoor("green_door"),
-    BlueDoor("blue_door"),
-    YellowDoor("yellow_door"),
+    RedDoor("redDoor"),
+    GreenDoor("greenDoor"),
+    BlueDoor("blueDoor"),
+    YellowDoor("yellowDoor"),
 
     //All the coloured keys
-    RedKey("red_key"),
-    GreenKey("green_key"),
-    BlueKey("blue_key"),
-    YellowKey("yellow_key"),
+    RedKey("redKey"),
+    GreenKey("greenKey"),
+    BlueKey("blueKey"),
+    YellowKey("yellowKey"),
+
+    InfoTile("info"),
     ;
     
     private BufferedImage img;
     private String name;
 
-
+    /**
+     * Constructor for the Images enum
+     * 
+     * @param name the name of the image
+     */
     private Images(String name){
         this.name = name; 
         this.img = loadImg(name);
     }
+
+    /**
+     * Return the BufferedImage of the enum value 
+     * 
+     * @return the BufferedImage of the enum value
+     */
     public BufferedImage getImg(){
         return img;
     }
 
+    /**
+     * Return the name of the image
+     * 
+     * @return the name of the image
+     */
     public String getName(){
         return name;
     }
@@ -53,10 +76,9 @@ public enum Images {
      */
     public BufferedImage loadImg(String path){
         try {
-            File file = new File("images/" + path + ".png");
-            BufferedImage img = ImageIO.read(file);
+            BufferedImage img = ImageIO.read(new File("src/nz/ac/vuw/ecs/swen225/gp22/renderer/images/" + path + ".png"));
             return img;
-        } catch (IOException e) {
+        } catch (IOException e) { 
             throw new RuntimeException(e);}
     }
 }
