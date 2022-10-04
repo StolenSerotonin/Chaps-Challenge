@@ -294,7 +294,12 @@ public class GUI extends JFrame {
         isRecording = false;
         save.setEnabled(isRecording);
         System.out.println("Recording stopped");
-        save();
+        try {
+            save();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void addButtons() {
@@ -314,7 +319,12 @@ public class GUI extends JFrame {
                 if (b.getText().equals("Pause")) {
                     pause();
                 } else if (b.getText().equals("Save")) {
-                    save();
+                    try {
+                        save();
+                    } catch (FileNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                 } else if (b.getText().equals("Load")) {
                     load();
                 } else if (b.getText().equals("Exit")) {
@@ -343,19 +353,11 @@ public class GUI extends JFrame {
         System.exit(0);
     }
 
-    public void save() {
+    public void save() throws FileNotFoundException {
         if (isRecording == false) {
             JOptionPane.showMessageDialog(this, "Game is not being recorded");
         } else {
-            try {
-                Recorder.saveRecording();
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (JDOMException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            Recorder.saveRecording();
             JOptionPane.showMessageDialog(this, "Game Saved");
         }
     }
@@ -398,7 +400,12 @@ public class GUI extends JFrame {
                     System.out.println("Game Resumed  " + isPaused);
                 } else if (button.getText().equals("Save & Exit")) {
                     if (isRecording == true) {
-                        save();
+                        try {
+                            save();
+                        } catch (FileNotFoundException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
                         isPaused = false;
                         pauseWindow.dispose();
                         exit();
@@ -481,7 +488,12 @@ public class GUI extends JFrame {
                 if (actionName.equals("Exit")) {
                     exit();
                 } else if (actionName.equals("Save")) {
-                    save();
+                    try {
+                        save();
+                    } catch (FileNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                     isRecording = false;
                 } else if (actionName.equals("Load")) {
                     load();
@@ -521,7 +533,12 @@ public class GUI extends JFrame {
                 if (item.getText().equals("Exit")) {
                     exit();
                 } else if (item.getText().equals("Save")) {
-                    save();
+                    try {
+                        save();
+                    } catch (FileNotFoundException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                     isRecording = false;
                 } else if (item.getText().equals("Rules")) {
                     rules();
