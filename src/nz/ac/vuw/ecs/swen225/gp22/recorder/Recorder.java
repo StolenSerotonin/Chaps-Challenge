@@ -14,7 +14,7 @@ import org.jdom2.output.XMLOutputter;
 
 
 /**
- * Recorder class code
+ * Recorder class code which holds the code for basic xml saving of moves and replaying. 
  *
  * @author Kevin Lee
  */
@@ -27,6 +27,8 @@ public class Recorder {
     public record Move (String player, Direction dir){}
 
     /**
+     *  Loading xml files with the moves in them
+     * 
      * 
      * @param speed<?xml version="1.0" encoding="UTF-8"?>
      * @throws IOException
@@ -64,6 +66,9 @@ public class Recorder {
     }
 
     /**
+     * Saves the recorded moves into an xml file 
+     * 
+     * 
      * @throws FileNotFoundException
      * 
      */
@@ -89,7 +94,6 @@ public class Recorder {
             action.addContent(new Element("player").setText(move.player()));
             root.addContent(action);
         }
-
         // Write file out through xml outputter
         try {outputter.output(document, fileOutputStream);}
         catch (Exception e){e.printStackTrace();}
@@ -105,6 +109,10 @@ public class Recorder {
         moves.remove(0);
     }
 
+
+    /**
+     * Auto plays the moves loaded from the xml file  
+     */
     public static void autoPlay () {
         int count = moves.size(); // ideally use App's runnable peform replay using the set replay speed.
         for (int i=0; i<count; i++) {
