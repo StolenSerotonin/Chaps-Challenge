@@ -13,6 +13,7 @@ GUI guiPanel;
 public KeyInput(GUI guiPanel) {
     this.guiPanel = guiPanel;
 }
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -34,6 +35,8 @@ public KeyInput(GUI guiPanel) {
             System.out.println("RESUMED");
             guiPanel.gameState = guiPanel.playState;
             guiPanel.isPaused = false;
+            guiPanel.timer.start();
+            guiPanel.pauseButton.setText("Pause");
         }
     }
     public void keyStartState(int keyCode){
@@ -42,6 +45,7 @@ public KeyInput(GUI guiPanel) {
             guiPanel.gameState = guiPanel.playState;
             guiPanel.gameLevel = guiPanel.level1;
             guiPanel.setUpLevel();
+            guiPanel.timer.start();
         }
     }
 
@@ -71,7 +75,9 @@ public KeyInput(GUI guiPanel) {
         if(keyCode == KeyEvent.VK_SPACE) {
             guiPanel.gameState = guiPanel.pauseState;
             guiPanel.isPaused = true;
-            System.out.println("Paused1");
+            System.out.println("Paused");
+            guiPanel.timer.stop();
+            guiPanel.pauseButton.setText("Resume");
 
         }
     }

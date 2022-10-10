@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import javax.swing.JFrame;
-// import javax.swing.SwingUtilities;
 
 //run the GUI
 public class Main extends JFrame{
@@ -18,6 +17,8 @@ public class Main extends JFrame{
 
         gui = new GUI();
         mainFrame.add(gui);
+
+
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
 
