@@ -12,7 +12,7 @@ public class Key extends SolidObject{
 		initialize();
 	}
 	
-	public void onCollision(Chap c, Level l){
+	public void onCollision(Chap c){
 		if(!getCollided()){
 			if(this.colour == Images.BlueKey) {
 				c.getBlueKey();

@@ -13,7 +13,7 @@ public class Door extends SolidObject{
 		initialize();
 	}
 	
-	public void onCollision(Chap c, Level l){
+	public void onCollision(Chap c){
 		if(getCollided()){}
 		else if(this.colour == Images.BlueDoor){
 			if(c.hasBlueKey()){
@@ -45,6 +45,7 @@ public class Door extends SolidObject{
 		}
 		else{
 			c.setPosition(c.getLastXPos(), c.getLastYPos());
+			throw new IllegalArgumentException("Chap does not have the key");
 		}
 	}
 	

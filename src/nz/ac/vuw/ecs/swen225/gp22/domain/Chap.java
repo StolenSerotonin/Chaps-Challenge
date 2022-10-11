@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.util.Map;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 
 public class Chap{
 	private Map<String, Integer> inventory;
@@ -202,6 +203,9 @@ public class Chap{
 		if(!Level.getTile(xPos+dx, yPos+dy).isPassable()) {
 			throw new IllegalArgumentException("Chap cannot phase through walls");
 		}
+		if(Level.hasObject(xPos + dx, yPos + dy)){
+			CollisionCheck(xPos + dx, yPos + dy);
+		}
 		lastYPos = yPos;
 		xPos += dx;
 		yPos += dy;
@@ -237,6 +241,10 @@ public class Chap{
 			if(direction != Direction.RIGHT)
 				direction = Direction.RIGHT;
 		}
+	}
+
+	public void CollisionCheck(int x, int y){
+		Level.getObject(x, y).onCollision(this);
 	}
 	
 	public String toString(){

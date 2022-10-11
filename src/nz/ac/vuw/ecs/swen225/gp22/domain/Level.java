@@ -46,7 +46,7 @@ public class Level implements Iterable<Point>{
 		return tiles;
 	}
 	
-	public SolidObject[][] getObjects(){
+	public static SolidObject[][] getObjects(){
 		return objects;
 	}
 	
@@ -60,6 +60,10 @@ public class Level implements Iterable<Point>{
 	
 	public static SolidObject getObject(int x, int y){
 		return objects[x][y];
+	}
+
+	public static Boolean hasObject(int x, int y){
+		return objects[x][y] != null;
 	}
 		
 	public void setTile(int x, int y, Tile tile){

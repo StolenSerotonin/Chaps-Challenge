@@ -61,7 +61,7 @@ public abstract class SolidObject{
 		this.img = img;
 	}
 	
-	public abstract void onCollision(Chap c, Level l);
+	public abstract void onCollision(Chap c);
 	
 	public abstract void initialize();
 
