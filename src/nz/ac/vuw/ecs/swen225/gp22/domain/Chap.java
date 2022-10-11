@@ -1,9 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.util.Map;
-import java.util.stream.Stream;
 
-public class Chap {
+public class Chap{
 	private Map<String, Integer> inventory;
 	private int chips;
 	private int x, y, xPos, yPos; 
@@ -23,8 +22,8 @@ public class Chap {
 	public Chap(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
-		x = xPos * 32; //Each tile is 32 x 32 pixels.
-		y = yPos * 32;
+		x = xPos * 24; //decided on 24 by carefull maths
+		y = yPos * 24;
 		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 		direction = Direction.DOWN;
 		alive = new AliveState(this);
@@ -48,8 +47,8 @@ public class Chap {
 	public void setPosition(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
-		x = xPos * 32;
-		y = yPos * 32;
+		x = xPos * 24;
+		y = yPos * 24;
 	}
 	public Direction getDirection(){
 		return direction;
@@ -161,8 +160,8 @@ public class Chap {
 			lastYPos = yPos;
 			xPos += dx;
 			yPos += dy;
-			x += (dx * 32);
-			y += (dy * 32);
+			x += (dx * 24);
+			y += (dy * 24);
 		}
 	}
 	

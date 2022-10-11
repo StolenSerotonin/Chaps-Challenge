@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
-import nz.ac.vuw.ecs.swen225.gp22.app.Main;
 
 
 public class InfoTile extends Tile{
@@ -22,7 +21,7 @@ public class InfoTile extends Tile{
 	}
 
 	public void setInfo(String info){
-		this.info = info;
+		InfoTile.info = info;
 	}
 
 	public String getInfo(){
