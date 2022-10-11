@@ -16,9 +16,10 @@ import org.jdom2.output.XMLOutputter;
 
 public class Persistency {
 
-    private static int ROWS = 13;
-    private static int COLUMNS = 13;
-
+    private static int ROWS = 21;
+    private static int COLUMNS = 21;
+    private static int chapStartX = 2;
+    private static int chapStartY = 3;
     /**
      * This is used to create a level object. A level object will store the positions 
      * of the tiles and objects on the board.
@@ -39,7 +40,7 @@ public class Persistency {
         int chipsRequired = 0;
         if(file.contains("1")){chipsRequired = 3;}
         else{chipsRequired = 4;}
-        Level newLevel = new Level(COLUMNS,ROWS,3,3,chipsRequired);
+        Level newLevel = new Level(COLUMNS,ROWS,chapStartX,chapStartY,chipsRequired);
         
         //Storing all the rows within the level tag in a list
         List<Element> rowsList = rootElement.getChildren();
@@ -52,14 +53,18 @@ public class Persistency {
             for(int x = 0; x < COLUMNS; x++){
                 //Check whether the object to be created is of type Tile or of SolidObject
                 String tileText = tiles.get(x).getText();
-                if(tileText.contains("wall") || tileText.contains("floor") || 
+                if(tileText.contains("chap")){
+                    newLevel.setTile(x, y, new FloorTile(x, y));
+                    newLevel.setStartingPosition(x, y);
+                }
+                else if(tileText.contains("wall") || tileText.contains("floor") || 
                 tileText.contains("infoField") || (tileText.contains("exit") &&
                 !tileText.contains("exitLock"))){
-                    newLevel.setTile(y, x, getTile(tileText, y, x));
+                    newLevel.setTile(x, y, getTile(tileText, x, y));
                 }
                 else{
-                    newLevel.setTile(y, x, new FloorTile(y, x));
-                    newLevel.setObject(y, x, getSolidObject(tileText, y, x));
+                    newLevel.setTile(x, y, new FloorTile(x, y));
+                    newLevel.setObject(x, y, getSolidObject(tileText,x, y));
                 }
             }
         }
@@ -82,11 +87,11 @@ public class Persistency {
         for(int y = 0; y < ROWS; y++){
             Element row = new Element("row");
             for(int x = 0; x < COLUMNS; x++){
-                if(l.getObject(y, x) != null){
+                if(l.getObject(x, y) != null){
                     row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
                 }
                 else{
-                    row.addContent(new Element("tile").setText(l.getTile(y,x).toString()));
+                    row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
                 }
             }
             rootElement.addContent(row);
@@ -150,7 +155,7 @@ public class Persistency {
             sObject = new ExitLock(yPos, xPos);
         }
         else if(solidObj.contains("computerChip")){
-            sObject = new ComputerChip(yPos, xPos);
+            sObject = new ComputerChip(xPos, yPos);
         }
         else{//Code for debugging
             System.out.println("Error Constructing Solid object: " + solidObj + " at " + "X: " + xPos + " Y: " + yPos);
