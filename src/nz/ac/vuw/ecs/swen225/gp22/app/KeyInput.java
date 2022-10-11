@@ -16,6 +16,7 @@ public KeyInput(GUI guiPanel) {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        
     }
 
     @Override

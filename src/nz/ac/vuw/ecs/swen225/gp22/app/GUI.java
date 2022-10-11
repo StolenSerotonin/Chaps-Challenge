@@ -19,6 +19,7 @@ import javax.swing.Timer;
 // import javax.swing.AbstractAction;
 // import javax.swing.Action;
 import javax.swing.JButton;
+
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -770,7 +771,7 @@ public class GUI extends JPanel implements Runnable {
             addButtons(); // add buttons
             addMenu(); // add menu
                 if (gameLevel == level1) { // if the game level is level 1
-                    System.out.println("LOADED LEVEL 1");
+                    System.out.println("LOADED LEVEL1");
                     loadLv1Timer();
                         try {
                             l1 = Persistency.loadBoard("level1.xml");
