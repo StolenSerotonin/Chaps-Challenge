@@ -23,8 +23,9 @@ import org.jdom2.output.XMLOutputter;
 public class Recorder {
     private static ArrayList<Move> moves = new ArrayList<>(); 
     private static double replaySpeed;
+    private static int count = 0;
 
-    public record Move (String player, Direction dir){}
+    public record Move (String player, Direction dir, int index){}
 
     /**
      *  Loading xml files with the moves in them
@@ -34,7 +35,8 @@ public class Recorder {
      * @throws IOException
      */
     public static void loadRecording () throws JDOMException, IOException{ // load from xml file
-        moves.clear(); // clearing the moves 
+        moves.clear(); // clearing the moves
+        count = 0;
         System.out.println("Loading recording from xml file");
 
         // loading File:
@@ -48,17 +50,20 @@ public class Recorder {
             String moveId = element.getChildText("id");
             String direction = element.getChildText("direction");
             String player = element.getChildText("player");
+            
 
             Direction dir = Direction.DOWN;
             if (direction.equals("UP")) dir = Direction.UP;
             else if (direction.equals("DOWN")) dir = Direction.DOWN;
             else if (direction.equals("LEFT")) dir = Direction.LEFT;
             else if (direction.equals("RIGHT")) dir = Direction.RIGHT;
+            int index = Integer.valueOf(moveId);
 
-            Move move = new Move(player, dir);
+            Move move = new Move(player, dir, index);
             moves.add(move);
         }
 
+        System.out.println("Loaded Recording : ");
         for (Move m : moves) { // debugging 
             System.out.println(m.player() + " " + m.dir());
         }
@@ -79,17 +84,14 @@ public class Recorder {
 
         
         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-        System.out.println("BEFORE file stream"); // debugging code 
         FileOutputStream fileOutputStream = new FileOutputStream("src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/recording.xml");
         Document document = new Document();
         document.setRootElement(new Element("Moves"));
-        System.out.println("AFTER file Stream"); // debugging code
         Element root = document.getRootElement();
 
         for (Move move : moves) {
-            System.out.println("In the LOOP!");// debugging code
             Element action = new Element ("move");
-            action.setAttribute("id",""+moves.indexOf(move)); // id is the order that move was played
+            action.setAttribute("id","" + move.index()); // id is the order that move was played
             action.addContent(new Element("direction").setText(""+move.dir()));
             action.addContent(new Element("player").setText(move.player()));
             root.addContent(action);
@@ -120,11 +122,13 @@ public class Recorder {
         }
     }
 
-    public void chapMove (Direction dir) {
-        moves.add(new Move("chap", dir));
+    public static void chapMove (Direction dir) {
+        moves.add(new Move("chap", dir, count));
+        count ++;
     }
 
-    public void enemyMove (Direction dir) {
-        moves.add(new Move("enemy", dir));
+    public static void enemyMove (Direction dir) {
+        moves.add(new Move("enemy", dir, count));
+        count ++;
     }
 }
