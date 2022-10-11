@@ -6,11 +6,12 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 public class InfoTile extends Tile{
 	private static String info;
 
-	public InfoTile(int xp, int yp){
+	public InfoTile(int xp, int yp, String info){
 		setPosition(xp, yp);
 		setImg(Images.InfoTile);
 		setPassable(true);
 		setPushable(false);
+		setInfo(info);
 	}
 	
 	public void onWalk(Chap c){
