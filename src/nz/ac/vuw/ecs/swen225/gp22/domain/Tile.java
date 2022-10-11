@@ -2,7 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
-public abstract class Tile {
+public abstract class Tile{
 	private int x, y, xPos, yPos;
 	private boolean isPassable;
 	private boolean pushable;

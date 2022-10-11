@@ -10,7 +10,7 @@ public class ComputerChip extends SolidObject{
 		initialize();
 	}
 	
-	public void onCollision(Chap c, Level l){
+	public void onCollision(Chap c){
 		if(!getCollided()){
 			setCollided(true);
 			setImg(Images.Floor);

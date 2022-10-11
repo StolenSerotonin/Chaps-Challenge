@@ -1,9 +1,9 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.util.Map;
-import java.util.stream.Stream;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 
-public class Chap {
+public class Chap{
 	private Map<String, Integer> inventory;
 	private int chips;
 	private int x, y, xPos, yPos; 
@@ -23,8 +23,8 @@ public class Chap {
 	public Chap(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
-		x = xPos * 32; //Each tile is 32 x 32 pixels.
-		y = yPos * 32;
+		x = xPos * 24; //decided on 24 by carefull maths
+		y = yPos * 24;
 		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 		direction = Direction.DOWN;
 		alive = new AliveState(this);
@@ -48,8 +48,8 @@ public class Chap {
 	public void setPosition(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
-		x = xPos * 32;
-		y = yPos * 32;
+		x = xPos * 24;
+		y = yPos * 24;
 	}
 	public Direction getDirection(){
 		return direction;
@@ -104,7 +104,14 @@ public class Chap {
 	}
 	
 	public void obtainChip(){
+		if(!(Level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
+			throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
+		}
+		int uncollectedChips = Level.getChipsRequired() - getChips(); 
 		chips++;
+		int uncollectedChips2 = Level.getChipsRequired() - getChips();
+		assert uncollectedChips2 == uncollectedChips - 1;
+
 	}
 	
 	public void clearChips(){
@@ -112,20 +119,40 @@ public class Chap {
 	}
 	
 	public void getRedKey(){
+		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
+			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		}
 		int count = inventory.get("red");
 		inventory.put("red", count+1);
+		int count2 = inventory.get("red");
+		assert count2 == count + 1;
 	}
 	public void getBlueKey(){
+		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
+			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		}
 		int count = inventory.get("blue");
 		inventory.put("blue", count+1);
+		int count2 = inventory.get("blue");
+		assert count2 == count + 1;
 	}
 	public void getYellowKey(){
+		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
+			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		}
 		int count = inventory.get("yellow");
 		inventory.put("yellow", count+1);
+		int count2 = inventory.get("yellow");
+		assert count2 == count + 1;
 	}
 	public void getGreenKey(){
+		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
+			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		}
 		int count = inventory.get("green");
 		inventory.put("green", count+1);
+		int count2 = inventory.get("green");
+		assert count2 == count + 1;
 	}
 	public void loseKeys(){
 		inventory.forEach((k, v) -> inventory.put(k,0));
@@ -133,37 +160,57 @@ public class Chap {
 	
 	public void useRedKey(){
 		int count = inventory.get("red");
-		if(count>0){
+		if(count<=0){
+			throw new IllegalStateException("Chap has no Red Key");
+		} else{
 			inventory.put("red", count-1);
+			int count2 = inventory.get("red");
+			assert count2 == count - 1;
 		}
 	}
 	public void useBlueKey(){
 		int count = inventory.get("blue");
-		if(count>0){
+		if(count<=0){
+			throw new IllegalStateException("Chap has no blue Key");
+		} else{
 			inventory.put("blue", count-1);
+			int count2 = inventory.get("blue");
+			assert count2 == count - 1;
 		}
 	}
 	public void useYellowKey(){
 		int count = inventory.get("yellow");
-		if(count>0){
+		if(count<=0){
+			throw new IllegalStateException("Chap has no yellow Key");
+		} else{
 			inventory.put("yellow", count-1);
+			int count2 = inventory.get("yellow");
+			assert count2 == count - 1;
 		}
 	}
 	public void useGreenKey(){
 		int count = inventory.get("green");
-		if(count>0){
+		if(count<=0){
+			throw new IllegalStateException("Chap has no green Key");
+		} else{
 			inventory.put("green", count-1);
+			int count2 = inventory.get("green");
+			assert count2 == count - 1;
 		}
 	}
 	
 	public void move(int dx, int dy){
-		if(Level.getTile(xPos+dx, yPos+dy).isPassable()) {
-			lastYPos = yPos;
-			xPos += dx;
-			yPos += dy;
-			x += (dx * 32);
-			y += (dy * 32);
+		if(!Level.getTile(xPos+dx, yPos+dy).isPassable()) {
+			throw new IllegalArgumentException("Chap cannot phase through walls");
 		}
+		if(Level.hasObject(xPos + dx, yPos + dy)){
+			CollisionCheck(xPos + dx, yPos + dy);
+		}
+		lastYPos = yPos;
+		xPos += dx;
+		yPos += dy;
+		x += (dx * 24);
+		y += (dy * 24);
 	}
 	
 	public void moveUp(){
@@ -194,6 +241,10 @@ public class Chap {
 			if(direction != Direction.RIGHT)
 				direction = Direction.RIGHT;
 		}
+	}
+
+	public void CollisionCheck(int x, int y){
+		Level.getObject(x, y).onCollision(this);
 	}
 	
 	public String toString(){

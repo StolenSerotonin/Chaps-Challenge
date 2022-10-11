@@ -10,9 +10,9 @@ public class ExitLock extends SolidObject{
 		initialize();
 	}
 	
-	public void onCollision(Chap c, Level l){
+	public void onCollision(Chap c){
 		if(getCollided()){}
-		else if(c.getChips() >= l.getChipsRequired()){
+		else if(c.getChips() >= Level.getChipsRequired()){
 			setImg(Images.Floor);
 			setCollided(true);
 		}
