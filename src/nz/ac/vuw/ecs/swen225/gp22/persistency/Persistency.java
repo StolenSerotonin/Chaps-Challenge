@@ -18,8 +18,8 @@ public class Persistency {
 
     private static int ROWS = 21;
     private static int COLUMNS = 21;
-    private static int chapStartX = 2;
-    private static int chapStartY = 3;
+    private static int chapStartX = 10;
+    private static int chapStartY = 9;
     /**
      * This is used to create a level object. A level object will store the positions 
      * of the tiles and objects on the board.
@@ -32,19 +32,22 @@ public class Persistency {
     public static Level loadBoard(String file) throws JDOMException, IOException{
         //Stores the location of all levels 
         String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
+        //String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
         
         //Setting up the variables
         SAXBuilder sax = new SAXBuilder();
         Document doc = sax.build(new File(levelDirectory + file));
         Element rootElement = doc.getRootElement();
         int chipsRequired = 0;
-        if(file.contains("1")){chipsRequired = 3;}
+        if(file.contains("1")){chipsRequired = 10;}
         else{chipsRequired = 4;}
         Level newLevel = new Level(COLUMNS,ROWS,chapStartX,chapStartY,chipsRequired);
         
         //Storing all the rows within the level tag in a list
         List<Element> rowsList = rootElement.getChildren("row");
         Element infoFieldString =  rootElement.getChild("message");
+        List<Element> inventoryList = rootElement.getChildren("inventory");
+        
         //Iterating through all the rows in the list
         for(int y = 0; y < ROWS; y++){
             //Grab the a row from the list and grab all the tile tags embeded within
@@ -71,6 +74,11 @@ public class Persistency {
         
         return newLevel;
     }
+    
+    
+    public static void makeInventory(List<Element> invenList) {
+    	
+    }
 
     /**
      * This is used to generate a level file to store the recent
@@ -88,15 +96,16 @@ public class Persistency {
         String infoText = "";
         for(int y = 0; y < ROWS; y++){
             Element row = new Element("row");
-            for(int x = 0; x < COLUMNS; x++){
-                
+            for(int x = 0; x < COLUMNS; x++) {
                 if(l.getObject(x, y) != null){
-                    row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
+                	System.out.println(l.getObject(x, y));
+                    row.addContent(new Element("tile").setText(l.getObject(x, y).toString()));
                 }
                 else{
-                    row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
-                    if(l.getTile(y, x) instanceof InfoTile){
-                        infoText = ((InfoTile) l.getTile(y, x)).getInfo();
+                	System.out.println(l.getTile(x, y));
+                    row.addContent(new Element("tile").setText(l.getTile(x, y).toString()));
+                    if(l.getTile(x, y) instanceof InfoTile){
+                        infoText = ((InfoTile) l.getTile(x, y)).getInfo();
                     }
                 }
             }
