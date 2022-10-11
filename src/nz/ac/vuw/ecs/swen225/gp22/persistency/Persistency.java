@@ -43,14 +43,13 @@ public class Persistency {
         Level newLevel = new Level(COLUMNS,ROWS,chapStartX,chapStartY,chipsRequired);
         
         //Storing all the rows within the level tag in a list
-        List<Element> rowsList = rootElement.getChildren();
-        
+        List<Element> rowsList = rootElement.getChildren("row");
+        Element infoFieldString =  rootElement.getChild("message");
         //Iterating through all the rows in the list
         for(int y = 0; y < ROWS; y++){
             //Grab the a row from the list and grab all the tile tags embeded within
             Element row = rowsList.get(y);
             List<Element> tiles = row.getChildren("tile");
-            Element infoFieldString = row.getChild("message");
             for(int x = 0; x < COLUMNS; x++){
                 //Check whether the object to be created is of type Tile or of SolidObject
                 String tileText = tiles.get(x).getText();
@@ -69,8 +68,10 @@ public class Persistency {
                 }
             }
         }
+        
         return newLevel;
     }
+
     /**
      * This is used to generate a level file to store the recent
      * 
@@ -84,24 +85,24 @@ public class Persistency {
         Document document = new Document();
         document.setRootElement(new Element("level"));
         Element rootElement = document.getRootElement();
-
+        String infoText = "";
         for(int y = 0; y < ROWS; y++){
             Element row = new Element("row");
             for(int x = 0; x < COLUMNS; x++){
+                
                 if(l.getObject(x, y) != null){
                     row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
                 }
                 else{
-                    if(l.getTile(x, y) instanceof InfoTile){
-                        row.addContent(new Element("tile").setText(l.getTile(y, x).toString()).addContent(new Element("message").setText("SOme STRING")));
-                    }
-                    else{
-                        row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
+                    row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
+                    if(l.getTile(y, x) instanceof InfoTile){
+                        infoText = ((InfoTile) l.getTile(y, x)).getInfo();
                     }
                 }
             }
             rootElement.addContent(row);
         }
+        rootElement.addContent(new Element("message").setText(infoText));
         try {xmlOutputter.output(document, fileOutputStream);}
         catch (Exception e){e.printStackTrace();}
     }
@@ -127,6 +128,7 @@ public class Persistency {
                 break;
             case "infoField":
                 tileObject = new InfoTile(yPos, xPos, tilElement.getText());
+                System.out.println(tilElement.getText());
                 break;
             default://Code for debugging
                 System.out.println("Error Constructing Tile: " + tile + " at " + "X: " + xPos + " Y: " + yPos);

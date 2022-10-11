@@ -8,6 +8,24 @@
     greenDoor, blueDoor, yellowDoor, redDoor, greenKey, blueKey, yellowKey, redKey. 
 -->
 <level>
+    <inventory>
+        <key>
+            <name>yellowKey</name>
+            <count>0</count>
+        </key>
+        <key>
+            <name>blueKey</name>
+            <count>0</count>
+        </key>
+        <key>
+            <name>redKey</name>
+            <count>0</count>
+        </key>
+        <key>
+            <name>greenKey</name>
+            <count>0</count>
+        </key>
+    </inventory>
     <row>
         <tile>floor</tile>
         <tile>floor</tile>
@@ -204,7 +222,6 @@
         <tile>blueKey</tile>
         <tile>floor</tile>
         <tile>infoField</tile>
-            <message>Collect all the chips to get past the barrier!</message>
         <tile>floor</tile>
         <tile>redKey</tile>
         <tile>wall</tile>
@@ -492,4 +509,7 @@
         <tile>floor</tile>
         <tile>floor</tile>
     </row>
+
+    <message>Collect all the chips to get past the barrier!</message>
+
 </level>
