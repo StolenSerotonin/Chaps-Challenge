@@ -5,17 +5,17 @@ import java.util.Iterator;
 
 public class Level implements Iterable<Point>{
 	private static Tile[][] tiles;
-	private SolidObject[][] objects;
+	private static SolidObject[][] objects;
 	private Point startingPosition;
 	private Point chapPosition;
-	private int chipsRequired;
+	private static int chipsRequired;
 	private int timer;
 	
 	public Level(int xDimension, int yDimension, int startX, int startY, int chipsRequired){
 		tiles = new Tile[xDimension][yDimension];
 		objects = new SolidObject[xDimension][yDimension];
 		startingPosition = new Point(startX, startY);
-		this.chipsRequired = chipsRequired;
+		Level.chipsRequired = chipsRequired;
 	}
 	
 	public Level(int xDimension, int yDimension, int chipsRequired){
@@ -23,7 +23,7 @@ public class Level implements Iterable<Point>{
 		objects = new SolidObject[xDimension][yDimension];
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
-		this.chipsRequired = chipsRequired;
+		Level.chipsRequired = chipsRequired;
 	}
 	
 	public Level(int chipsRequired){
@@ -31,7 +31,7 @@ public class Level implements Iterable<Point>{
 		objects = new SolidObject[25][25];
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
-		this.chipsRequired = chipsRequired;
+		Level.chipsRequired = chipsRequired;
 	}
 	
 	public Level(){
@@ -58,7 +58,7 @@ public class Level implements Iterable<Point>{
 		return tiles[(int)p.getX()][(int)p.getY()];
 	}
 	
-	public SolidObject getObject(int x, int y){
+	public static SolidObject getObject(int x, int y){
 		return objects[x][y];
 	}
 		
@@ -103,11 +103,11 @@ public class Level implements Iterable<Point>{
 		return chapPosition;
 	}
 	
-	public int getChipsRequired(){
+	public static int getChipsRequired(){
 		return chipsRequired;
 	}
 	public void setChipsRequired(int chipsRequired){
-		this.chipsRequired = chipsRequired;
+		Level.chipsRequired = chipsRequired;
 	}
 
 	public int getTimer(){
