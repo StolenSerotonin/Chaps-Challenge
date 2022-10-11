@@ -718,7 +718,7 @@ public class GUI extends JPanel implements Runnable {
         //remove timer and restart it
         if (timer != null) {
             timer.stop();
-            time = 5;
+            time = 60;
         }
     }
 
