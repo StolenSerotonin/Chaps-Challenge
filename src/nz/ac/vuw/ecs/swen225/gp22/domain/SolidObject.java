@@ -2,7 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
-public abstract class SolidObject {
+public abstract class SolidObject{
 	private int x, y, xPos, yPos;
 	private Images img;
 	private boolean collided; // Has the object collided with Chip or been altered in some way?
@@ -61,7 +61,7 @@ public abstract class SolidObject {
 		this.img = img;
 	}
 	
-	public abstract void onCollision(Chap c, Level l);
+	public abstract void onCollision(Chap c);
 	
 	public abstract void initialize();
 
