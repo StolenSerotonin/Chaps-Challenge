@@ -55,7 +55,6 @@ public class RenderMazePanel extends JPanel{
         Stream.of(Images.values()).forEach(img -> img.loadImg(img.getName())); //Stream through all of the images and load them
     }
 
-
     /**
      * Paint the maze to the screen using the graphics object and the tile and tileObject arrays
      * 
@@ -64,10 +63,8 @@ public class RenderMazePanel extends JPanel{
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g); //Call the super class paintComponent method
-        // System.out.println("painting");
         Graphics2D g2d = (Graphics2D) g; //Cast the graphics object to a Graphics2d object
         // g.drawImage(Images.BG.getImg(), 0, 0, 800, screenHeight, null);
-        
         tiles = level.getTiles(); 
         tileObjects = level.getObjects(); 
         worldX = GUI.chap.getX();
@@ -84,6 +81,7 @@ public class RenderMazePanel extends JPanel{
                 int sX = wX - worldX + screenX;
                 int sY = wY - worldY + screenY; 
 
+                //Draw only if in view
                 if(wX + (tileSize*2) > worldX - screenX && 
                     wX - (tileSize) < worldX + screenX && 
                     wY + (tileSize*2)> worldY - screenX && 

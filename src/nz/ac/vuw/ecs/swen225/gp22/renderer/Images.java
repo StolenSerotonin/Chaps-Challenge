@@ -35,7 +35,7 @@ public enum Images {
 
     InfoTile("info"),
 
-    SideBar("sidebar"), 
+    SideBar("sidebar"),
     ;
     
     private BufferedImage img;
