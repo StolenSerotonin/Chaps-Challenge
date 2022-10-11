@@ -29,6 +29,9 @@ public KeyInput(GUI guiPanel) {
             keyResumeState(keyCode);
         }else if(guiPanel.gameState == guiPanel.gameOverState){
             keyGameOverState(keyCode);
+        }else if (guiPanel.gameLevel == guiPanel.replay && guiPanel.gameState == guiPanel.pauseState){
+            keyReplayState(keyCode);
+            keyResumeState(keyCode);
         }
     }
 
@@ -81,6 +84,14 @@ public KeyInput(GUI guiPanel) {
         }
     }
 
+    public void keyReplayState(int keyCode){
+        if(keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_SPACE){
+            System.out.println("REPLAYING");
+            //setupReplay
+
+        }
+    }
+
     public void keyPlayState(int keyCode){
         if(keyCode == KeyEvent.VK_UP) {
             up = 1;
@@ -128,6 +139,7 @@ public KeyInput(GUI guiPanel) {
         if(key == KeyEvent.VK_LEFT) {
             //move left
             left = 0;
+            
         }
         if(key == KeyEvent.VK_RIGHT) {
             //move right
