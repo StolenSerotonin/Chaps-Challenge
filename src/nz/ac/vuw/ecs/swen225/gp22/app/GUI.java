@@ -2,6 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 // import java.io.File;
 import java.io.FileNotFoundException;
 // import java.io.IOException;
@@ -17,6 +18,7 @@ import javax.swing.Timer;
 // import javax.swing.AbstractAction;
 // import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -652,6 +654,8 @@ public class GUI extends JPanel implements Runnable {
     private JMenu recordGame;
     private JMenu replayGame;
 
+    private JFileChooser fileChooser;
+
     // private ArrayList<JButton> allButtons = new ArrayList<>();
 
     Thread threadGame;
@@ -700,6 +704,7 @@ public class GUI extends JPanel implements Runnable {
         labels.forEach(l -> panel.add(l));
         this.setVisible(true);
         this.add(panel, BorderLayout.CENTER);
+        
     }
 
     /**
@@ -709,24 +714,31 @@ public class GUI extends JPanel implements Runnable {
         Main.gui.removeAll();
         Main.gui.revalidate();
         Main.gui.repaint();
+
+        //remove timer and restart it
+        if (timer != null) {
+            timer.stop();
+            time = 5;
+        }
     }
 
     /**
-     * This method run is used to run the game multiple times constantly checking and updating the game
+     * This method run is used to run the game multiple times constantly checking
+     * and updating the game
      */
     @Override
     public void run() {
-        long timer = 0; //timer for the game
-        long prevTime = System.nanoTime(); //previous time
-        long currTime; //current time
-        long elapseTime; //time elapsed
-        double intDraw = 1000000000 / 20; //interval to draw
-        double d = 0; //delta
+        long timer = 0; // timer for the game
+        long prevTime = System.nanoTime(); // previous time
+        long currTime; // current time
+        long elapseTime; // time elapsed
+        double intDraw = 1000000000 / 15; // interval to draw
+        double d = 0; // delta
 
         while (threadGame != null) {
 
             currTime = System.nanoTime();
-            elapseTime = currTime - prevTime; //time elapsed
+            elapseTime = currTime - prevTime; // time elapsed
             d += elapseTime / intDraw;
             timer += elapseTime;
             prevTime = currTime;
@@ -746,21 +758,67 @@ public class GUI extends JPanel implements Runnable {
      * This method is used to update base on the level of the game
      */
     public void setUpLevel() {
-        clearPanel(); //clear the panel
+        clearPanel(); // clear the panel
         System.out.println("SetUpLevel");
-        if (gameState == playState) { //if the game is in play state
-            System.out.println("Game State");
-            if (gameLevel == level1 || gameLevel == level2) { //if the game level is level 1 or level 2
-                System.out.println("Loading Levels");
-                addButtons(); //add buttons
-                addMenu(); //add menu
-                loadLv1Timer(); //load level 1 timer
-                if (gameLevel == level1) { //if the game level is level 1
+        if (gameState == playState) { // if the game is in play state
+            System.out.println("Game State: "+gameState);
+            addButtons(); // add buttons
+            addMenu(); // add menu
+                if (gameLevel == level1) { // if the game level is level 1
                     System.out.println("LOADED LEVEL 1");
+                    loadLv1Timer();
+                }else if(gameLevel == level2){ // if the game level is level 2
+                    System.out.println("LOADED LEVEL 2");
+                    loadLv1Timer();
                 }
-            }
         }
     }
+    
+    public void setUpGameOver(){
+        clearPanel();
+        System.out.println("Game Over");
+        if(gameState == gameOverState){
+            System.out.println("gameover");
+            JPanel panel = new JPanel();
+        panel.setLocation(200, 200);
+        panel.setSize(new Dimension(600, 450));
+        panel.setBackground(new Color(69, 58, 47));
+        JLabel title1 = new JLabel("<html><p><br/><br/>NICE COCK<p/></html>", SwingConstants.CENTER); //
+        JLabel title2 = new JLabel("<html><p>GOOD SIZE<p/></html>", SwingConstants.CENTER);
+        JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Retry...<p/></html>",
+                SwingConstants.CENTER);
+        ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
+        labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
+        startText.setFont(new Font("Verdana", 1, 30));
+        labels.add(startText);
+        labels.forEach(l -> l.setForeground(new Color(196, 180, 133)));
+        labels.forEach(l -> panel.add(l));
+        this.setVisible(true);
+        this.add(panel, BorderLayout.CENTER);
+        }
+    }
+
+    public void setUpMenu(){
+        clearPanel();
+        this.setBackground(new Color(69, 58, 47));
+        JPanel panel = new JPanel();
+        panel.setLocation(200, 200);
+        panel.setSize(new Dimension(600, 450));
+        panel.setBackground(new Color(69, 58, 47));
+        JLabel title1 = new JLabel("<html><p><br/><br/>Welcome to<p/></html>", SwingConstants.CENTER); //
+        JLabel title2 = new JLabel("<html><p>Chap's Challenge<p/></html>", SwingConstants.CENTER);
+        JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Play...<p/></html>",
+                SwingConstants.CENTER);
+        ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
+        labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
+        startText.setFont(new Font("Verdana", 1, 30));
+        labels.add(startText);
+        labels.forEach(l -> l.setForeground(new Color(196, 180, 133)));
+        labels.forEach(l -> panel.add(l));
+        this.setVisible(true);
+        this.add(panel, BorderLayout.CENTER);
+    }
+
 
     /**
      * This method is used to update the game
@@ -768,48 +826,46 @@ public class GUI extends JPanel implements Runnable {
     public void updateGame() {
         if (gameState == playState) {
             // if (chap != null) {
-            moveChap(); //move chap
+            moveChap(); // move chap
             if (renderMazePanel != null) {
                 // System.out.println("repainting");
                 // renderMazePanel.paintComponent(this.getGraphics());
                 // renderMazePanel.repaint();
             }
-            // }
         } else if (gameState == pauseState) {
-            // System.out.println("Game State is pause");
-            timer.stop(); //stop timer
+            timer.stop(); // stop timer
         } else if (gameState == gameOverState) {
             // System.out.println("Game State is gameOverState");
         }
     }
 
-
     /**
-     * This method is used to move the chap base on the input of player and records movement
+     * This method is used to move the chap base on the input of player and records
+     * movement
      */
     public void moveChap() {
-        if (keyIn.up == 1) { //up
+        if (keyIn.up == 1) { // up
             System.out.println("chap up");
             // chap.moveUp();
-            if (isRecording == true) { //record movement
-                Recorder.chapMove(Direction.UP); //record right
+            if (isRecording == true) { // record movement
+                Recorder.chapMove(Direction.UP); // record right
             }
-        } else if (keyIn.down == 1) { //down
+        } else if (keyIn.down == 1) { // down
             System.out.println("chap down");
             // chap.moveDown();
-            if (isRecording) { //record movement
-                Recorder.chapMove(Direction.DOWN); //record down
+            if (isRecording) { // record movement
+                Recorder.chapMove(Direction.DOWN); // record down
             }
-        } else if (keyIn.left == 1) { //left
+        } else if (keyIn.left == 1) { // left
             System.out.println("chap left");
             // chap.moveLeft();
-            if (isRecording) { //record movement
-                Recorder.chapMove(Direction.LEFT); //record left
+            if (isRecording) { // record movement
+                Recorder.chapMove(Direction.LEFT); // record left
             }
-        } else if (keyIn.right == 1) { //right
+        } else if (keyIn.right == 1) { // right
             System.out.println("chap right");
-            if (isRecording) { //record movement
-                Recorder.chapMove(Direction.RIGHT); //record right
+            if (isRecording) { // record movement
+                Recorder.chapMove(Direction.RIGHT); // record right
             }
         }
     }
@@ -818,35 +874,36 @@ public class GUI extends JPanel implements Runnable {
      * This method is used to add the buttons to the game
      */
     public void addButtons() {
-        var buttonPanel = new JPanel(); //panel for buttons
-        buttonPanel.setFocusable(false); //set focusable to false
-        buttonPanel.setLayout(new GridLayout(1, 4)); //set layout to grid layout
-        buttonPanel.setBackground(new Color(0, 110, 51)); //set background color
-        buttons.addAll(Arrays.asList(pauseButton, saveButton, loadButton, exitButton)); //add buttons to arraylist
+        var buttonPanel = new JPanel(); // panel for buttons
+        buttonPanel.setFocusable(false); // set focusable to false
+        buttonPanel.setLayout(new GridLayout(1, 4)); // set layout to grid layout
+        buttonPanel.setBackground(new Color(0, 110, 51)); // set background color
+        buttons.addAll(Arrays.asList(pauseButton, saveButton, loadButton, exitButton)); // add buttons to arraylist
         for (JButton jb : buttons) {
-            buttonPanel.add(jb); //add buttons to panel
+            buttonPanel.add(jb); // add buttons to panel
             jb.setFocusable(false);
             jb.setFocusCycleRoot(false);
             jb.addActionListener(e -> {
                 if (jb.getText().equals("Pause") || jb.getText().equals("Resume")) {// if pause pressed or resumed
-                    isPaused = !(isPaused); //change pause state
-                    gameState = isPaused ? pauseState : playState; //change game state
-                    if (isPaused) { //if paused
-                        jb.setText("Resume"); //change text to resume
-                        timer.stop(); //stop timer
+                    isPaused = !(isPaused); // change pause state
+                    gameState = isPaused ? pauseState : playState; // change game state
+                    if (isPaused) { // if paused
+                        jb.setText("Resume"); // change text to resume
+                        timer.stop(); // stop timer
                     } else {
-                        jb.setText("Pause"); //change text to pause
-                        timer.start(); //start timer
+                        jb.setText("Pause"); // change text to pause
+                        timer.start(); // start timer
                     }
-                } else if (jb.getText().equals("Save")) { //if save pressed
-                    if (isRecording) { //if recording
+                } else if (jb.getText().equals("Save")) { // if save pressed
+                    if (isRecording) { // if recording
                         save();
-                    } else { //if not recording
+                    } else { // if not recording
                         JOptionPane.showMessageDialog(null, "You must be recording to save");
                     }
                 } else if (jb.getText().equals("Load")) {
-                } else if (jb.getText().equals("Exit")) { //if exit pressed
-                    exitQ(); //exit game popup
+                    load();
+                } else if (jb.getText().equals("Exit")) { // if exit pressed
+                    exitQ(); // exit game popup
                 }
             });
             add(buttonPanel, BorderLayout.SOUTH);
@@ -857,33 +914,33 @@ public class GUI extends JPanel implements Runnable {
      * This method is used to add the menu to the game
      */
     public void addMenu() {
-        menuBar = new JMenuBar(); //menu bar
-        var Game = new JMenu("Game"); //game menu
-        var Options = new JMenu("Options"); //options menu
-        var Level = new JMenu("Level"); //level menu
-        var Help = new JMenu("Help");//help menu
-        menuBar.add(Game); //add game menu to menu bar
-        menuBar.add(Options); //add options menu to menu bar
-        menuBar.add(Level); //add level menu to menu bar
-        menuBar.add(Help); //add help menu to menu bar
+        menuBar = new JMenuBar(); // menu bar
+        var Game = new JMenu("Game"); // game menu
+        var Options = new JMenu("Options"); // options menu
+        var Level = new JMenu("Level"); // level menu
+        var Help = new JMenu("Help");// help menu
+        menuBar.add(Game); // add game menu to menu bar
+        menuBar.add(Options); // add options menu to menu bar
+        menuBar.add(Level); // add level menu to menu bar
+        menuBar.add(Help); // add help menu to menu bar
 
-        recordGame = new JMenu("Record Game"); //record game menu
-        replayGame = new JMenu("Replay Game"); //replay game menu
-        exitItem = new JMenuItem(); //exit menu item
-        saveItem = new JMenuItem(); //save menu item
-        rulesItem = new JMenuItem(); //rules menu item
-        loadItem = new JMenuItem(); //load menu item
-        lvl1 = new JMenuItem(); //levels menu item
+        recordGame = new JMenu("Record Game"); // record game menu
+        replayGame = new JMenu("Replay Game"); // replay game menu
+        exitItem = new JMenuItem(); // exit menu item
+        saveItem = new JMenuItem(); // save menu item
+        rulesItem = new JMenuItem(); // rules menu item
+        loadItem = new JMenuItem(); // load menu item
+        lvl1 = new JMenuItem(); // levels menu item
         lvl2 = new JMenuItem();
-        replaySpeedx125 = new JMenuItem("x1.25"); //replay speed menu item
+        replaySpeedx125 = new JMenuItem("x1.25"); // replay speed menu item
         replaySpeedx150 = new JMenuItem("x1.5");
         replaySpeedx200 = new JMenuItem("x2");
-        startRecording = new JMenuItem("Start Recording"); //start and stop recording menu item
+        startRecording = new JMenuItem("Start Recording"); // start and stop recording menu item
         stopRecording = new JMenuItem("Stop Recording");
-        startRecording.addActionListener(e -> startRecording()); //start and stop recording
+        startRecording.addActionListener(e -> startRecording()); // start and stop recording
         stopRecording.addActionListener(e -> stopRecording());
 
-        //populate the menu items and key bindings
+        // populate the menu items and key bindings
         populateMenuItems(saveItem, "Save", KeyEvent.VK_S,
                 InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(exitItem, "Exit", KeyEvent.VK_X,
@@ -897,7 +954,7 @@ public class GUI extends JPanel implements Runnable {
         populateMenuItems(lvl2, "Load Level 2", KeyEvent.VK_2,
                 InputEvent.CTRL_DOWN_MASK);
 
-        //add menu items to menu
+        // add menu items to menu
         recordGame.add(startRecording);
         recordGame.add(stopRecording);
         replayGame.add(replaySpeedx125);
@@ -911,7 +968,7 @@ public class GUI extends JPanel implements Runnable {
         Help.add(rulesItem);
         Level.add(lvl1);
         Level.add(lvl2);
-        add(menuBar, BorderLayout.NORTH); //add menu bar to gui
+        add(menuBar, BorderLayout.NORTH); // add menu bar to gui
     }
 
     /**
@@ -931,31 +988,34 @@ public class GUI extends JPanel implements Runnable {
     /**
      * This method is used to populate the menu items
      *
-     * @param item the menu item
-     * @param title the text of the menu item
-     * @param keyEvent  the key of the menu item
+     * @param item       the menu item
+     * @param title      the text of the menu item
+     * @param keyEvent   the key of the menu item
      * @param inputEvent the mask of the menu item
      */
     public void populateMenuItems(JMenuItem item, String title, int keyEvent, int inputEvent) {
-        item.setText(title); //set text
-        item.setAccelerator(KeyStroke.getKeyStroke(keyEvent, inputEvent)); //set key binding
+        item.setText(title); // set text
+        item.setAccelerator(KeyStroke.getKeyStroke(keyEvent, inputEvent)); // set key binding
         item.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent arg0) {
                 // TODO Auto-generated method stub
-                if (item.getText().equals("Exit")) { //if exit shortcut pressed
+                if (item.getText().equals("Exit")) { // if exit shortcut pressed
                     exitQ();
-                } else if (item.getText().equals("Save")) { //if save shortcut pressed
-                    if (isRecording) { //if recording
-                        save(); //save
-                    } else { //if not recording
+                } else if (item.getText().equals("Save")) { // if save shortcut pressed
+                    if (isRecording) { // if recording
+                        save(); // save
+                    } else { // if not recording
                         JOptionPane.showMessageDialog(null, "You must be recording to save");
                     }
                 } else if (item.getText().equals("Rules")) {
                 } else if (item.getText().equals("Load")) {
+                    load();
                 } else if (item.getText().equals("Load Level 1")) {
-                    if (gameLevel == 1 || gameLevel == 2) {
+                    if (gameLevel == level1 || gameLevel == level2) {
                         // reset game
+                        gameLevel = level1;
+                        setUpLevel();
                     }
                 } else if (item.getText().equals("Load Level 2")) {
                     // should be in level 2
@@ -971,15 +1031,15 @@ public class GUI extends JPanel implements Runnable {
      * This method is used to show a popup when the user tries to exit the game
      */
     public void exitQ() {
-        gameState = pauseState; //pause game
+        gameState = pauseState; // pause game
         System.out.println("exit");
         int exit = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit",
                 JOptionPane.YES_NO_OPTION);
-        if (exit == JOptionPane.YES_OPTION) { //if yes
-            System.exit(0); //exit game
-        }else{
-            gameState = playState; //if no change game state to playState
-            timer.start(); //start timer
+        if (exit == JOptionPane.YES_OPTION) { // if yes
+            System.exit(0); // exit game
+        } else {
+            gameState = playState; // if no change game state to playState
+            timer.start(); // start timer
         }
     }
 
@@ -987,9 +1047,9 @@ public class GUI extends JPanel implements Runnable {
      * This method is used to save the game
      */
     public void save() {
-        if (isRecording) { //if recording
+        if (isRecording) { // if recording
             try {
-                Recorder.saveRecording(); //save recording
+                Recorder.saveRecording(); // save recording
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -1004,20 +1064,38 @@ public class GUI extends JPanel implements Runnable {
      * This method is used to set up timer
      */
     public void loadLv1Timer() {
-        timer = new Timer(1000, new ActionListener() { //populate timer
+        timer = new Timer(1000, new ActionListener() { // populate timer
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) { 
-                if (time > 0) { //if time is greater than 0
-                    time--; //decrement time
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (time > 0) { // if time is greater than 0
+                    time--; // decrement time
                     // format lv1Time to display as mm:ss
                     String timeDString = String.format("%02d:%02d", time / 60, time % 60);
                     System.out.print("\r " + timeDString);
                 } else {
-                    timer.stop(); //stop timer so that there is no leak
-                    JOptionPane.showMessageDialog(null, "Time's Up!"); //show popup
+                    timer.stop(); // stop timer so that there is no leak
+                    JOptionPane.showMessageDialog(null, "Time's Up!"); // show popup
+                    gameState = gameOverState; // change game state to game over
+                    setUpGameOver();
                 }
             }
         });
-        timer.start();//start timer
+        timer.start();// start timer
     }
+
+    public File load() {
+        System.out.println("Game Loaded");
+        fileChooser = new JFileChooser(".");
+        int res = fileChooser.showOpenDialog(this);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        }
+        return null;
+    }
+
+    // //method that deletes current time and replaces it with new time
+    // public void updateTimer(int time) {
+    //     this.timer.stop();
+    //     this.time = time;
+    // }
 }

@@ -27,6 +27,8 @@ public KeyInput(GUI guiPanel) {
             keyPlayState(keyCode);
         }else if(guiPanel.gameState == guiPanel.pauseState && guiPanel.isPaused ==true){
             keyResumeState(keyCode);
+        }else if(guiPanel.gameState == guiPanel.gameOverState){
+            keyGameOverState(keyCode);
         }
     }
 
@@ -46,6 +48,36 @@ public KeyInput(GUI guiPanel) {
             guiPanel.gameLevel = guiPanel.level1;
             guiPanel.setUpLevel();
             guiPanel.timer.start();
+        }
+    }
+    public void keyGameOverState(int keyCode){
+        if(keyCode == KeyEvent.VK_ENTER){
+            System.out.println("RETRY Level");
+            guiPanel.gameState = guiPanel.playState;
+            if(guiPanel.gameLevel == guiPanel.level1) guiPanel.gameLevel = guiPanel.level1;
+            else if(guiPanel.gameLevel == guiPanel.level2) guiPanel.gameLevel = guiPanel.level2;
+            guiPanel.setUpLevel();
+        }
+        else if(keyCode == KeyEvent.VK_1){
+            System.out.println("RETRY Level 1");
+            guiPanel.gameState = guiPanel.playState;
+            guiPanel.gameLevel = guiPanel.level1;
+            guiPanel.setUpLevel();
+        }
+        else if(keyCode == KeyEvent.VK_2){
+            System.out.println("RETRY Level 2");
+            guiPanel.gameState = guiPanel.playState;
+            guiPanel.gameLevel = guiPanel.level2;
+            guiPanel.setUpLevel();
+        }
+        else if(keyCode == KeyEvent.VK_ESCAPE){
+            System.out.println("EXIT GAME");
+            System.exit(0);
+        }
+        else if(keyCode == KeyEvent.VK_M){
+            System.out.println("RETURN TO MENU");
+            guiPanel.gameState = guiPanel.menuState;
+            guiPanel.setUpMenu();
         }
     }
 
