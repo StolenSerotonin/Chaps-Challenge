@@ -1,5 +1,8 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Chap{
 	private int chips;
 	private int x, y, xPos, yPos; 
@@ -111,9 +114,9 @@ public class Chap{
 	 * Chap collects a Computer Chip
 	 */
 	public void obtainChip(){
-		if(!(level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
-			throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
-		}
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
+		//	throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
+		//}
 		int uncollectedChips = level.getChipsRequired() - getChips(); 
 		chips++;
 		int uncollectedChips2 = level.getChipsRequired() - getChips();
@@ -129,38 +132,46 @@ public class Chap{
 	 * Collection of methods for when Chap collects a key
 	 */
 	public void getRedKey(){
-		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
-			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		}
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		//}
 		int count = level.getKey("red");
-		level.putKey("red", count + 1);
+		Map<String, Integer> temp = new HashMap<String, Integer>(level.getInv());
+		temp.put("red", count + 1);
+		level.setInv(temp);
 		int count2 = level.getKey("red");
 		assert count2 == count + 1;
 	}
 	public void getBlueKey(){
-		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
-			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		}
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		//}
 		int count = level.getKey("blue");
-		level.putKey("blue", count + 1);
+		Map<String, Integer> temp = level.getInv();
+		temp.put("blue", count + 1);
+		level.setInv(temp);
 		int count2 = level.getKey("blue");
 		assert count2 == count + 1;
 	}
 	public void getYellowKey(){
-		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
-			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		}
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		//}
 		int count = level.getKey("yellow");
-		level.putKey("yellow", count + 1);
+		Map<String, Integer> temp = level.getInv();
+		temp.put("yellow", count + 1);
+		level.setInv(temp);
 		int count2 = level.getKey("yellow");
 		assert count2 == count + 1;
 	}
 	public void getGreenKey(){
-		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
-			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		}
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		//}
 		int count = level.getKey("green");
-		level.putKey("green", count + 1);
+		Map<String, Integer> temp = level.getInv();
+		temp.put("green", count + 1);
+		level.setInv(temp);
 		int count2 = level.getKey("green");
 		assert count2 == count + 1;
 	}

@@ -57,17 +57,19 @@ public class Persistency {
                 //Check whether the object to be created is of type Tile or of SolidObject
                 String tileText = tiles.get(x).getText();
                 if(tileText.contains("chap")){
-                    newLevel.setTile(x, y, new FloorTile(x, y));
-                    newLevel.setStartingPosition(x, y);
+                    newLevel.setTile(y, x, new FloorTile(y, x));
+                    newLevel.setStartingPosition(y, x);
+                    //TODO Remove below line
+                    //newLevel.setStartingPosition(0, 0);
                 }
                 else if(tileText.contains("wall") || tileText.contains("floor") || 
                 tileText.contains("infoField") || (tileText.contains("exit") &&
                 !tileText.contains("exitLock"))){
-                    newLevel.setTile(x, y, getTile(tileText, x, y, infoFieldString));
+                    newLevel.setTile(y, x, getTile(tileText, y, x, infoFieldString));
                 }
                 else{
-                    newLevel.setTile(x, y, new FloorTile(x, y));
-                    newLevel.setObject(x, y, getSolidObject(tileText,x, y, infoFieldString));
+                    newLevel.setTile(y, x, new FloorTile(y, x));
+                    newLevel.setObject(y, x, getSolidObject(tileText,x, y, infoFieldString));
                 }
             }
         }
@@ -97,15 +99,15 @@ public class Persistency {
         for(int y = 0; y < ROWS; y++){
             Element row = new Element("row");
             for(int x = 0; x < COLUMNS; x++) {
-                if(l.getObject(x, y) != null){
-                	System.out.println(l.getObject(x, y));
-                    row.addContent(new Element("tile").setText(l.getObject(x, y).toString()));
+                if(l.getObject(y, x) != null){
+                	System.out.println(l.getObject(y, x));
+                    row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
                 }
                 else{
-                	System.out.println(l.getTile(x, y));
-                    row.addContent(new Element("tile").setText(l.getTile(x, y).toString()));
-                    if(l.getTile(x, y) instanceof InfoTile){
-                        infoText = ((InfoTile) l.getTile(x, y)).getInfo();
+                	System.out.println(l.getTile(y, x));
+                    row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
+                    if(l.getTile(y, x) instanceof InfoTile){
+                        infoText = ((InfoTile) l.getTile(y, x)).getInfo();
                     }
                 }
             }

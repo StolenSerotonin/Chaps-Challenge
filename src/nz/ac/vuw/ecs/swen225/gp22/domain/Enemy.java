@@ -3,6 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 public class Enemy {
     private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
+	private int targetY1, targetY2, currentTarget;
 	private Direction direction; 
 	private Level level;
 
@@ -13,6 +14,9 @@ public class Enemy {
     public Enemy(int xPos, int yPos, Level level){
 		this.xPos = xPos;
 		this.yPos = yPos;
+		this.targetY1 = yPos + 2;
+		this.targetY2 = yPos - 2;
+		this.currentTarget = 1;
 		x = xPos * 24; //decided on 24 by carefull maths
 		y = yPos * 24;
 		direction = Direction.DOWN;
@@ -83,6 +87,12 @@ public class Enemy {
 		yPos += dy;
 		x += (dx * 24);
 		y += (dy * 24);
+		if(currentTarget == 1 && yPos == targetY1){
+			currentTarget = 2;
+		}
+		if(currentTarget == 2 && yPos == targetY2){
+			currentTarget = 1;
+		}
 	}
 	
 	public void moveUp(){
@@ -105,6 +115,18 @@ public class Enemy {
 			if(direction != Direction.RIGHT)
 				direction = Direction.RIGHT;
 		}
+
+	/*
+	 * Used to update ememy in GUI updateGame()
+	 */
+	public void updateEnemy(){
+		if(currentTarget == 1){
+			moveUp();
+		}
+		if(currentTarget == 2){
+			moveDown();
+		}
+	}
 
     /*
 	 * return string for enemy
