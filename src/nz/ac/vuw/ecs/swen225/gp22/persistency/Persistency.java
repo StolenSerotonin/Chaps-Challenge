@@ -7,19 +7,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
+import org.jdom2.output.XMLOutputter; 
 
 public class Persistency {
 
     private static int ROWS = 21;
     private static int COLUMNS = 21;
-    private static int chapStartX = 2;
-    private static int chapStartY = 3;
+    private static int chapStartX = 10;
+    private static int chapStartY = 9;
     /**
      * This is used to create a level object. A level object will store the positions 
      * of the tiles and objects on the board.
@@ -31,46 +33,65 @@ public class Persistency {
      */
     public static Level loadBoard(String file) throws JDOMException, IOException{
         //Stores the location of all levels 
-        String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
+        //String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
+        String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
         
         //Setting up the variables
         SAXBuilder sax = new SAXBuilder();
         Document doc = sax.build(new File(levelDirectory + file));
         Element rootElement = doc.getRootElement();
         int chipsRequired = 0;
-        if(file.contains("1")){chipsRequired = 3;}
+        if(file.contains("1")){chipsRequired = 10;}
         else{chipsRequired = 4;}
         Level newLevel = new Level(COLUMNS,ROWS,chapStartX,chapStartY,chipsRequired);
         
         //Storing all the rows within the level tag in a list
-        List<Element> rowsList = rootElement.getChildren();
-        
+        List<Element> rowsList = rootElement.getChildren("row");
+        Element infoFieldString =  rootElement.getChild("message");
+        Element inventory = rootElement.getChild("inventory");
+        newLevel.setInv(fromXMLInventory(inventory));
+
         //Iterating through all the rows in the list
         for(int y = 0; y < ROWS; y++){
             //Grab the a row from the list and grab all the tile tags embeded within
             Element row = rowsList.get(y);
             List<Element> tiles = row.getChildren("tile");
-            Element infoFieldString = row.getChild("message");
             for(int x = 0; x < COLUMNS; x++){
                 //Check whether the object to be created is of type Tile or of SolidObject
                 String tileText = tiles.get(x).getText();
                 if(tileText.contains("chap")){
-                    newLevel.setTile(x, y, new FloorTile(x, y));
+                    newLevel.setTile(y, x, new FloorTile(y, x));
                     newLevel.setStartingPosition(x, y);
                 }
                 else if(tileText.contains("wall") || tileText.contains("floor") || 
                 tileText.contains("infoField") || (tileText.contains("exit") &&
                 !tileText.contains("exitLock"))){
-                    newLevel.setTile(x, y, getTile(tileText, x, y, infoFieldString));
+                    newLevel.setTile(y, x, getTile(tileText, y, x, infoFieldString));
                 }
                 else{
-                    newLevel.setTile(x, y, new FloorTile(x, y));
-                    newLevel.setObject(x, y, getSolidObject(tileText,x, y, infoFieldString));
+                    newLevel.setTile(y, x, new FloorTile(y, x));
+                    newLevel.setObject(y, x, getSolidObject(tileText,x, y, infoFieldString));
                 }
             }
         }
         return newLevel;
     }
+
+    public static Map<String, Integer> fromXMLInventory(Element inveElement){
+        Map<String, Integer> map = new HashMap<>();
+        List<Element> keyList = inveElement.getChildren();
+        String keyName = "";
+        int keyCount = 0;
+        for(Element e: keyList){
+            keyName = e.getChildText("name");
+            keyCount = Integer.parseInt(e.getChildText("count"));
+            map.put(keyName, keyCount);
+        }
+        return map;
+    }
+
+
+    
     /**
      * This is used to generate a level file to store the recent
      * 
@@ -78,30 +99,42 @@ public class Persistency {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static void saveBoard(Level l) throws FileNotFoundException, IOException{
+    public static void saveBoard(Object level) throws FileNotFoundException, IOException{
+        assert level instanceof Level;
+        Level l = (Level) level;
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
         FileOutputStream fileOutputStream =new FileOutputStream("src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/file.xml");
         Document document = new Document();
         document.setRootElement(new Element("level"));
         Element rootElement = document.getRootElement();
-
+        String infoText = "";
         for(int y = 0; y < ROWS; y++){
             Element row = new Element("row");
-            for(int x = 0; x < COLUMNS; x++){
-                if(l.getObject(x, y) != null){
+            for(int x = 0; x < COLUMNS; x++) {
+                if(l.getObject(y, x) != null){
+                	System.out.println(l.getObject(y, x));
                     row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
                 }
                 else{
-                    if(l.getTile(x, y) instanceof InfoTile){
-                        row.addContent(new Element("tile").setText(l.getTile(y, x).toString()).addContent(new Element("message").setText("SOme STRING")));
-                    }
-                    else{
-                        row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
+                	System.out.println(l.getTile(y, x));
+                    row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
+                    if(l.getTile(y, x) instanceof InfoTile){
+                        infoText = ((InfoTile) l.getTile(y, x)).getInfo();
                     }
                 }
             }
             rootElement.addContent(row);
         }
+        rootElement.addContent(new Element("message").setText(infoText));
+        Element inventory = new Element("inventory");
+        rootElement.addContent(inventory);
+        for(Map.Entry<String, Integer> pair: l.getInv().entrySet()){
+            Element key = new Element("key");
+            key.addContent(new Element("name").setText(pair.getKey()));
+            key.addContent(new Element("count").setText(String.valueOf(pair.getValue())));
+            inventory.addContent(key);
+        }
+        System.out.print("Saved");
         try {xmlOutputter.output(document, fileOutputStream);}
         catch (Exception e){e.printStackTrace();}
     }
@@ -127,6 +160,7 @@ public class Persistency {
                 break;
             case "infoField":
                 tileObject = new InfoTile(yPos, xPos, tilElement.getText());
+                System.out.println(tilElement.getText());
                 break;
             default://Code for debugging
                 System.out.println("Error Constructing Tile: " + tile + " at " + "X: " + xPos + " Y: " + yPos);

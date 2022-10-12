@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.File;
 // import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 // import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import javax.swing.Timer;
 // import javax.swing.AbstractAction;
 // import javax.swing.Action;
 import javax.swing.JButton;
+
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -35,6 +37,7 @@ import javax.swing.SwingConstants;
 import org.jdom2.JDOMException;
 
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
 import nz.ac.vuw.ecs.swen225.gp22.recorder.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.*;
 // import nz.ac.vuw.ecs.swen225.gp22.persistency.*;
@@ -608,7 +611,6 @@ public class GUI extends JPanel implements Runnable {
     public final short menuState = 3;
     public final short gameOverState = 4;
     public final short infoState = 5;
-    public final short resumeState = 6;
 
     private boolean isRecording = false;
     public boolean isPaused = false;
@@ -620,6 +622,7 @@ public class GUI extends JPanel implements Runnable {
     public static Level l1;
     public static Renderer renderer;
     public static RenderMazePanel renderMazePanel = null;
+    public static Persistency persistency;
     public Timer timer;
 
     public int time = 60;
@@ -628,6 +631,7 @@ public class GUI extends JPanel implements Runnable {
     public short gameLevel;
     public short level1 = 1;
     public short level2 = 2;
+    public short replay = 3;
 
     // Menu Buttons
     public JButton startButton = new JButton("Start");
@@ -644,6 +648,7 @@ public class GUI extends JPanel implements Runnable {
     private JMenuItem loadItem;
     private JMenuItem lvl1;
     private JMenuItem lvl2;
+    private JMenuItem startR;
 
     private JMenuItem startRecording;
     private JMenuItem stopRecording;
@@ -653,6 +658,7 @@ public class GUI extends JPanel implements Runnable {
 
     private JMenu recordGame;
     private JMenu replayGame;
+    private JMenu mReplayGame;
 
     private JFileChooser fileChooser;
 
@@ -765,11 +771,25 @@ public class GUI extends JPanel implements Runnable {
             addButtons(); // add buttons
             addMenu(); // add menu
                 if (gameLevel == level1) { // if the game level is level 1
-                    System.out.println("LOADED LEVEL 1");
+                    System.out.println("LOADED LEVEL1");
                     loadLv1Timer();
+                        try {
+                            l1 = Persistency.loadBoard("level1.xml");
+                        } catch (JDOMException | IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    chap = new Chap(l1.getStartingX(), l1.getStartingY());
+                    renderMazePanel = new RenderMazePanel(l1);
+                    renderMazePanel.loadAllImages();
+                    renderMazePanel.paintComponent(getGraphics());
+                    add(renderMazePanel); 
                 }else if(gameLevel == level2){ // if the game level is level 2
                     System.out.println("LOADED LEVEL 2");
                     loadLv1Timer();
+                }else if(gameLevel == replay){ // if the game level is replay
+                    System.out.println("LOADED REPLAY");
+
                 }
         }
     }
@@ -826,11 +846,12 @@ public class GUI extends JPanel implements Runnable {
     public void updateGame() {
         if (gameState == playState) {
             // if (chap != null) {
-            moveChap(); // move chap
+        // move chap
             if (renderMazePanel != null) {
                 // System.out.println("repainting");
                 // renderMazePanel.paintComponent(this.getGraphics());
                 // renderMazePanel.repaint();
+                moveChap();
             }
         } else if (gameState == pauseState) {
             timer.stop(); // stop timer
@@ -846,24 +867,29 @@ public class GUI extends JPanel implements Runnable {
     public void moveChap() {
         if (keyIn.up == 1) { // up
             System.out.println("chap up");
-            // chap.moveUp();
+            chap.moveUp();
+            renderMazePanel.repaint();
             if (isRecording == true) { // record movement
                 Recorder.chapMove(Direction.UP); // record right
             }
         } else if (keyIn.down == 1) { // down
             System.out.println("chap down");
-            // chap.moveDown();
+            chap.moveDown();
+            renderMazePanel.repaint();
             if (isRecording) { // record movement
                 Recorder.chapMove(Direction.DOWN); // record down
             }
         } else if (keyIn.left == 1) { // left
             System.out.println("chap left");
-            // chap.moveLeft();
+            chap.moveLeft();
+            renderMazePanel.repaint();
             if (isRecording) { // record movement
                 Recorder.chapMove(Direction.LEFT); // record left
             }
         } else if (keyIn.right == 1) { // right
             System.out.println("chap right");
+            chap.moveRight();
+            renderMazePanel.repaint();
             if (isRecording) { // record movement
                 Recorder.chapMove(Direction.RIGHT); // record right
             }
@@ -895,11 +921,7 @@ public class GUI extends JPanel implements Runnable {
                         timer.start(); // start timer
                     }
                 } else if (jb.getText().equals("Save")) { // if save pressed
-                    if (isRecording) { // if recording
-                        save();
-                    } else { // if not recording
-                        JOptionPane.showMessageDialog(null, "You must be recording to save");
-                    }
+                    save(l1, chap); // save game
                 } else if (jb.getText().equals("Load")) {
                     load();
                 } else if (jb.getText().equals("Exit")) { // if exit pressed
@@ -925,11 +947,13 @@ public class GUI extends JPanel implements Runnable {
         menuBar.add(Help); // add help menu to menu bar
 
         recordGame = new JMenu("Record Game"); // record game menu
-        replayGame = new JMenu("Replay Game"); // replay game menu
+        replayGame = new JMenu("Auto Replay"); // replay game menu
+        mReplayGame = new JMenu("Manual Replay"); // manual replay game menu
         exitItem = new JMenuItem(); // exit menu item
         saveItem = new JMenuItem(); // save menu item
         rulesItem = new JMenuItem(); // rules menu item
         loadItem = new JMenuItem(); // load menu item
+        startR = new JMenuItem("Start Replay"); 
         lvl1 = new JMenuItem(); // levels menu item
         lvl2 = new JMenuItem();
         replaySpeedx125 = new JMenuItem("x1.25"); // replay speed menu item
@@ -939,6 +963,7 @@ public class GUI extends JPanel implements Runnable {
         stopRecording = new JMenuItem("Stop Recording");
         startRecording.addActionListener(e -> startRecording()); // start and stop recording
         stopRecording.addActionListener(e -> stopRecording());
+        startR.addActionListener(e -> mReplayGame()); // manual replay game
 
         // populate the menu items and key bindings
         populateMenuItems(saveItem, "Save", KeyEvent.VK_S,
@@ -960,11 +985,13 @@ public class GUI extends JPanel implements Runnable {
         replayGame.add(replaySpeedx125);
         replayGame.add(replaySpeedx150);
         replayGame.add(replaySpeedx200);
+        mReplayGame.add(startR);
         Game.add(saveItem);
         Game.add(exitItem);
         Options.add(loadItem);
         Options.add(recordGame);
         Options.add(replayGame);
+        Options.add(mReplayGame);
         Help.add(rulesItem);
         Level.add(lvl1);
         Level.add(lvl2);
@@ -982,7 +1009,29 @@ public class GUI extends JPanel implements Runnable {
      * This method is used to set recording to false
      */
     public void stopRecording() {
-        isRecording = false;
+        if (isRecording) { // if recording
+            try {
+                Recorder.saveRecording(); // save recording
+                isRecording = false; // set recording to false
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JDOMException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "You must be recording to save a recording");
+        }
+    }
+
+    public void mReplayGame() {
+        if (isRecording) {
+            JOptionPane.showMessageDialog(null, "You must stop recording to replay");
+        } else{
+            gameState = pauseState;
+            gameLevel = replay;
+        }
     }
 
     /**
@@ -1003,11 +1052,9 @@ public class GUI extends JPanel implements Runnable {
                 if (item.getText().equals("Exit")) { // if exit shortcut pressed
                     exitQ();
                 } else if (item.getText().equals("Save")) { // if save shortcut pressed
-                    if (isRecording) { // if recording
-                        save(); // save
-                    } else { // if not recording
-                        JOptionPane.showMessageDialog(null, "You must be recording to save");
-                    }
+                    save(l1, chap);
+
+
                 } else if (item.getText().equals("Rules")) {
                 } else if (item.getText().equals("Load")) {
                     load();
@@ -1046,18 +1093,10 @@ public class GUI extends JPanel implements Runnable {
     /**
      * This method is used to save the game
      */
-    public void save() {
-        if (isRecording) { // if recording
-            try {
-                Recorder.saveRecording(); // save recording
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (JDOMException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+    public void save(Level l, Chap c) {
+        System.out.println("Saved");
+        //exit
+        System.exit(0);
     }
 
     /**
