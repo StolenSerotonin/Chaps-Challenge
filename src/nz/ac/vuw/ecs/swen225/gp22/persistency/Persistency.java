@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
+import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
@@ -31,17 +32,15 @@ public class Persistency {
      * @throws JDOMException
      * @throws IOException
      */
-    public static Level loadBoard(String file) throws JDOMException, IOException{
+    public static Level loadBoard(String fileName, String url) throws JDOMException, IOException{
         //Stores the location of all levels 
-        //String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
-        String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
-        
+
         //Setting up the variables
         SAXBuilder sax = new SAXBuilder();
-        Document doc = sax.build(new File(levelDirectory + file));
+        Document doc = sax.build(new File(url + fileName));
         Element rootElement = doc.getRootElement();
         int chipsRequired = 0;
-        if(file.contains("1")){chipsRequired = 10;}
+        if(fileName.contains("1")){chipsRequired = 10;}
         else{chipsRequired = 4;}
         Level newLevel = new Level(COLUMNS,ROWS,chapStartX,chapStartY,chipsRequired);
         
@@ -49,8 +48,11 @@ public class Persistency {
         List<Element> rowsList = rootElement.getChildren("row");
         Element infoFieldString =  rootElement.getChild("message");
         Element inventory = rootElement.getChild("inventory");
+        Element storedTime = rootElement.getChild("time");
+        Element chapPositions = rootElement.getChild("hero");
         newLevel.setInv(fromXMLInventory(inventory));
-
+        chapPosSet(chapPositions);
+        newLevel.setStartingPosition(chapStartX, chapStartY);
         //Iterating through all the rows in the list
         for(int y = 0; y < ROWS; y++){
             //Grab the a row from the list and grab all the tile tags embeded within
@@ -59,11 +61,11 @@ public class Persistency {
             for(int x = 0; x < COLUMNS; x++){
                 //Check whether the object to be created is of type Tile or of SolidObject
                 String tileText = tiles.get(x).getText();
-                if(tileText.contains("chap")){
-                    newLevel.setTile(y, x, new FloorTile(y, x));
-                    newLevel.setStartingPosition(x, y);
-                }
-                else if(tileText.contains("wall") || tileText.contains("floor") || 
+                // if(tileText.contains("chap")){
+                //     newLevel.setTile(y, x, new FloorTile(y, x));
+                //     newLevel.setStartingPosition(x, y);
+                // }
+                if(tileText.contains("wall") || tileText.contains("floor") || 
                 tileText.contains("infoField") || (tileText.contains("exit") &&
                 !tileText.contains("exitLock"))){
                     newLevel.setTile(y, x, getTile(tileText, y, x, infoFieldString));
@@ -74,6 +76,8 @@ public class Persistency {
                 }
             }
         }
+        
+        GUI.time = Integer.parseInt(storedTime.getText());
         return newLevel;
     }
 
@@ -90,8 +94,11 @@ public class Persistency {
         return map;
     }
 
+    public static void chapPosSet(Element chapPos){
+        chapStartX = Integer.parseInt(chapPos.getChild("xPos").getText());
+        chapStartY = Integer.parseInt(chapPos.getChild("yPos").getText());
+    }
 
-    
     /**
      * This is used to generate a level file to store the recent
      * 
@@ -99,11 +106,11 @@ public class Persistency {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static void saveBoard(Object level) throws FileNotFoundException, IOException{
+    public static void saveBoard(Object level, String fileName,String url, Chap chap) throws FileNotFoundException, IOException{
         assert level instanceof Level;
         Level l = (Level) level;
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
-        FileOutputStream fileOutputStream =new FileOutputStream("src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/file.xml");
+        FileOutputStream fileOutputStream =new FileOutputStream(url + fileName);
         Document document = new Document();
         document.setRootElement(new Element("level"));
         Element rootElement = document.getRootElement();
@@ -111,13 +118,11 @@ public class Persistency {
         for(int y = 0; y < ROWS; y++){
             Element row = new Element("row");
             for(int x = 0; x < COLUMNS; x++) {
-                if(l.getObject(y, x) != null){
-                	System.out.println(l.getObject(y, x));
-                    row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
+                if(l.getObject(y, x) != null){//if there is something in this tile
+                    row.addContent(new Element("tile").setText(l.getObject(y, x).getImg().getName()));//
                 }
-                else{
-                	System.out.println(l.getTile(y, x));
-                    row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
+                else{ 	
+                    row.addContent(new Element("tile").setText(l.getTile(y, x).getImg().getName()));
                     if(l.getTile(y, x) instanceof InfoTile){
                         infoText = ((InfoTile) l.getTile(y, x)).getInfo();
                     }
@@ -126,6 +131,12 @@ public class Persistency {
             rootElement.addContent(row);
         }
         rootElement.addContent(new Element("message").setText(infoText));
+        rootElement.addContent(new Element("time").setText(String.valueOf(GUI.time)));
+        Element chapHero = new Element("hero");
+        chapHero.addContent(new Element("xPos").setText(String.valueOf(chap.getXPos())));
+        chapHero.addContent(new Element("yPos").setText(String.valueOf(chap.getYPos())));
+        rootElement.addContent(chapHero);
+        
         Element inventory = new Element("inventory");
         rootElement.addContent(inventory);
         for(Map.Entry<String, Integer> pair: l.getInv().entrySet()){
@@ -134,7 +145,6 @@ public class Persistency {
             key.addContent(new Element("count").setText(String.valueOf(pair.getValue())));
             inventory.addContent(key);
         }
-        System.out.print("Saved");
         try {xmlOutputter.output(document, fileOutputStream);}
         catch (Exception e){e.printStackTrace();}
     }

@@ -15,9 +15,9 @@ public enum Images {
     Wall("wall"),
     Floor("floor"),
     Exit("exit"),                     
-    ExitLock("exit_lock"),            
+    ExitLock("exitLock"),            
 
-    ComputerChip("computer_chip"),
+    ComputerChip("computerChip"),
 
     Chap("chap"),   
     
@@ -33,7 +33,7 @@ public enum Images {
     BlueKey("blueKey"),
     YellowKey("yellowKey"),
 
-    InfoTile("info"),
+    InfoTile("infoField"),
 
     SideBar("sidebar"),
     ;

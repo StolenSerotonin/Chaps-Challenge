@@ -69,14 +69,15 @@ public class RenderMazePanel extends JPanel{
         tileObjects = level.getObjects(); 
         worldX = GUI.chap.getX() *3;
         worldY = GUI.chap.getY() *3;
-        System.out.println("worldX " + worldX + " worldY " + worldY);
         maxWorldCol = tiles.length;
         maxWorldRow = tiles[0].length; 
         for(int worldRow = 0; worldRow < maxWorldRow; worldRow++){
             for(int worldCol = 0; worldCol < maxWorldCol; worldCol++){
+                // Tile tile = tiles[worldCol][worldRow];
+                // SolidObject object = tileObjects[worldCol][worldRow];
+
                 Tile tile = tiles[worldCol][worldRow];
                 SolidObject object = tileObjects[worldCol][worldRow];
-
                 int wX = worldCol * tileSize;
                 int wY = worldRow * tileSize; 
                 int sX = wX - worldX + screenX;
@@ -94,6 +95,7 @@ public class RenderMazePanel extends JPanel{
         }
         g2d.drawImage(Images.Chap.getImg(), screenX, screenY, tileSize, tileSize, null);
         drawSidebarPanel(g2d);
+        System.out.println(tiles);
     }
 
     public void drawSidebarPanel(java.awt.Graphics g){
