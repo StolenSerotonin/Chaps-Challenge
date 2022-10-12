@@ -2,10 +2,12 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.awt.Point;
 import java.util.Iterator;
+import java.util.Map;
 
 public class Level implements Iterable<Point>{
 	private static Tile[][] tiles;
 	private static SolidObject[][] objects;
+	private static Map<String, Integer> inventory;
 	private Point startingPosition;
 	private Point chapPosition;
 	private static int chipsRequired;
@@ -16,6 +18,7 @@ public class Level implements Iterable<Point>{
 		objects = new SolidObject[xDimension][yDimension];
 		startingPosition = new Point(startX, startY);
 		Level.chipsRequired = chipsRequired;
+		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
 	public Level(int xDimension, int yDimension, int chipsRequired){
@@ -24,6 +27,7 @@ public class Level implements Iterable<Point>{
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		Level.chipsRequired = chipsRequired;
+		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
 	public Level(int chipsRequired){
@@ -32,6 +36,7 @@ public class Level implements Iterable<Point>{
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		Level.chipsRequired = chipsRequired;
+		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
 	public Level(){
@@ -40,6 +45,7 @@ public class Level implements Iterable<Point>{
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		chipsRequired = 0;
+		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
 	public Tile[][] getTiles(){
@@ -120,6 +126,35 @@ public class Level implements Iterable<Point>{
 
 	public void setTimer(int timer){
 		this.timer = timer;
+	}
+
+	public static Map keyStatus(){
+		return inventory;
+	}
+
+	public static int getKey(String key){
+		return inventory.get(key);
+	}
+
+	public static void putKey(String key, int count){
+		inventory.put(key, count);
+	}
+	
+	public boolean hasRedKey(){
+		return inventory.get("red") > 0;
+	}
+	public boolean hasBlueKey(){
+		return inventory.get("blue") > 0;
+	}
+	public boolean hasYellowKey(){
+		return inventory.get("yellow") > 0;
+	}
+	public boolean hasGreenKey(){
+		return inventory.get("green") > 0;
+	}
+
+	public void loseKeys(){
+		inventory.forEach((k, v) -> inventory.put(k,0));
 	}
 	
 	public void reset(){

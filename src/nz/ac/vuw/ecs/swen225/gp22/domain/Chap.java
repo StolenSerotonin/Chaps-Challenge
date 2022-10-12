@@ -1,10 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-import java.util.Map;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
-
 public class Chap{
-	private Map<String, Integer> inventory;
 	private int chips;
 	private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
@@ -25,7 +21,6 @@ public class Chap{
 		this.yPos = yPos;
 		x = xPos * 24; //decided on 24 by carefull maths
 		y = yPos * 24;
-		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 		direction = Direction.DOWN;
 		alive = new AliveState(this);
 		dead = new DeadState(this);
@@ -82,23 +77,6 @@ public class Chap{
 		this.state = state;
 	}
 	
-	public Map keyStatus(){
-		return inventory;
-	}
-	
-	public boolean hasRedKey(){
-		return inventory.get("red") > 0;
-	}
-	public boolean hasBlueKey(){
-		return inventory.get("blue") > 0;
-	}
-	public boolean hasYellowKey(){
-		return inventory.get("yellow") > 0;
-	}
-	public boolean hasGreenKey(){
-		return inventory.get("green") > 0;
-	}
-	
 	public int getChips(){
 		return chips;
 	}
@@ -122,79 +100,76 @@ public class Chap{
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		int count = inventory.get("red");
-		inventory.put("red", count+1);
-		int count2 = inventory.get("red");
+		int count = Level.getKey("red");
+		Level.putKey("red", count + 1);
+		int count2 = Level.getKey("red");
 		assert count2 == count + 1;
 	}
 	public void getBlueKey(){
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		int count = inventory.get("blue");
-		inventory.put("blue", count+1);
-		int count2 = inventory.get("blue");
+		int count = Level.getKey("blue");
+		Level.putKey("blue", count + 1);
+		int count2 = Level.getKey("blue");
 		assert count2 == count + 1;
 	}
 	public void getYellowKey(){
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		int count = inventory.get("yellow");
-		inventory.put("yellow", count+1);
-		int count2 = inventory.get("yellow");
+		int count = Level.getKey("yellow");
+		Level.putKey("yellow", count + 1);
+		int count2 = Level.getKey("yellow");
 		assert count2 == count + 1;
 	}
 	public void getGreenKey(){
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		int count = inventory.get("green");
-		inventory.put("green", count+1);
-		int count2 = inventory.get("green");
+		int count = Level.getKey("green");
+		Level.putKey("green", count + 1);
+		int count2 = Level.getKey("green");
 		assert count2 == count + 1;
-	}
-	public void loseKeys(){
-		inventory.forEach((k, v) -> inventory.put(k,0));
 	}
 	
 	public void useRedKey(){
-		int count = inventory.get("red");
+		int count = Level.getKey("red");
 		if(count<=0){
 			throw new IllegalStateException("Chap has no Red Key");
 		} else{
-			inventory.put("red", count-1);
-			int count2 = inventory.get("red");
+			Level.putKey("red", count-1);
+			int count2 = Level.getKey("red");
 			assert count2 == count - 1;
 		}
 	}
 	public void useBlueKey(){
-		int count = inventory.get("blue");
+		int count = Level.getKey("blue");
 		if(count<=0){
-			throw new IllegalStateException("Chap has no blue Key");
+			throw new IllegalStateException("Chap has no Blue Key");
 		} else{
-			inventory.put("blue", count-1);
-			int count2 = inventory.get("blue");
+			Level.putKey("blue", count-1);
+			int count2 = Level.getKey("blue");
 			assert count2 == count - 1;
 		}
 	}
 	public void useYellowKey(){
-		int count = inventory.get("yellow");
+		int count = Level.getKey("yellow");
 		if(count<=0){
-			throw new IllegalStateException("Chap has no yellow Key");
+			throw new IllegalStateException("Chap has no Yellow Key");
 		} else{
-			inventory.put("yellow", count-1);
-			int count2 = inventory.get("yellow");
+			Level.putKey("yellow", count-1);
+			int count2 = Level.getKey("yellow");
 			assert count2 == count - 1;
 		}
 	}
 	public void useGreenKey(){
-		int count = inventory.get("green");
+		int count = Level.getKey("green");
 		if(count<=0){
-			throw new IllegalStateException("Chap has no green Key");
+			throw new IllegalStateException("Chap has no Green Key");
 		} else{
-			inventory.put("green", count-1);
-			int count2 = inventory.get("green");
+			Level.putKey("green", count-1);
+			int count2 = Level.getKey("green");
 			assert count2 == count - 1;
 		}
 	}
