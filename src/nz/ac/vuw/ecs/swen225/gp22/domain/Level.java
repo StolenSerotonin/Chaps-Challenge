@@ -1,7 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.awt.Point;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
