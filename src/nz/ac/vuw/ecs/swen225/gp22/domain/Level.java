@@ -7,7 +7,7 @@ import java.util.Map;
 public class Level implements Iterable<Point>{
 	private static Tile[][] tiles;
 	private static SolidObject[][] objects;
-	private static Map<String, Integer> inventory;
+	private Map<String, Integer> inventory;
 	private Point startingPosition;
 	private Point chapPosition;
 	private static int chipsRequired;
@@ -128,28 +128,36 @@ public class Level implements Iterable<Point>{
 		this.timer = timer;
 	}
 
-	public static Map keyStatus(){
-		return inventory;
+	public void setInv(Map inv){
+		this.inventory = inv;
 	}
 
-	public static int getKey(String key){
-		return inventory.get(key);
+	public Map getInv(){
+		return this.inventory;
 	}
 
-	public static void putKey(String key, int count){
+	public Map keyStatus(){
+		return this.inventory;
+	}
+
+	public int getKey(String key){
+		return this.inventory.get(key);
+	}
+
+	public void putKey(String key, int count){
 		inventory.put(key, count);
 	}
 	
-	public static boolean hasRedKey(){
+	public boolean hasRedKey(){
 		return inventory.get("red") > 0;
 	}
-	public static boolean hasBlueKey(){
+	public boolean hasBlueKey(){
 		return inventory.get("blue") > 0;
 	}
-	public static boolean hasYellowKey(){
+	public boolean hasYellowKey(){
 		return inventory.get("yellow") > 0;
 	}
-	public static boolean hasGreenKey(){
+	public boolean hasGreenKey(){
 		return inventory.get("green") > 0;
 	}
 

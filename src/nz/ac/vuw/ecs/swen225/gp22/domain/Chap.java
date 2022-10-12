@@ -5,6 +5,7 @@ public class Chap{
 	private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
 	private Direction direction; 
+	private Level level;
 	
 	public enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -15,8 +16,10 @@ public class Chap{
 	private DeadState dead;
 	private WinState victory;
 	
-	
-	public Chap(int xPos, int yPos){
+	/*
+	 * Chap Constructor
+	 */
+	public Chap(int xPos, int yPos, Level level){
 		this.xPos = xPos;
 		this.yPos = yPos;
 		x = xPos * 24; //decided on 24 by carefull maths
@@ -26,20 +29,36 @@ public class Chap{
 		dead = new DeadState(this);
 		victory = new WinState(this);
 		state = alive;
+		this.level = level;
 	}
 	
+	/*
+	 * Chaps X position on the board
+	 */
 	public int getXPos(){
 		return xPos;
 	}
+	/*
+	 * Chaps Y position on the board
+	 */
 	public int getYPos(){
 		return yPos;
 	}
+	/*
+	 * Chaps position in the 2D array
+	 */
 	public int getX(){
 		return x;
 	}
+	/*
+	 * Chaps position in the 2D array
+	 */
 	public int getY(){
 		return y;
 	}
+	/*
+	 * Set chaps position on the board
+	 */
 	public void setPosition(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -52,10 +71,15 @@ public class Chap{
 	public void setDirection(Direction dir){
 		direction = dir;
 	}
-	
+	/*
+	 * Chaps last Xpos on the board
+	 */
 	public int getLastXPos(){
 		return lastXPos;
 	}
+	/*
+	 * Chaps last Ypos on the board
+	 */
 	public int getLastYPos(){
 		return lastYPos;
 	}
@@ -76,11 +100,16 @@ public class Chap{
 	public void setState(ChapState state){
 		this.state = state;
 	}
-	
+	/*
+	 * Returns the ammount of Computer Chips Chap has picked up
+	 */
 	public int getChips(){
 		return chips;
 	}
 	
+	/*
+	 * Chap collects a Computer Chip
+	 */
 	public void obtainChip(){
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
 			throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
@@ -96,84 +125,93 @@ public class Chap{
 		chips = 0;
 	}
 	
+	/*
+	 * Collection of methods for when Chap collects a key
+	 */
 	public void getRedKey(){
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		int count = Level.getKey("red");
-		Level.putKey("red", count + 1);
-		int count2 = Level.getKey("red");
+		int count = level.getKey("red");
+		level.putKey("red", count + 1);
+		int count2 = level.getKey("red");
 		assert count2 == count + 1;
 	}
 	public void getBlueKey(){
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		int count = Level.getKey("blue");
-		Level.putKey("blue", count + 1);
-		int count2 = Level.getKey("blue");
+		int count = level.getKey("blue");
+		level.putKey("blue", count + 1);
+		int count2 = level.getKey("blue");
 		assert count2 == count + 1;
 	}
 	public void getYellowKey(){
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		int count = Level.getKey("yellow");
-		Level.putKey("yellow", count + 1);
-		int count2 = Level.getKey("yellow");
+		int count = level.getKey("yellow");
+		level.putKey("yellow", count + 1);
+		int count2 = level.getKey("yellow");
 		assert count2 == count + 1;
 	}
 	public void getGreenKey(){
 		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		int count = Level.getKey("green");
-		Level.putKey("green", count + 1);
-		int count2 = Level.getKey("green");
+		int count = level.getKey("green");
+		level.putKey("green", count + 1);
+		int count2 = level.getKey("green");
 		assert count2 == count + 1;
 	}
 	
+	/*
+	 * Collection of methods for when Chap uses a key
+	 */
 	public void useRedKey(){
-		int count = Level.getKey("red");
+		int count = level.getKey("red");
 		if(count<=0){
 			throw new IllegalStateException("Chap has no Red Key");
 		} else{
-			Level.putKey("red", count-1);
-			int count2 = Level.getKey("red");
+			level.putKey("red", count-1);
+			int count2 = level.getKey("red");
 			assert count2 == count - 1;
 		}
 	}
 	public void useBlueKey(){
-		int count = Level.getKey("blue");
+		int count = level.getKey("blue");
 		if(count<=0){
 			throw new IllegalStateException("Chap has no Blue Key");
 		} else{
-			Level.putKey("blue", count-1);
-			int count2 = Level.getKey("blue");
+			level.putKey("blue", count-1);
+			int count2 = level.getKey("blue");
 			assert count2 == count - 1;
 		}
 	}
 	public void useYellowKey(){
-		int count = Level.getKey("yellow");
+		int count = level.getKey("yellow");
 		if(count<=0){
 			throw new IllegalStateException("Chap has no Yellow Key");
 		} else{
-			Level.putKey("yellow", count-1);
-			int count2 = Level.getKey("yellow");
+			level.putKey("yellow", count-1);
+			int count2 = level.getKey("yellow");
 			assert count2 == count - 1;
 		}
 	}
 	public void useGreenKey(){
-		int count = Level.getKey("green");
+		int count = level.getKey("green");
 		if(count<=0){
 			throw new IllegalStateException("Chap has no Green Key");
 		} else{
-			Level.putKey("green", count-1);
-			int count2 = Level.getKey("green");
+			level.putKey("green", count-1);
+			int count2 = level.getKey("green");
 			assert count2 == count - 1;
 		}
 	}
 	
+	/*
+	 * Collection of methods that handle Chap's movement
+	 */
 	public void move(int dx, int dy){
 		if(!Level.getTile(xPos+dx, yPos+dy).isPassable()) {
 			throw new IllegalArgumentException("Chap cannot phase through walls");
@@ -218,10 +256,20 @@ public class Chap{
 		}
 	}
 
+	/*
+	 * Method to handle SolidObject collisions
+	 */
 	public void CollisionCheck(int x, int y){
 		Level.getObject(x, y).onCollision(this);
 	}
-	
+
+	public Level getLevel(){
+		return this.level;
+	}
+
+	/*
+	 * return string for chap
+	 */
 	public String toString(){
 		return "chap";
 	}
