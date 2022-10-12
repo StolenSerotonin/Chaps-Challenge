@@ -224,6 +224,7 @@ public class Chap{
 		yPos += dy;
 		x += (dx * 24);
 		y += (dy * 24);
+		level.getTile(xPos, yPos).onWalk(this);
 	}
 	
 	public void moveUp(){
