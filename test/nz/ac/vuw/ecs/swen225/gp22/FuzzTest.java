@@ -128,8 +128,8 @@ class MyRobot extends Robot{
     }
     public void pressAndRelease(int keyCode){
         keyPress(keyCode);
-        delay(20);                
+        delay(50);                
         keyRelease(keyCode);
-        delay(480);
+        delay(450);
     }
 }
