@@ -14,10 +14,13 @@ public class FuzzTest{
 
     @Test
     public void fuzzTest() throws Throwable{
-        GUI gui = new GUI("Chap's Challenge", 800, 600, 1);
+        //GUI gui = new GUI("Chap's Challenge", 800, 600, 1);
+        Main.main(null);
         MyRobot rob;
         rob = new MyRobot();
-        testLvl1(gui,rob);
+        rob.delay(1000);
+        rob.pressAndRelease(KeyEvent.VK_ENTER);
+        testLvl1(rob);
     }
      /**
      * @throws AWTException
@@ -25,14 +28,10 @@ public class FuzzTest{
      * Tests the first level
      * Runs the game, press random arrow keys
      */
-    public void testLvl1 (GUI g, MyRobot rob) throws AWTException, Throwable{
-       g.loadLevel1();
+    public void testLvl1 (MyRobot rob) throws AWTException, Throwable{
+    //    g.loadLevel1();
         System.out.println("TESTING LEVEL 1\n---------------------------------");
-        rob.keyPress(17);
-        rob.keyPress(KeyEvent.VK_1);
-        rob.keyRelease(17);
-        rob.keyRelease(KeyEvent.VK_1);
-
+        
         Direction preDir = Direction.values()[rand.nextInt(4)];
 
         for(int i = 0; i < 120; ++i){ //created robot presses random key 120 times every half second
@@ -51,7 +50,7 @@ public class FuzzTest{
      * Runs the game, press random arrow keys
      */
     public void testLvl2(GUI gui, MyRobot rob) throws AWTException, Throwable{
-        gui.loadLevel2();
+        //gui.loadLevel2();
         System.out.println("\nTESTING LEVEL 2\n---------------------------------");
         Direction preDir = Direction.values()[rand.nextInt(4)];
         for(int i = 0; i < 120; i++){//created robot presses random key 120 times every half second
@@ -129,8 +128,8 @@ class MyRobot extends Robot{
     }
     public void pressAndRelease(int keyCode){
         keyPress(keyCode);
-        delay(400);                
+        delay(20);                
         keyRelease(keyCode);
-        delay(100);
+        delay(480);
     }
 }
