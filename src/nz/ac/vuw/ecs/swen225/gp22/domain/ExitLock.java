@@ -12,7 +12,7 @@ public class ExitLock extends SolidObject{
 	
 	public void onCollision(Chap c){
 		if(getCollided()){}
-		else if(c.getChips() >= Level.getChipsRequired()){
+		else if(c.getChips() >= c.getLevel().getChipsRequired()){
 			setImg(Images.Floor);
 			setCollided(true);
 		}
@@ -27,6 +27,6 @@ public class ExitLock extends SolidObject{
 	}
 
 	public String toString(){
-		return "exitlock";
+		return "exitLock";
 	}
 }

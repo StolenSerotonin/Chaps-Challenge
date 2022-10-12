@@ -32,7 +32,7 @@ public KeyInput(GUI guiPanel) {
             keyGameOverState(keyCode);
         }else if (guiPanel.gameLevel == guiPanel.replay && guiPanel.gameState == guiPanel.pauseState){
             keyReplayState(keyCode);
-            keyResumeState(keyCode);
+            keyResumeRepState(keyCode);
         }
     }
 
@@ -90,6 +90,13 @@ public KeyInput(GUI guiPanel) {
             System.out.println("REPLAYING");
             //setupReplay
 
+        }
+    }
+    public void keyResumeRepState(int keyCode){
+        if(keyCode == KeyEvent.VK_ESCAPE) {
+            System.out.println("Back to main menu from replaying");
+            guiPanel.gameState = guiPanel.menuState;
+            guiPanel.setUpMenu();
         }
     }
 

@@ -2,23 +2,23 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
-public class Exit extends Tile{
+public class WaterTile extends Tile{
 
-	public Exit(int xp, int yp){
-		setPosition(xp, yp);
-		setImg(Images.Exit);
-		setPassable(true);
+	public WaterTile(int xPos, int yPos){
+		setPosition(xPos, yPos);
+		setPassable(true); 
 		setPushable(false);
+		//setImg(Images.Water);
 	}
 	
 	public void onWalk(Chap c){
-		c.getState().win();
-	}
+        c.getState().die();
+    }
 	
 	public void reset(){}
 
 	public String toString(){
-		return "exit";
+		return "water";
 	}
 	
 }

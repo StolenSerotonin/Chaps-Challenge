@@ -4,7 +4,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
 
 public class InfoTile extends Tile{
-	private static String info;
+	private String info;
 
 	public InfoTile(int xp, int yp, String info){
 		setPosition(xp, yp);
@@ -22,7 +22,7 @@ public class InfoTile extends Tile{
 	}
 
 	public void setInfo(String info){
-		InfoTile.info = info;
+		this.info = info;
 	}
 
 	public String getInfo(){
