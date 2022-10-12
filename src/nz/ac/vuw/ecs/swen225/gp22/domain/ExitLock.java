@@ -27,6 +27,6 @@ public class ExitLock extends SolidObject{
 	}
 
 	public String toString(){
-		return "exitlock";
+		return "exitLock";
 	}
 }

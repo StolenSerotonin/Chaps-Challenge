@@ -43,7 +43,7 @@ public class Key extends SolidObject{
 	}
 
 	public String toString(){
-		return this.colour.name();
+		return this.colour.getName();
 	}
 	
 }
