@@ -111,12 +111,12 @@ public class Chap{
 	 * Chap collects a Computer Chip
 	 */
 	public void obtainChip(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
+		if(!(level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
 			throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
 		}
-		int uncollectedChips = Level.getChipsRequired() - getChips(); 
+		int uncollectedChips = level.getChipsRequired() - getChips(); 
 		chips++;
-		int uncollectedChips2 = Level.getChipsRequired() - getChips();
+		int uncollectedChips2 = level.getChipsRequired() - getChips();
 		assert uncollectedChips2 == uncollectedChips - 1;
 
 	}
@@ -129,7 +129,7 @@ public class Chap{
 	 * Collection of methods for when Chap collects a key
 	 */
 	public void getRedKey(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
+		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
 		int count = level.getKey("red");
@@ -138,7 +138,7 @@ public class Chap{
 		assert count2 == count + 1;
 	}
 	public void getBlueKey(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
+		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
 		int count = level.getKey("blue");
@@ -147,7 +147,7 @@ public class Chap{
 		assert count2 == count + 1;
 	}
 	public void getYellowKey(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
+		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
 		int count = level.getKey("yellow");
@@ -156,7 +156,7 @@ public class Chap{
 		assert count2 == count + 1;
 	}
 	public void getGreenKey(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
+		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
 		int count = level.getKey("green");
@@ -213,10 +213,10 @@ public class Chap{
 	 * Collection of methods that handle Chap's movement
 	 */
 	public void move(int dx, int dy){
-		if(!Level.getTile(xPos+dx, yPos+dy).isPassable()) {
+		if(!level.getTile(xPos+dx, yPos+dy).isPassable()) {
 			throw new IllegalArgumentException("Chap cannot phase through walls");
 		}
-		if(Level.hasObject(xPos + dx, yPos + dy)){
+		if(level.hasObject(xPos + dx, yPos + dy)){
 			CollisionCheck(xPos + dx, yPos + dy);
 		}
 		lastYPos = yPos;
@@ -260,7 +260,7 @@ public class Chap{
 	 * Method to handle SolidObject collisions
 	 */
 	public void CollisionCheck(int x, int y){
-		Level.getObject(x, y).onCollision(this);
+		level.getObject(x, y).onCollision(this);
 	}
 
 	public Level getLevel(){

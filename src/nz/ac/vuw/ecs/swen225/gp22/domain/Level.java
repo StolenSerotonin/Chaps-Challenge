@@ -5,19 +5,19 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Level implements Iterable<Point>{
-	private static Tile[][] tiles;
-	private static SolidObject[][] objects;
+	private Tile[][] tiles;
+	private SolidObject[][] objects;
 	private Map<String, Integer> inventory;
 	private Point startingPosition;
 	private Point chapPosition;
-	private static int chipsRequired;
+	private int chipsRequired;
 	private int timer;
 	
 	public Level(int xDimension, int yDimension, int startX, int startY, int chipsRequired){
 		tiles = new Tile[xDimension][yDimension];
 		objects = new SolidObject[xDimension][yDimension];
 		startingPosition = new Point(startX, startY);
-		Level.chipsRequired = chipsRequired;
+		this.chipsRequired = chipsRequired;
 		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
@@ -26,7 +26,7 @@ public class Level implements Iterable<Point>{
 		objects = new SolidObject[xDimension][yDimension];
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
-		Level.chipsRequired = chipsRequired;
+		this.chipsRequired = chipsRequired;
 		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
@@ -35,7 +35,7 @@ public class Level implements Iterable<Point>{
 		objects = new SolidObject[25][25];
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
-		Level.chipsRequired = chipsRequired;
+		this.chipsRequired = chipsRequired;
 		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
@@ -52,23 +52,23 @@ public class Level implements Iterable<Point>{
 		return tiles;
 	}
 	
-	public static SolidObject[][] getObjects(){
+	public SolidObject[][] getObjects(){
 		return objects;
 	}
 	
-	public static Tile getTile(int x, int y){
-		return tiles[x][y];
+	public Tile getTile(int x, int y){
+		return this.tiles[x][y];
 	}
 	
 	public Tile getTile(Point p){
 		return tiles[(int)p.getX()][(int)p.getY()];
 	}
 	
-	public static SolidObject getObject(int x, int y){
+	public SolidObject getObject(int x, int y){
 		return objects[x][y];
 	}
 
-	public static Boolean hasObject(int x, int y){
+	public Boolean hasObject(int x, int y){
 		return objects[x][y] != null;
 	}
 		
@@ -113,11 +113,11 @@ public class Level implements Iterable<Point>{
 		return chapPosition;
 	}
 	
-	public static int getChipsRequired(){
+	public int getChipsRequired(){
 		return chipsRequired;
 	}
 	public void setChipsRequired(int chipsRequired){
-		Level.chipsRequired = chipsRequired;
+		this.chipsRequired = chipsRequired;
 	}
 
 	public int getTimer(){
@@ -128,15 +128,15 @@ public class Level implements Iterable<Point>{
 		this.timer = timer;
 	}
 
-	public void setInv(Map inv){
+	public void setInv(Map<String, Integer> inv){
 		this.inventory = inv;
 	}
 
-	public Map getInv(){
+	public Map<String, Integer> getInv(){
 		return this.inventory;
 	}
 
-	public Map keyStatus(){
+	public Map<String, Integer> keyStatus(){
 		return this.inventory;
 	}
 
