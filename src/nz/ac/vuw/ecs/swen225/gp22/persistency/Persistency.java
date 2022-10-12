@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
@@ -31,8 +33,8 @@ public class Persistency {
      */
     public static Level loadBoard(String file) throws JDOMException, IOException{
         //Stores the location of all levels 
-        String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
-        //String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
+        //String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
+        String levelDirectory = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
         
         //Setting up the variables
         SAXBuilder sax = new SAXBuilder();
@@ -46,8 +48,9 @@ public class Persistency {
         //Storing all the rows within the level tag in a list
         List<Element> rowsList = rootElement.getChildren("row");
         Element infoFieldString =  rootElement.getChild("message");
-        List<Element> inventoryList = rootElement.getChildren("inventory");
-        
+        Element inventory = rootElement.getChild("inventory");
+        newLevel.setInv(fromXMLInventory(inventory));
+
         //Iterating through all the rows in the list
         for(int y = 0; y < ROWS; y++){
             //Grab the a row from the list and grab all the tile tags embeded within
@@ -58,9 +61,7 @@ public class Persistency {
                 String tileText = tiles.get(x).getText();
                 if(tileText.contains("chap")){
                     newLevel.setTile(y, x, new FloorTile(y, x));
-                    newLevel.setStartingPosition(y, x);
-                    //TODO Remove below line
-                    //newLevel.setStartingPosition(0, 0);
+                    newLevel.setStartingPosition(x, y);
                 }
                 else if(tileText.contains("wall") || tileText.contains("floor") || 
                 tileText.contains("infoField") || (tileText.contains("exit") &&
@@ -73,15 +74,24 @@ public class Persistency {
                 }
             }
         }
-        
         return newLevel;
     }
-    
-    
-    public static void makeInventory(List<Element> invenList) {
-    	
+
+    public static Map<String, Integer> fromXMLInventory(Element inveElement){
+        Map<String, Integer> map = new HashMap<>();
+        List<Element> keyList = inveElement.getChildren();
+        String keyName = "";
+        int keyCount = 0;
+        for(Element e: keyList){
+            keyName = e.getChildText("name");
+            keyCount = Integer.parseInt(e.getChildText("count"));
+            map.put(keyName, keyCount);
+        }
+        return map;
     }
 
+
+    
     /**
      * This is used to generate a level file to store the recent
      * 
@@ -89,7 +99,9 @@ public class Persistency {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static void saveBoard(Level l) throws FileNotFoundException, IOException{
+    public static void saveBoard(Object level) throws FileNotFoundException, IOException{
+        assert level instanceof Level;
+        Level l = (Level) level;
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
         FileOutputStream fileOutputStream =new FileOutputStream("src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/file.xml");
         Document document = new Document();
@@ -114,6 +126,15 @@ public class Persistency {
             rootElement.addContent(row);
         }
         rootElement.addContent(new Element("message").setText(infoText));
+        Element inventory = new Element("inventory");
+        rootElement.addContent(inventory);
+        for(Map.Entry<String, Integer> pair: l.getInv().entrySet()){
+            Element key = new Element("key");
+            key.addContent(new Element("name").setText(pair.getKey()));
+            key.addContent(new Element("count").setText(String.valueOf(pair.getValue())));
+            inventory.addContent(key);
+        }
+        System.out.print("Saved");
         try {xmlOutputter.output(document, fileOutputStream);}
         catch (Exception e){e.printStackTrace();}
     }
