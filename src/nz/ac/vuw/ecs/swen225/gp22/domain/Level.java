@@ -1,6 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -18,7 +19,6 @@ public class Level implements Iterable<Point>{
 		objects = new SolidObject[xDimension][yDimension];
 		startingPosition = new Point(startX, startY);
 		this.chipsRequired = chipsRequired;
-		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
 	public Level(int xDimension, int yDimension, int chipsRequired){
@@ -27,7 +27,6 @@ public class Level implements Iterable<Point>{
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		this.chipsRequired = chipsRequired;
-		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
 	public Level(int chipsRequired){
@@ -36,7 +35,6 @@ public class Level implements Iterable<Point>{
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		this.chipsRequired = chipsRequired;
-		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
 	public Level(){
@@ -45,7 +43,6 @@ public class Level implements Iterable<Point>{
 		startingPosition = new Point(0, 0);
 		chapPosition = new Point((int)(startingPosition.getX()), (int)(startingPosition.getY()));
 		chipsRequired = 0;
-		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 	}
 	
 	public Tile[][] getTiles(){
@@ -133,10 +130,6 @@ public class Level implements Iterable<Point>{
 	}
 
 	public Map<String, Integer> getInv(){
-		return this.inventory;
-	}
-
-	public Map<String, Integer> keyStatus(){
 		return this.inventory;
 	}
 
