@@ -1,0 +1,115 @@
+package nz.ac.vuw.ecs.swen225.gp22.domain;
+
+public class Enemy {
+    private int x, y, xPos, yPos; 
+	private int lastXPos, lastYPos; 
+	private Direction direction; 
+	private Level level;
+
+    public enum Direction{
+		UP, DOWN, LEFT, RIGHT
+	}
+
+    public Enemy(int xPos, int yPos, Level level){
+		this.xPos = xPos;
+		this.yPos = yPos;
+		x = xPos * 24; //decided on 24 by carefull maths
+		y = yPos * 24;
+		direction = Direction.DOWN;
+		this.level = level;
+	}
+
+    	/*
+	 * Enemy X position on the board
+	 */
+	public int getXPos(){
+		return xPos;
+	}
+	/*
+	 * Enemy Y position on the board
+	 */
+	public int getYPos(){
+		return yPos;
+	}
+	/*
+	 * Enemy position in the 2D array
+	 */
+	public int getX(){
+		return x;
+	}
+	/*
+	 * Enemy position in the 2D array
+	 */
+	public int getY(){
+		return y;
+	}
+	/*
+	 * Set enemy position on the board
+	 */
+	public void setPosition(int xPos, int yPos){
+		this.xPos = xPos;
+		this.yPos = yPos;
+		x = xPos * 24;
+		y = yPos * 24;
+	}
+	public Direction getDirection(){
+		return direction;
+	}
+	public void setDirection(Direction dir){
+		direction = dir;
+	}
+	/*
+	 * Enemy last Xpos on the board
+	 */
+	public int getLastXPos(){
+		return lastXPos;
+	}
+	/*
+	 * Enemy last Ypos on the board
+	 */
+	public int getLastYPos(){
+		return lastYPos;
+	}
+
+    /*
+     * Collection of movement methods for Enemy
+     */
+    public void move(int dx, int dy){
+		if(!level.getTile(xPos+dx, yPos+dy).isPassable()) {
+			throw new IllegalArgumentException("Chap cannot phase through walls");
+		}
+		lastYPos = yPos;
+		xPos += dx;
+		yPos += dy;
+		x += (dx * 24);
+		y += (dy * 24);
+	}
+	
+	public void moveUp(){
+			move(0, -1);
+			if(direction != Direction.UP)
+				direction = Direction.UP;
+	}
+	public void moveDown(){
+			move(0, 1);
+			if(direction != Direction.DOWN)
+				direction = Direction.DOWN;
+	}
+	public void moveLeft(){
+			move(-1, 0);
+			if(direction != Direction.LEFT)
+				direction = Direction.LEFT;
+	}
+	public void moveRight(){
+			move(1, 0);
+			if(direction != Direction.RIGHT)
+				direction = Direction.RIGHT;
+		}
+
+    /*
+	 * return string for enemy
+	 */
+	public String toString(){
+		return "enemy";
+	}
+}
