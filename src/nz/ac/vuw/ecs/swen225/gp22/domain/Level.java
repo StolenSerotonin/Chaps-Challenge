@@ -140,16 +140,16 @@ public class Level implements Iterable<Point>{
 		inventory.put(key, count);
 	}
 	
-	public boolean hasRedKey(){
+	public static boolean hasRedKey(){
 		return inventory.get("red") > 0;
 	}
-	public boolean hasBlueKey(){
+	public static boolean hasBlueKey(){
 		return inventory.get("blue") > 0;
 	}
-	public boolean hasYellowKey(){
+	public static boolean hasYellowKey(){
 		return inventory.get("yellow") > 0;
 	}
-	public boolean hasGreenKey(){
+	public static boolean hasGreenKey(){
 		return inventory.get("green") > 0;
 	}
 

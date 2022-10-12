@@ -16,28 +16,28 @@ public class Door extends SolidObject{
 	public void onCollision(Chap c){
 		if(getCollided()){}
 		else if(this.colour == Images.BlueDoor){
-			if(c.hasBlueKey()){
+			if(Level.hasBlueKey()){
 				c.useBlueKey();
 				setImg(Images.Floor);
 				setCollided(true);
 			}
 		}
 		else if(this.colour == Images.RedDoor){
-			if(c.hasRedKey()){
+			if(Level.hasRedKey()){
 				c.useRedKey();
 				setImg(Images.Floor);
 				setCollided(true);
 			}
 		}
 		else if(this.colour == Images.GreenDoor){
-			if(c.hasGreenKey()){
+			if(Level.hasGreenKey()){
 				c.useGreenKey();
 				setImg(Images.Floor);
 				setCollided(true);
 			}
 		}
 		else if(this.colour == Images.YellowDoor){
-			if(c.hasYellowKey()){
+			if(Level.hasYellowKey()){
 				c.useYellowKey();
 				setImg(Images.Floor);
 				setCollided(true);
