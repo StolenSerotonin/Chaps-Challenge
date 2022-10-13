@@ -78,7 +78,7 @@ public enum Images {
      */
     public BufferedImage loadImg(String path){
         try {
-            BufferedImage img = ImageIO.read(new File("src/nz/ac/vuw/ecs/swen225/gp22/renderer/images/" + path + ".png"));
+            BufferedImage img = ImageIO.read(new File("src/nz/ac/vuw/ecs/swen225/gp22/renderer/GameImages/" + path + ".png"));
             return img;
         } catch (IOException e) { 
             throw new RuntimeException(e);}
