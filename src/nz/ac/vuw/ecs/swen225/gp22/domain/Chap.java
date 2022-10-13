@@ -3,6 +3,10 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
+
+
+
 /*
  * Class for Chap
  */
@@ -120,6 +124,7 @@ public class Chap{
 		//if(!(level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
 		//	throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
 		//}
+		GUI.renderMazePanel.playChip();
 		int uncollectedChips = level.getChipsRequired() - getChips(); 
 		chips++;
 		int uncollectedChips2 = level.getChipsRequired() - getChips();
@@ -138,6 +143,7 @@ public class Chap{
 		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
 		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		//}
+		GUI.renderMazePanel.playKey();
 		int count = level.getKey("red");
 		Map<String, Integer> temp = new HashMap<String, Integer>(level.getInv());
 		temp.put("red", count + 1);
@@ -149,6 +155,7 @@ public class Chap{
 		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
 		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		//}
+		GUI.renderMazePanel.playKey();
 		int count = level.getKey("blue");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("blue", count + 1);
@@ -160,6 +167,7 @@ public class Chap{
 		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
 		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		//}
+		GUI.renderMazePanel.playKey();
 		int count = level.getKey("yellow");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("yellow", count + 1);
@@ -171,6 +179,7 @@ public class Chap{
 		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
 		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		//}
+		GUI.renderMazePanel.playKey();
 		int count = level.getKey("green");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("green", count + 1);

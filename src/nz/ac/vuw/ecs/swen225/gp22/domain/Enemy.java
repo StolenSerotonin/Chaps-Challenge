@@ -8,13 +8,12 @@ public class Enemy {
 	private int lastXPos, lastYPos; 
 	private int targetY1, targetY2, currentTarget;
 	private Direction direction; 
-	private Level level;
 
     public enum Direction{
 		UP, DOWN, LEFT, RIGHT
 	}
 
-    public Enemy(int xPos, int yPos, Level level){
+    public Enemy(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.targetY1 = yPos + 2;
@@ -23,7 +22,6 @@ public class Enemy {
 		x = xPos * 24; //decided on 24 by carefull maths
 		y = yPos * 24;
 		direction = Direction.DOWN;
-		this.level = level;
 	}
 
     	/*
@@ -82,9 +80,6 @@ public class Enemy {
      * Collection of movement methods for Enemy
      */
     public void move(int dx, int dy){
-		if(!level.getTile(xPos+dx, yPos+dy).isPassable()) {
-			throw new IllegalArgumentException("Chap cannot phase through walls");
-		}
 		lastYPos = yPos;
 		xPos += dx;
 		yPos += dy;
