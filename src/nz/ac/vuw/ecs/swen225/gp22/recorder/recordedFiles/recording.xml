@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Moves>
   <move id="0">
-    <direction>LEFT</direction>
+    <direction>RIGHT</direction>
     <player>chap</player>
   </move>
   <move id="1">
-    <direction>LEFT</direction>
+    <direction>RIGHT</direction>
     <player>chap</player>
   </move>
   <move id="2">
-    <direction>DOWN</direction>
+    <direction>LEFT</direction>
     <player>chap</player>
   </move>
   <move id="3">
@@ -21,82 +21,6 @@
     <player>chap</player>
   </move>
   <move id="5">
-    <direction>LEFT</direction>
-    <player>chap</player>
-  </move>
-  <move id="6">
-    <direction>LEFT</direction>
-    <player>chap</player>
-  </move>
-  <move id="7">
-    <direction>LEFT</direction>
-    <player>chap</player>
-  </move>
-  <move id="8">
-    <direction>RIGHT</direction>
-    <player>chap</player>
-  </move>
-  <move id="9">
-    <direction>RIGHT</direction>
-    <player>chap</player>
-  </move>
-  <move id="10">
-    <direction>LEFT</direction>
-    <player>chap</player>
-  </move>
-  <move id="11">
-    <direction>UP</direction>
-    <player>chap</player>
-  </move>
-  <move id="12">
-    <direction>DOWN</direction>
-    <player>chap</player>
-  </move>
-  <move id="13">
-    <direction>DOWN</direction>
-    <player>chap</player>
-  </move>
-  <move id="14">
-    <direction>DOWN</direction>
-    <player>chap</player>
-  </move>
-  <move id="15">
-    <direction>DOWN</direction>
-    <player>chap</player>
-  </move>
-  <move id="16">
-    <direction>UP</direction>
-    <player>chap</player>
-  </move>
-  <move id="17">
-    <direction>RIGHT</direction>
-    <player>chap</player>
-  </move>
-  <move id="18">
-    <direction>RIGHT</direction>
-    <player>chap</player>
-  </move>
-  <move id="19">
-    <direction>DOWN</direction>
-    <player>chap</player>
-  </move>
-  <move id="20">
-    <direction>DOWN</direction>
-    <player>chap</player>
-  </move>
-  <move id="21">
-    <direction>UP</direction>
-    <player>chap</player>
-  </move>
-  <move id="22">
-    <direction>UP</direction>
-    <player>chap</player>
-  </move>
-  <move id="23">
-    <direction>LEFT</direction>
-    <player>chap</player>
-  </move>
-  <move id="24">
     <direction>LEFT</direction>
     <player>chap</player>
   </move>

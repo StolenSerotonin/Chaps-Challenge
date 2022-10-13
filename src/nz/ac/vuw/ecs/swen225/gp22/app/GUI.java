@@ -612,6 +612,10 @@ public class GUI extends JPanel implements Runnable {
     public final short gameOverState = 4;
     public final short infoState = 5;
 
+    public short replayType;
+    public final short manual = 1;
+    public final short auto = 2;
+
     private boolean isRecording = false;
     public boolean isPaused = false;
 
@@ -625,13 +629,14 @@ public class GUI extends JPanel implements Runnable {
     public static Persistency persistency;
     public Timer timer;
 
-    public int time = 60;
+    public static int time = 60;
     public ArrayList<JButton> buttons = new ArrayList<>();
 
     public short gameLevel;
     public short level1 = 1;
     public short level2 = 2;
     public short replay = 3;
+    public short loadState = 4;
 
     // Menu Buttons
     public JButton startButton = new JButton("Start");
@@ -652,7 +657,7 @@ public class GUI extends JPanel implements Runnable {
 
     private JMenuItem startRecording;
     private JMenuItem stopRecording;
-    private JMenuItem replaySpeedx125;
+    private JMenuItem replaySpeedx1;
     private JMenuItem replaySpeedx150;
     private JMenuItem replaySpeedx200;
 
@@ -661,7 +666,9 @@ public class GUI extends JPanel implements Runnable {
     private JMenu mReplayGame;
 
     private JFileChooser fileChooser;
-
+    
+    public String levelsURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
+    public String savedGamesURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/"; 
     // private ArrayList<JButton> allButtons = new ArrayList<>();
 
     Thread threadGame;
@@ -710,7 +717,7 @@ public class GUI extends JPanel implements Runnable {
         labels.forEach(l -> panel.add(l));
         this.setVisible(true);
         this.add(panel, BorderLayout.CENTER);
-        
+
     }
 
     /**
@@ -721,14 +728,14 @@ public class GUI extends JPanel implements Runnable {
         Main.gui.revalidate();
         Main.gui.repaint();
 
-        //remove timer and restart it
+        // remove timer and restart it
         if (timer != null) {
             timer.stop();
             time = 60;
         }
     }
 
-    public void setupReplay(){
+    public void setupReplay() {
         try {
             Recorder.loadRecording();
         } catch (JDOMException e1) {
@@ -740,16 +747,16 @@ public class GUI extends JPanel implements Runnable {
         }
         System.out.println("LOADED REPLAY");
         try {
-            l1 = Persistency.loadBoard("level1.xml");
+            l1 = Persistency.loadBoard("recorderBoard.xml", "src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/");
         } catch (JDOMException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    chap = new Chap(l1.getStartingX(), l1.getStartingY(), l1);
-    renderMazePanel = new RenderMazePanel(l1);
-    renderMazePanel.loadAllImages();
-    renderMazePanel.paintComponent(getGraphics());
-    add(renderMazePanel); 
+        chap = new Chap(l1.getStartingX(), l1.getStartingY(), l1);
+        renderMazePanel = new RenderMazePanel(l1);
+        renderMazePanel.loadAllImages();
+        renderMazePanel.paintComponent(getGraphics());
+        add(renderMazePanel);
     }
 
     /**
@@ -790,73 +797,83 @@ public class GUI extends JPanel implements Runnable {
      */
     public void setUpLevel() {
         clearPanel(); // clear the panel
-        System.out.println("SetUpLevel");
+
         if (gameState == playState) {
-             // if the game is in play state
-            System.out.println("Game State: "+gameState);
+            // if the game is in play state
+            System.out.println("Game State: " + gameState);
             addButtons(); // add buttons
             addMenu(); // add menu
-                if (gameLevel == level1) { // if the game level is level 1
-                    System.out.println("LOADED LEVEL1");
-                    loadLv1Timer();
-                        try {
-                            l1 = Persistency.loadBoard("level1.xml");
-                        } catch (JDOMException | IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    chap = new Chap(l1.getStartingX(), l1.getStartingY(), l1); //pass level
-                    renderMazePanel = new RenderMazePanel(l1);
-                    renderMazePanel.loadAllImages();
-                    renderMazePanel.paintComponent(getGraphics());
-                    add(renderMazePanel); 
-                }else if(gameLevel == level2){ // if the game level is level 2
-                    System.out.println("LOADED LEVEL 2");
-                    loadLv1Timer();
-                }else if(gameLevel == replay){ // if the game level is replay
-                    System.out.println("LOADED REPLAY");
-                    try {
-                        l1 = Persistency.loadBoard("level1.xml");
-                    } catch (JDOMException | IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                chap = new Chap(l1.getStartingX(), l1.getStartingY(), l1);
+            if (gameLevel == level1) { // if the game level is level 1
+                System.out.println("LOADED LEVEL1");
+                loadLv1Timer();
+                try {
+                    String url = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
+                    l1 = Persistency.loadBoard("level1.xml", levelsURL);
+                } catch (JDOMException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                chap = new Chap(l1.getStartingX(), l1.getStartingY(), l1); // pass level
                 renderMazePanel = new RenderMazePanel(l1);
                 renderMazePanel.loadAllImages();
                 renderMazePanel.paintComponent(getGraphics());
+                renderMazePanel.playMusic();
 
+                add(renderMazePanel);
+            } else if (gameLevel == level2) { // if the game level is level 2
+                System.out.println("LOADED LEVEL 2");
+                loadLv1Timer();
+            } else if (gameLevel == loadState) {
+                try {
+                    l1 = Persistency.loadBoard("savedGame.xml",
+                            savedGamesURL);
+                    chap = new Chap(l1.getStartingX(), l1.getStartingY(), l1); // pass level
+                    renderMazePanel = new RenderMazePanel(l1);
+                    renderMazePanel.loadAllImages();
+                    renderMazePanel.paintComponent(getGraphics());
+                    add(renderMazePanel);
+                    timer.start();
+                } catch (JDOMException | IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
-        }else if(gameState == pauseState && gameLevel == replay){
-            Recorder.runAutoReplay(this);
+            }
+        } else if (gameState == pauseState && gameLevel == replay) {
+            if (replayType == manual) {
+                Recorder.runAutoReplay(this);
+            } else if (replayType == auto) {
+                Recorder.runAutoReplay(this);
+            }
+        } else if (gameState == menuState) {
+            setUpMenu();
         }
     }
-    
-    public void setUpGameOver(){
+
+    public void setUpGameOver() {
         clearPanel();
         System.out.println("Game Over");
-        if(gameState == gameOverState){
+        if (gameState == gameOverState) {
             System.out.println("gameover");
             JPanel panel = new JPanel();
-        panel.setLocation(200, 200);
-        panel.setSize(new Dimension(600, 450));
-        panel.setBackground(new Color(69, 58, 47));
-        JLabel title1 = new JLabel("<html><p><br/><br/>NICE COCK<p/></html>", SwingConstants.CENTER); //
-        JLabel title2 = new JLabel("<html><p>GOOD SIZE<p/></html>", SwingConstants.CENTER);
-        JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Retry...<p/></html>",
-                SwingConstants.CENTER);
-        ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
-        labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
-        startText.setFont(new Font("Verdana", 1, 30));
-        labels.add(startText);
-        labels.forEach(l -> l.setForeground(new Color(196, 180, 133)));
-        labels.forEach(l -> panel.add(l));
-        this.setVisible(true);
-        this.add(panel, BorderLayout.CENTER);
+            panel.setLocation(200, 200);
+            panel.setSize(new Dimension(600, 450));
+            panel.setBackground(new Color(69, 58, 47));
+            JLabel title1 = new JLabel("<html><p><br/><br/>NICE COCK<p/></html>", SwingConstants.CENTER); //
+            JLabel title2 = new JLabel("<html><p>GOOD SIZE<p/></html>", SwingConstants.CENTER);
+            JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Retry...<p/></html>",
+                    SwingConstants.CENTER);
+            ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
+            labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
+            startText.setFont(new Font("Verdana", 1, 30));
+            labels.add(startText);
+            labels.forEach(l -> l.setForeground(new Color(196, 180, 133)));
+            labels.forEach(l -> panel.add(l));
+            this.setVisible(true);
+            this.add(panel, BorderLayout.CENTER);
         }
     }
 
-    public void setUpMenu(){
+    public void setUpMenu() {
         clearPanel();
         this.setBackground(new Color(69, 58, 47));
         JPanel panel = new JPanel();
@@ -877,14 +894,13 @@ public class GUI extends JPanel implements Runnable {
         this.add(panel, BorderLayout.CENTER);
     }
 
-
     /**
      * This method is used to update the game
      */
     public void updateGame() {
         if (gameState == playState) {
             // if (chap != null) {
-        // move chap
+            // move chap
             if (renderMazePanel != null) {
                 // System.out.println("repainting");
                 // renderMazePanel.paintComponent(this.getGraphics());
@@ -897,7 +913,7 @@ public class GUI extends JPanel implements Runnable {
             // System.out.println("Game State is gameOverState");
         } else if (gameLevel == replay) {
             // Recorder.runAutoReplay(this);
-        } 
+        }
     }
 
     /**
@@ -905,8 +921,7 @@ public class GUI extends JPanel implements Runnable {
      * movement
      */
     public void moveChap() {
-        System.out.println("x: " +  chap.getXPos() + " y" + chap.getYPos());
-        try{
+        try {
             if (keyIn.up == 1) { // up
                 System.out.println("chap up");
                 chap.moveUp();
@@ -936,22 +951,33 @@ public class GUI extends JPanel implements Runnable {
                     Recorder.chapMove(Direction.RIGHT); // record right
                 }
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            
             System.out.println(e.getMessage());
         }
     }
 
     public void replayChap(Direction dir) {
-        try {
-            if (dir == Direction.UP){chap.moveUp();}
-            else if (dir == Direction.DOWN) {chap.moveDown();renderMazePanel.repaint();}
-            else if (dir == Direction.LEFT) {chap.moveLeft();renderMazePanel.repaint();}
-            else if (dir == Direction.RIGHT) {chap.moveRight();renderMazePanel.repaint();}
-        } catch (Exception e) {e.printStackTrace();}
+
+            try {
+                if (dir == Direction.UP) {
+                    chap.moveUp();
+                } else if (dir == Direction.DOWN) {
+                    chap.moveDown();
+                    renderMazePanel.repaint();
+                } else if (dir == Direction.LEFT) {
+                    chap.moveLeft();
+                    renderMazePanel.repaint();
+                } else if (dir == Direction.RIGHT) {
+                    chap.moveRight();
+                    renderMazePanel.repaint();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        
     }
+
     /**
      * This method is used to add the buttons to the game
      */
@@ -1004,22 +1030,25 @@ public class GUI extends JPanel implements Runnable {
 
         recordGame = new JMenu("Record Game"); // record game menu
         replayGame = new JMenu("Auto Replay"); // replay game menu
-        mReplayGame = new JMenu("Manual Replay"); // manual replay game menu
+        mReplayGame = new JMenu("Manual Replay");
         exitItem = new JMenuItem(); // exit menu item
         saveItem = new JMenuItem(); // save menu item
         rulesItem = new JMenuItem(); // rules menu item
         loadItem = new JMenuItem(); // load menu item
-        startR = new JMenuItem("Start Replay"); 
+        startR = new JMenuItem("Start Replay");
         lvl1 = new JMenuItem(); // levels menu item
         lvl2 = new JMenuItem();
-        replaySpeedx125 = new JMenuItem("x1.25"); // replay speed menu item
+        replaySpeedx1 = new JMenuItem("x1"); // replay speed menu item
         replaySpeedx150 = new JMenuItem("x1.5");
         replaySpeedx200 = new JMenuItem("x2");
         startRecording = new JMenuItem("Start Recording"); // start and stop recording menu item
         stopRecording = new JMenuItem("Stop Recording");
         startRecording.addActionListener(e -> startRecording()); // start and stop recording
         stopRecording.addActionListener(e -> stopRecording());
-        startR.addActionListener(e -> mReplayGame()); // manual replay game
+        replaySpeedx1.addActionListener(e -> setSpeed1());
+        replaySpeedx150.addActionListener(e -> setSpeed150());
+        replaySpeedx200.addActionListener(e -> setSpeed200());
+        startR.addActionListener(e -> runMreplay());
 
         // populate the menu items and key bindings
         populateMenuItems(saveItem, "Save", KeyEvent.VK_S,
@@ -1038,7 +1067,7 @@ public class GUI extends JPanel implements Runnable {
         // add menu items to menu
         recordGame.add(startRecording);
         recordGame.add(stopRecording);
-        replayGame.add(replaySpeedx125);
+        replayGame.add(replaySpeedx1);
         replayGame.add(replaySpeedx150);
         replayGame.add(replaySpeedx200);
         mReplayGame.add(startR);
@@ -1059,6 +1088,12 @@ public class GUI extends JPanel implements Runnable {
      */
     public void startRecording() {
         isRecording = true;
+        try {
+            Recorder.saveBoard(l1);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -1076,18 +1111,49 @@ public class GUI extends JPanel implements Runnable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "You must be recording to save a recording");
         }
     }
 
-    public void mReplayGame() {
+    public void aReplayGame() {
         // if (isRecording) {
-        //     JOptionPane.showMessageDialog(null, "You must stop recording to replay");
+        // JOptionPane.showMessageDialog(null, "You must stop recording to replay");
         // } else{
-        //     gameState = pauseState;
-        //     gameLevel = replay;
+        // gameState = pauseState;
+        // gameLevel = replay;
         // }
+        gameState = pauseState;
+        gameLevel = replay;
+        setUpLevel();
+    }
+
+    public void setSpeed1() {
+        Recorder.setReplaySpeed(1);
+        gameState = pauseState;
+        gameLevel = replay;
+        replayType = auto;
+        setUpLevel();
+    }
+
+    public void setSpeed150() {
+        Recorder.setReplaySpeed(1.50);
+        gameState = pauseState;
+        gameLevel = replay;
+        replayType = auto;
+        setUpLevel();
+    }
+
+    public void setSpeed200() {
+        Recorder.setReplaySpeed(2.0);
+        gameState = pauseState;
+        gameLevel = replay;
+        replayType = auto;
+        setUpLevel();
+    }
+
+    public void runMreplay() {
+        replayType = manual;
         gameState = pauseState;
         gameLevel = replay;
         setUpLevel();
@@ -1113,7 +1179,6 @@ public class GUI extends JPanel implements Runnable {
                 } else if (item.getText().equals("Save")) { // if save shortcut pressed
                     save(l1, chap);
 
-
                 } else if (item.getText().equals("Rules")) {
                 } else if (item.getText().equals("Load")) {
                     load();
@@ -1121,6 +1186,7 @@ public class GUI extends JPanel implements Runnable {
                     if (gameLevel == level1 || gameLevel == level2) {
                         // reset game
                         gameLevel = level1;
+                        renderMazePanel.stopMusic();
                         setUpLevel();
                     }
                 } else if (item.getText().equals("Load Level 2")) {
@@ -1154,9 +1220,20 @@ public class GUI extends JPanel implements Runnable {
      */
     public void save(Level l, Chap c) {
         System.out.println("Saved");
-        //exit
+        try {
+            Persistency.saveBoard(l, "savedGame.xml", savedGamesURL, c);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // exit
         System.exit(0);
     }
+
+    public static String timeDString; 
 
     /**
      * This method is used to set up timer
@@ -1168,12 +1245,13 @@ public class GUI extends JPanel implements Runnable {
                 if (time > 0) { // if time is greater than 0
                     time--; // decrement time
                     // format lv1Time to display as mm:ss
-                    String timeDString = String.format("%02d:%02d", time / 60, time % 60);
+                    timeDString = String.format("%02d:%02d", time / 60, time % 60);
                     System.out.print("\r " + timeDString);
                 } else {
                     timer.stop(); // stop timer so that there is no leak
                     JOptionPane.showMessageDialog(null, "Time's Up!"); // show popup
                     gameState = gameOverState; // change game state to game over
+                    renderMazePanel.stopMusic();
                     setUpGameOver();
                 }
             }
@@ -1181,19 +1259,40 @@ public class GUI extends JPanel implements Runnable {
         timer.start();// start timer
     }
 
-    public File load() {
-        System.out.println("Game Loaded");
-        fileChooser = new JFileChooser(".");
-        int res = fileChooser.showOpenDialog(this);
-        if (res == JFileChooser.APPROVE_OPTION) {
-            return fileChooser.getSelectedFile();
-        }
-        return null;
+    public void load() {
+        // try {
+        // Level newL = Persistency.loadBoard("savedGame.xml",
+        // "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/");
+        // chap = new Chap(newL.getStartingX(), newL.getStartingY(), newL); //pass level
+        // renderMazePanel = new RenderMazePanel(newL);
+        // renderMazePanel.loadAllImages();
+        // renderMazePanel.paintComponent(getGraphics());
+        // add(renderMazePanel);
+        // } catch (JDOMException | IOException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // System.out .println("Game Lofaded");
+        // // fileChooser = new JFileChooser(".");
+        // // int res = fileChooser.showOpenDialog(this);
+        // // if (res == JFileChooser.APPROVE_OPTION) {
+        // // System.out.println(fileChooser.getSelectedFile().getPath());
+        // // return fileChooser.getSelectedFile();
+        // // }
+        // return null;
+
+        System.out.println("GAME LOADED");
+        gameLevel = loadState;
+        setUpLevel();
+
+    }
+
+    private void remove(Graphics graphics) {
     }
 
     // //method that deletes current time and replaces it with new time
     // public void updateTimer(int time) {
-    //     this.timer.stop();
-    //     this.time = time;
+    // this.timer.stop();
+    // this.time = time;
     // }
 }

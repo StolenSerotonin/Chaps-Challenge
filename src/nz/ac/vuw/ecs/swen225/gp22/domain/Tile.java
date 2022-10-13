@@ -2,9 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
-/*
- * abstract class for tiles (floor,wall,info,water,exit)
- */
 public abstract class Tile{
 	private int x, y, xPos, yPos;
 	private boolean isPassable;

@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
+import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
 import nz.ac.vuw.ecs.swen225.gp22.domain.*;
 
 import java.io.IOException;
@@ -9,18 +10,35 @@ import org.junit.Test;
 
 
 public class PersistencyTests {
-    @Test
+	public String levelsURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
+	public String savedGamesURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
+    
+	@Test    
+	//Testing game loading with level1
     public void test1() throws JDOMException, IOException{
         try {
-            Level level1 = Persistency.loadBoard("level1.xml");
+            Level level1 = Persistency.loadBoard("level1.xml", levelsURL);
             check(level1);
-            Persistency.saveBoard(level1);
         }
         catch (Exception e) {
             e.printStackTrace(); 
         }
         
-    }
+    } 
+	@Test
+	//Testing game saving
+	public void test2() {
+        try {
+            Level level1 = Persistency.loadBoard("level1.xml", levelsURL);
+            check(level1);
+            Chap chap = new Chap(level1.getStartingX(), level1.getStartingY(), level1);
+            Persistency.saveBoard(level1, "savedGame.xml", savedGamesURL, chap);
+        }
+        catch (Exception e) {
+            e.printStackTrace(); 
+        }
+	}
+	
 
     public static void check(Level l) {
         for(int i = 0; i < l.getTiles().length; i++){
@@ -35,9 +53,10 @@ public class PersistencyTests {
             }
             System.out.println();
         }
+        System.out.println();
     }
     public static String getTileObject(Tile tO) {
-        String tileObjectStr = "";
+        String tileObjectStr = tO.getImg().getName();
         if(tO instanceof WallTile){
             tileObjectStr = "W";
         }
@@ -47,10 +66,11 @@ public class PersistencyTests {
         else if(tO instanceof Exit){
             tileObjectStr =  "E";
         }
+
         return tileObjectStr;
     }
     public static String getSolidObject(SolidObject sO) {
-        String solidObjectStr = "";
+        String solidObjectStr = "solid";
         if(sO instanceof Key){
             solidObjectStr = "K";
         }

@@ -1,8 +1,5 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
-/*
- * Class for enemy actor
- */
 public class Enemy {
     private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 

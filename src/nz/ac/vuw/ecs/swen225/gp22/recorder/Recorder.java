@@ -14,6 +14,8 @@ import org.jdom2.output.XMLOutputter;
 import org.junit.platform.commons.util.LruCache;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
+import nz.ac.vuw.ecs.swen225.gp22.app.KeyInput;
+import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
 
 /**
  * Recorder class code which holds the code for basic xml saving of moves and
@@ -24,10 +26,18 @@ import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
 
 public class Recorder {
     private static ArrayList<Move> moves = new ArrayList<>();
-    private static double replaySpeed;
+    private static double replaySpeed = 1;
     private static int count = 0;
 
     public record Move(String player, Direction dir, int index) {
+    }
+
+    /**
+     * 
+     * @param speed
+     */
+    public static void setReplaySpeed(double speed) {
+        replaySpeed = speed;
     }
 
     /**
@@ -64,7 +74,7 @@ public class Recorder {
                 dir = Direction.LEFT;
             else if (direction.equals("RIGHT"))
                 dir = Direction.RIGHT;
-            //int index = Integer.valueOf(moveId);
+            // int index = Integer.valueOf(moveId);
 
             Move move = new Move(player, dir, moveId);
             moves.add(move);
@@ -111,33 +121,35 @@ public class Recorder {
     }
 
     public static void saveBoard(Object board) throws IOException {
-        // TODO Persistency Save Board
+        Persistency.saveBoard(board, "recorderBoard.xml", "src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/", GUI.chap);
     }
 
 
-    public static void runAutoReplay (GUI app) {
-        
+    public static void runAutoReplay(GUI app) {
         app.setupReplay();
-        // System.out.println("BRUH");
-        //app.clearPanel();
-        System.out.println("MOVESSSS:::::::::::::::::::::::::" + moves);
         Runnable runnable = () -> {
             System.out.println("AUTO REPLAY RUNNING");
-            while (!moves.isEmpty()){
+            while (!moves.isEmpty()) {
                 try {
-                    if (moves.size() > 0){
-                        Thread.sleep(200); // TODO field with GUI
+                    if (moves.size() > 0) {
+                        Thread.sleep(250 / (long) replaySpeed); // TODO field with GUI
                     }
                     // singleMove(app);
                     try {
                         if (moves.size() > 0) {
                             Move move = moves.get(0);
                             if (move.player().equals("chap")) {
-                                System.out.println("CHAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-                                app.replayChap(move.dir());
-                                moves.remove(0);
-                            //} else if (move.player().equals("enemy")) {
-                                //System.out.println("Enemy Moves");
+                                if(app.replayType == app.manual){
+                                    if (app.keyIn.replaying == 1) {
+                                        app.replayChap(move.dir());
+                                        moves.remove(0);
+                                    }
+                                }else{
+                                    app.replayChap(move.dir());
+                                    moves.remove(0);
+                                }
+                                // } else if (move.player().equals("enemy")) {
+                                // System.out.println("Enemy Moves");
                             } else {
                                 System.out.println("Error finding chap");
                             }
@@ -154,67 +166,32 @@ public class Recorder {
         thread.start();
     }
 
-    // app.setGameSpeed((int) (1000 / playbackSpeed));
-    // Runnable runnable = () -> {
-    // while (movesList.size() > 0) {
-    // try {
-    // if (actors.size() > 0 && actors.get(0).equals("Chap")) {
-    // Thread.sleep(playbackSpeed);
-    // }
-    // step(app);
-    // } catch (InterruptedException e) {
-    // System.out.println("Running through recording was interrupted:" + e);
-    // }
-    // }
-    // };
-    // Thread thread = new Thread(runnable);
-    // thread.start();
-
-    // }
-
-    // /**
-    // * @param takes an app parameter to replay the recorded gameplay step by step
-    // */
-
-    // public static void step(App app) {
-    // try {
-    // if (movesList.size() > 0) {
-    // if (actors.get(0).equals("Chap")) {
-    // app.move(actions.get(0));
-    // movesList.remove(0);
-    // actions.remove(0);
-    // } else if (actors.get(0).equals("Enemy")) {
-    // app.move(actions.get(0));
-    // movesList.remove(0);
-    // actions.remove(0);
-    // } else {
-    // System.out.println("Actor should not exist");
-    // }
-    // }
-    // } catch (IndexOutOfBoundsException ignored) {
-
-    // }
-    // }
-
     /** 
      * 
      */
-    public static void singleMove(GUI app) {
-        try {
-            if (moves.size() > 0) {
-                Move move = moves.get(0);
-                if (move.player().equals("chap")) {
-                    System.out.println("CHAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-                    app.replayChap(move.dir());
-                    moves.remove(0);
-                //} else if (move.player().equals("enemy")) {
-                    //System.out.println("Enemy Moves");
-                } else {
-                    System.out.println("Error finding chap");
+    public static void runStepReplay(GUI app) {
+        app.setupReplay();
+        System.out.println(app.keyIn.replaying);
+        if (app.gameState == app.pauseState && app.gameLevel == app.replay && app.replayType == app.manual) {
+            // app.moveChap();
+            try {
+                if (moves.size() > 0) {
+                    Move move = moves.get(0);
+                    if (move.player().equals("chap")) {
+                        if (app.keyIn.replaying == 1) {
+
+                            app.replayChap(move.dir());
+                            moves.remove(0);
+                        }
+                        // } else if (move.player().equals("enemy")) {
+                        // System.out.println("Enemy Moves");
+                    } else {
+                        System.out.println("Error finding chap");
+                    }
                 }
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Index out of Bounds on Single Move");
             }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Index out of Bounds on Single Move");
         }
     }
 

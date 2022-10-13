@@ -1,12 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp22.app;
 
 import java.awt.event.KeyListener;
+
+import javax.swing.Renderer;
+
+import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
+
 import java.awt.event.KeyEvent;
 
 //this class is used to handle key inputs
 public class KeyInput implements KeyListener{
 
-public int up, down, left, right, pause, escape;
+public int up, down, left, right, pause, escape, replaying;
 
 GUI guiPanel;
 
@@ -39,6 +44,7 @@ public KeyInput(GUI guiPanel) {
     public void keyResumeState(int keyCode){
         if(keyCode == KeyEvent.VK_ESCAPE) {
             System.out.println("RESUMED");
+            GUI.renderMazePanel.playMusic();
             guiPanel.gameState = guiPanel.playState;
             guiPanel.isPaused = false;
             guiPanel.timer.start();
@@ -88,15 +94,16 @@ public KeyInput(GUI guiPanel) {
     public void keyReplayState(int keyCode){
         if(keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_SPACE){
             System.out.println("REPLAYING");
-            //setupReplay
-
+            //setupReplay7
+            // Recorder.runStepReplay(guiPanel);
+            replaying = 1;
         }
     }
     public void keyResumeRepState(int keyCode){
         if(keyCode == KeyEvent.VK_ESCAPE) {
             System.out.println("Back to main menu from replaying");
             guiPanel.gameState = guiPanel.menuState;
-            guiPanel.setUpMenu();
+            guiPanel.setUpLevel();
         }
     }
 
@@ -127,6 +134,7 @@ public KeyInput(GUI guiPanel) {
             guiPanel.gameState = guiPanel.pauseState;
             guiPanel.isPaused = true;
             System.out.println("Paused");
+            GUI.renderMazePanel.stopMusic();
             guiPanel.timer.stop();
             guiPanel.pauseButton.setText("Resume");
 
@@ -152,6 +160,7 @@ public KeyInput(GUI guiPanel) {
         if(key == KeyEvent.VK_RIGHT) {
             //move right
             right = 0;
+            replaying = 0;
         }
         if(key == KeyEvent.VK_SPACE) {
             //pause
@@ -160,7 +169,8 @@ public KeyInput(GUI guiPanel) {
         if(key == KeyEvent.VK_ESCAPE) {
             //escape
             escape = 0;
-        }
+        } 
+
         
         
     } 

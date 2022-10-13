@@ -2,9 +2,6 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
-/*
- * Class for the ExitLock locked until chap has enough Chips
- */
 public class ExitLock extends SolidObject{
 	
 	public ExitLock(int xp, int yp){
@@ -13,9 +10,6 @@ public class ExitLock extends SolidObject{
 		initialize();
 	}
 	
-	/*
-	 * Handles Chap colliding with ExitLock
-	 */
 	public void onCollision(Chap c){
 		if(getCollided()){}
 		else if(c.getChips() >= c.getLevel().getChipsRequired()){
@@ -23,7 +17,7 @@ public class ExitLock extends SolidObject{
 			setCollided(true);
 		}
 		else{
-			c.setPosition(c.getLastXPos(), c.getLastYPos());
+			throw new IllegalArgumentException("Chap does not have enough chips");
 		}
 	}
 	
