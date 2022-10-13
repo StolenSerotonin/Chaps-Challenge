@@ -204,7 +204,6 @@
         <tile>blueKey</tile>
         <tile>floor</tile>
         <tile>infoField</tile>
-            <message>Collect all the chips to get past the barrier!</message>
         <tile>floor</tile>
         <tile>redKey</tile>
         <tile>wall</tile>
@@ -492,4 +491,23 @@
         <tile>floor</tile>
         <tile>floor</tile>
     </row>
+    <message>Collect all the chips to get past the barrier!</message>
+    <inventory>
+        <key>
+            <name>yellow</name>
+            <count>0</count>
+        </key>
+        <key>
+            <name>blue</name>
+            <count>0</count>
+        </key>
+        <key>
+            <name>red</name>
+            <count>0</count>
+        </key>
+        <key>
+            <name>green</name>
+            <count>0</count>
+        </key>
+    </inventory>
 </level>
