@@ -2,7 +2,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 
 /**
- * 
+ * Chap Alive State
  */
 public class AliveState implements ChapState {
 	
