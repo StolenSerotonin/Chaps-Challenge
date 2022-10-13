@@ -3,25 +3,25 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
 /*
- * Class for floor tiles
+ * class for water tiles
  */
-public class FloorTile extends Tile{
+public class WaterTile extends Tile{
 
-	public FloorTile(int xPos, int yPos){
+	public WaterTile(int xPos, int yPos){
 		setPosition(xPos, yPos);
-		setPassable(true);
-		setPushable(true);
-		setImg(Images.Floor);
+		setPassable(true); 
+		setPushable(false);
+		setImg(Images.Water);
 	}
 	
 	public void onWalk(Chap c){
-		
-	}
+        c.getState().die();
+    }
 	
 	public void reset(){}
 
 	public String toString(){
-		return "floor";
+		return "water";
 	}
 	
 }

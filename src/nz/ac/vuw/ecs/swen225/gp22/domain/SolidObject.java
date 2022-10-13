@@ -2,6 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
+/*
+ * abstract class for solid objects (keys, doors, computerchips, exitlock) 
+ */
 public abstract class SolidObject{
 	private int x, y, xPos, yPos;
 	private Images img;
