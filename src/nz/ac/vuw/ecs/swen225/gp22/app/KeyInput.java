@@ -6,48 +6,62 @@ import nz.ac.vuw.ecs.swen225.gp22.recorder.Recorder;
 
 import java.awt.event.KeyEvent;
 
-//this class is used to handle key inputs
+/**
+* This class is used to handle the key inputs from the user.
+* @author Ecco Competente
+*/
 public class KeyInput implements KeyListener{
-
-public int up, down, left, right, pause, escape, replaying;
-
-GUI guiPanel;
-
-public KeyInput(GUI guiPanel) {
-    this.guiPanel = guiPanel;
-}
-
+    
+    public int up, down, left, right, pause, escape, replaying;
+    
+    GUI guiPanel;
+    
+    public KeyInput(GUI guiPanel) {
+        this.guiPanel = guiPanel;
+    }
+    
     @Override
     public void keyTyped(KeyEvent e) {
-        
     }
-
+    
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if(guiPanel.gameState == guiPanel.menuState){
-            keyStartState(keyCode);
-        }else if(guiPanel.gameState == guiPanel.playState && guiPanel.isPaused == false){
+        if(guiPanel.gameState == guiPanel.menuState){ //if the game is in the menu state
+            keyStartState(keyCode); //call the keyStartState method
+        }else if(guiPanel.gameState == guiPanel.playState && guiPanel.isPaused == false){ //if the game is in the play state and is not paused
             keyPlayState(keyCode);
-        }else if(guiPanel.gameState == guiPanel.pauseState && guiPanel.isPaused ==true){
+        }else if(guiPanel.gameState == guiPanel.pauseState && guiPanel.isPaused ==true){ //if the game is in the pause state and is paused
             keyResumeState(keyCode);
-        }else if(guiPanel.gameState == guiPanel.gameOverState){
+        }else if(guiPanel.gameState == guiPanel.gameOverState){ //if the game is in the game over state
             keyGameOverState(keyCode);
-        }else if (guiPanel.gameLevel == guiPanel.replay && guiPanel.gameState == guiPanel.pauseState){
+        }else if (guiPanel.gameLevel == guiPanel.replay && guiPanel.gameState == guiPanel.pauseState){ //if the game is in the replay state
             keyReplayState(keyCode);
             keyResumeRepState(keyCode);
+        }else if(guiPanel.gameState == guiPanel.winState){ //if the game is in the win state
+            keyWinState(keyCode);
         }
     }
-
+    
+    /**
+     * This method is used to handle the key inputs from the user when the game is in the Pause State.
+     * @param keyCode - the key code of the key pressed by the user.
+     */
     public void keyResumeState(int keyCode){
         if(keyCode == KeyEvent.VK_ESCAPE) {
             System.out.println("RESUMED");
+            GUI.renderMazePanel.playMusic();
             guiPanel.gameState = guiPanel.playState;
             guiPanel.isPaused = false;
             guiPanel.timer.start();
             guiPanel.pauseButton.setText("Pause");
         }
     }
+
+    /**
+     * This method is used to handle the key inputs when the game is in the MenuState.
+     * @param keyCode - the key code of the key pressed by the user.
+     */
     public void keyStartState(int keyCode){
         if(keyCode == KeyEvent.VK_ENTER){
             System.out.println("ENTER GAME");
@@ -57,6 +71,11 @@ public KeyInput(GUI guiPanel) {
             guiPanel.timer.start();
         }
     }
+
+    /**
+     * This method is used to handle the key inputs from the user when the game is in Game Over state.
+     * @param keyCode - the key code of the key pressed by the user.
+     */
     public void keyGameOverState(int keyCode){
         if(keyCode == KeyEvent.VK_ENTER){
             System.out.println("RETRY Level");
@@ -87,15 +106,56 @@ public KeyInput(GUI guiPanel) {
             guiPanel.setUpMenu();
         }
     }
-
+    
+    /**
+     * This method is used to handle the key inputs from the user when the game is in the Win State
+     * @param keyCode - the key code of the key pressed by the user.
+     */
+    public void keyWinState(int keyCode){
+        if(keyCode == KeyEvent.VK_ENTER){
+            System.out.println("WIN");
+            guiPanel.gameState = guiPanel.playState;
+            if(guiPanel.gameLevel == guiPanel.level1) guiPanel.gameLevel = guiPanel.level2;
+            guiPanel.setUpLevel();
+        }
+        else if(keyCode == KeyEvent.VK_1){
+            System.out.println("RETRY Level 1");
+            guiPanel.gameState = guiPanel.playState;
+            guiPanel.gameLevel = guiPanel.level1;
+            guiPanel.setUpLevel();
+        }
+        else if(keyCode == KeyEvent.VK_2){
+            System.out.println("RETRY Level 2");
+            guiPanel.gameState = guiPanel.playState;
+            guiPanel.gameLevel = guiPanel.level2;
+            guiPanel.setUpLevel();
+        }
+        else if(keyCode == KeyEvent.VK_ESCAPE){
+            System.out.println("EXIT GAME");
+            System.exit(0);
+        }
+        else if(keyCode == KeyEvent.VK_M){
+            System.out.println("RETURN TO MENU");
+            guiPanel.gameState = guiPanel.menuState;
+            guiPanel.setUpLevel();
+        }
+    }
+    
+    /**
+     * This method is used to handle the key inputs from the user when the game is replying a game manually
+     * @param keyCode - the key code of the key pressed by the user.
+     */
     public void keyReplayState(int keyCode){
         if(keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_SPACE){
             System.out.println("REPLAYING");
-            //setupReplay7
-            // Recorder.runStepReplay(guiPanel);
             replaying = 1;
         }
     }
+
+    /**
+     * This method is used to handle the key inputs from the user when the game is in the replay state.
+     * @param keyCode - the key code of the key pressed by the user.
+     */
     public void keyResumeRepState(int keyCode){
         if(keyCode == KeyEvent.VK_ESCAPE) {
             System.out.println("Back to main menu from replaying");
@@ -103,40 +163,34 @@ public KeyInput(GUI guiPanel) {
             guiPanel.setUpLevel();
         }
     }
-
+    
+    /**
+     * This method is used to handle the key inputs from the user when the game is in play state.
+     * @param keyCode - the key code of the key pressed by the user.
+     */
     public void keyPlayState(int keyCode){
         if(keyCode == KeyEvent.VK_UP) {
             up = 1;
-            // System.out.println("upPressed");
         }
         if(keyCode == KeyEvent.VK_DOWN) {
-            //move down
             down = 1;
-            // System.out.println("downPressed");
-
         }
         if(keyCode == KeyEvent.VK_LEFT) {
-            //move left
             left = 1;
-            // System.out.println("leftPressed");
-
         }
         if(keyCode == KeyEvent.VK_RIGHT) {
-            //move right
             right = 1;
-            //System.out.println("rightPressed");
-
         }
         if(keyCode == KeyEvent.VK_SPACE) {
             guiPanel.gameState = guiPanel.pauseState;
             guiPanel.isPaused = true;
             System.out.println("Paused");
+            GUI.renderMazePanel.stopMusic();
             guiPanel.timer.stop();
             guiPanel.pauseButton.setText("Resume");
-
         }
     }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
@@ -166,9 +220,9 @@ public KeyInput(GUI guiPanel) {
             //escape
             escape = 0;
         } 
-
+        
         
         
     } 
-
+    
 }

@@ -1,10 +1,12 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import java.awt.Point;
-import java.util.Iterator;
 import java.util.Map;
 
-public class Level implements Iterable<Point>{
+/*
+ * Class for level object
+ */
+public class Level{
 	private Tile[][] tiles;
 	private SolidObject[][] objects;
 	private Map<String, Integer> inventory;
@@ -13,6 +15,9 @@ public class Level implements Iterable<Point>{
 	private int chipsRequired;
 	private int timer;
 	
+	/*
+	 * Set of level constructors
+	 */
 	public Level(int xDimension, int yDimension, int startX, int startY, int chipsRequired){
 		tiles = new Tile[xDimension][yDimension];
 		objects = new SolidObject[xDimension][yDimension];
@@ -44,6 +49,9 @@ public class Level implements Iterable<Point>{
 		chipsRequired = 0;
 	}
 	
+	/*
+	 * Set of setters and getters for levels
+	 */
 	public Tile[][] getTiles(){
 		return tiles;
 	}
@@ -124,6 +132,9 @@ public class Level implements Iterable<Point>{
 		this.timer = timer;
 	}
 
+	/*
+	 * Set of methods for handling inventory
+	 */
 	public void setInv(Map<String, Integer> inv){
 		this.inventory = inv;
 	}
@@ -168,7 +179,4 @@ public class Level implements Iterable<Point>{
 		}
 	}
 	
-	public Iterator<Point> iterator(){
-		return new LevelIterator(this);
-	}
 }
