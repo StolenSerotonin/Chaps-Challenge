@@ -79,6 +79,12 @@ public class Enemy extends SolidObject{
 	public int getLastYPos(){
 		return lastYPos;
 	}
+	/*
+	 * Enemy last Xpos
+	 */
+	public int getLastXPos(){
+		return lastXPos;
+	}
 
     /*
      * Collection of movement methods for Enemy
