@@ -3,7 +3,7 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
+/**
  * Class for Chap
  */
 public class Chap{
@@ -22,7 +22,7 @@ public class Chap{
 	private DeadState dead;
 	private WinState victory;
 	
-	/*
+	/**
 	 * Chap Constructor
 	 */
 	public Chap(int xPos, int yPos, Level level){
@@ -38,31 +38,31 @@ public class Chap{
 		this.level = level;
 	}
 	
-	/*
+	/**
 	 * Chaps X position on the board
 	 */
 	public int getXPos(){
 		return xPos;
 	}
-	/*
+	/**
 	 * Chaps Y position on the board
 	 */
 	public int getYPos(){
 		return yPos;
 	}
-	/*
+	/**
 	 * Chaps position in the 2D array
 	 */
 	public int getX(){
 		return x;
 	}
-	/*
+	/**
 	 * Chaps position in the 2D array
 	 */
 	public int getY(){
 		return y;
 	}
-	/*
+	/**
 	 * Set chaps position on the board
 	 */
 	public void setPosition(int xPos, int yPos){
@@ -77,13 +77,13 @@ public class Chap{
 	public void setDirection(Direction dir){
 		direction = dir;
 	}
-	/*
+	/**
 	 * Chaps last Xpos on the board
 	 */
 	public int getLastXPos(){
 		return lastXPos;
 	}
-	/*
+	/**
 	 * Chaps last Ypos on the board
 	 */
 	public int getLastYPos(){
@@ -106,20 +106,20 @@ public class Chap{
 	public void setState(ChapState state){
 		this.state = state;
 	}
-	/*
+	/**
 	 * Returns the ammount of Computer Chips Chap has picked up
 	 */
 	public int getChips(){
 		return chips;
 	}
 	
-	/*
+	/**
 	 * Chap collects a Computer Chip
 	 */
 	public void obtainChip(){
-		//if(!(level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
-		//	throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
-		//}
+		if(!(level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
+			throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
+		}
 		int uncollectedChips = level.getChipsRequired() - getChips(); 
 		chips++;
 		int uncollectedChips2 = level.getChipsRequired() - getChips();
@@ -131,13 +131,13 @@ public class Chap{
 		chips = 0;
 	}
 	
-	/*
+	/**
 	 * Collection of methods for when Chap collects a key
 	 */
 	public void getRedKey(){
-		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
-		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		//}
+		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		}
 		int count = level.getKey("red");
 		Map<String, Integer> temp = new HashMap<String, Integer>(level.getInv());
 		temp.put("red", count + 1);
@@ -146,9 +146,9 @@ public class Chap{
 		assert count2 == count + 1;
 	}
 	public void getBlueKey(){
-		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
-		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		//}
+		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		}
 		int count = level.getKey("blue");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("blue", count + 1);
@@ -157,9 +157,9 @@ public class Chap{
 		assert count2 == count + 1;
 	}
 	public void getYellowKey(){
-		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
-		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		//}
+		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		}
 		int count = level.getKey("yellow");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("yellow", count + 1);
@@ -168,9 +168,9 @@ public class Chap{
 		assert count2 == count + 1;
 	}
 	public void getGreenKey(){
-		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
-		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		//}
+		if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		}
 		int count = level.getKey("green");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("green", count + 1);
@@ -179,7 +179,7 @@ public class Chap{
 		assert count2 == count + 1;
 	}
 	
-	/*
+	/**
 	 * Collection of methods for when Chap uses a key
 	 */
 	public void useRedKey(){
@@ -223,7 +223,7 @@ public class Chap{
 		}
 	}
 	
-	/*
+	/**
 	 * Collection of methods that handle Chap's movement
 	 */
 	public void move(int dx, int dy){
@@ -271,7 +271,7 @@ public class Chap{
 		}
 	}
 
-	/*
+	/**
 	 * Method to handle SolidObject collisions
 	 */
 	public void CollisionCheck(int x, int y){
@@ -282,7 +282,7 @@ public class Chap{
 		return this.level;
 	}
 
-	/*
+	/**
 	 * return string for chap
 	 */
 	public String toString(){

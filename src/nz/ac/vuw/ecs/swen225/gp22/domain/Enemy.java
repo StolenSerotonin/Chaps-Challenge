@@ -1,9 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
+
 /*
  * Class for enemy actor
  */
-public class Enemy {
+public class Enemy extends SolidObject{
     private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
 	private int targetY1, targetY2, currentTarget;
@@ -24,6 +26,7 @@ public class Enemy {
 		y = yPos * 24;
 		direction = Direction.DOWN;
 		this.level = level;
+		setImg(Images.Enemy);
 	}
 
     	/*
@@ -81,9 +84,10 @@ public class Enemy {
     /*
      * Collection of movement methods for Enemy
      */
+	@Override
     public void move(int dx, int dy){
 		if(!level.getTile(xPos+dx, yPos+dy).isPassable()) {
-			throw new IllegalArgumentException("Chap cannot phase through walls");
+			throw new IllegalArgumentException("Enemy cannot phase through walls");
 		}
 		lastYPos = yPos;
 		xPos += dx;
@@ -97,27 +101,6 @@ public class Enemy {
 			currentTarget = 1;
 		}
 	}
-	
-	public void moveUp(){
-			move(0, -1);
-			if(direction != Direction.UP)
-				direction = Direction.UP;
-	}
-	public void moveDown(){
-			move(0, 1);
-			if(direction != Direction.DOWN)
-				direction = Direction.DOWN;
-	}
-	public void moveLeft(){
-			move(-1, 0);
-			if(direction != Direction.LEFT)
-				direction = Direction.LEFT;
-	}
-	public void moveRight(){
-			move(1, 0);
-			if(direction != Direction.RIGHT)
-				direction = Direction.RIGHT;
-		}
 
 	/*
 	 * Used to update ememy in GUI updateGame()
@@ -136,5 +119,16 @@ public class Enemy {
 	 */
 	public String toString(){
 		return "enemy";
+	}
+
+	@Override
+	public void onCollision(Chap c) {
+		c.getState().die();
+	}
+
+	@Override
+	public void initialize() {
+		setImg(Images.Enemy);
+		setCollided(false);
 	}
 }
