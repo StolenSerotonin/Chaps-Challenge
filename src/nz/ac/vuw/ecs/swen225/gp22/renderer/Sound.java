@@ -66,8 +66,10 @@ public class Sound {
       
     // current status of clip 
     String status; 
-      
+    
     AudioInputStream audioInputStream; 
+    AudioInputStream[] audio; 
+
     static String filePath = "src/nz/ac/vuw/ecs/swen225/gp22/renderer/Sounds/Scruffy.wav"; 
   
     // constructor to initialize streams and clip 
@@ -76,17 +78,26 @@ public class Sound {
         IOException, LineUnavailableException  
     { 
         // create AudioInputStream object 
-        audioInputStream =  
-                AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile()); 
+        audio[0] = AudioSystem.getAudioInputStream(new File("src/nz/ac/vuw/ecs/swen225/gp22/renderer/Sounds/Scruffy.wav").getAbsoluteFile()); 
+        audio[1] = AudioSystem.getAudioInputStream(new File("src/nz/ac/vuw/ecs/swen225/gp22/renderer/Sounds/ComputerChip.wav").getAbsoluteFile());
+        audio[2] = AudioSystem.getAudioInputStream(new File("src/nz/ac/vuw/ecs/swen225/gp22/renderer/Sounds/Key.wav").getAbsoluteFile());  
           
         // create clip reference 
         soundClip = AudioSystem.getClip(); 
           
         // open audioInputStream to the clip 
-        soundClip.open(audioInputStream); 
           
         // soundClip.loop(Clip.LOOP_CONTINUOUSLY); 
     } 
+
+    public void setFile(int i){
+        try {
+            soundClip.open(audio[i]);
+        } catch (LineUnavailableException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     public void play(){
         soundClip.start();
