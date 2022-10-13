@@ -1,14 +1,17 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import java.util.HashMap;
 import java.util.Map;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 
+/*
+ * Class for Chap
+ */
 public class Chap{
-	private Map<String, Integer> inventory;
 	private int chips;
 	private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
 	private Direction direction; 
+	private Level level;
 	
 	public enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -19,32 +22,49 @@ public class Chap{
 	private DeadState dead;
 	private WinState victory;
 	
-	
-	public Chap(int xPos, int yPos){
+	/*
+	 * Chap Constructor
+	 */
+	public Chap(int xPos, int yPos, Level level){
 		this.xPos = xPos;
 		this.yPos = yPos;
 		x = xPos * 24; //decided on 24 by carefull maths
 		y = yPos * 24;
-		inventory = Map.of("blue", 0, "red", 0, "green", 0, "yellow", 0);
 		direction = Direction.DOWN;
 		alive = new AliveState(this);
 		dead = new DeadState(this);
 		victory = new WinState(this);
 		state = alive;
+		this.level = level;
 	}
 	
+	/*
+	 * Chaps X position on the board
+	 */
 	public int getXPos(){
 		return xPos;
 	}
+	/*
+	 * Chaps Y position on the board
+	 */
 	public int getYPos(){
 		return yPos;
 	}
+	/*
+	 * Chaps position in the 2D array
+	 */
 	public int getX(){
 		return x;
 	}
+	/*
+	 * Chaps position in the 2D array
+	 */
 	public int getY(){
 		return y;
 	}
+	/*
+	 * Set chaps position on the board
+	 */
 	public void setPosition(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -57,10 +77,15 @@ public class Chap{
 	public void setDirection(Direction dir){
 		direction = dir;
 	}
-	
+	/*
+	 * Chaps last Xpos on the board
+	 */
 	public int getLastXPos(){
 		return lastXPos;
 	}
+	/*
+	 * Chaps last Ypos on the board
+	 */
 	public int getLastYPos(){
 		return lastYPos;
 	}
@@ -81,35 +106,23 @@ public class Chap{
 	public void setState(ChapState state){
 		this.state = state;
 	}
-	
-	public Map keyStatus(){
-		return inventory;
-	}
-	
-	public boolean hasRedKey(){
-		return inventory.get("red") > 0;
-	}
-	public boolean hasBlueKey(){
-		return inventory.get("blue") > 0;
-	}
-	public boolean hasYellowKey(){
-		return inventory.get("yellow") > 0;
-	}
-	public boolean hasGreenKey(){
-		return inventory.get("green") > 0;
-	}
-	
+	/*
+	 * Returns the ammount of Computer Chips Chap has picked up
+	 */
 	public int getChips(){
 		return chips;
 	}
 	
+	/*
+	 * Chap collects a Computer Chip
+	 */
 	public void obtainChip(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
-			throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
-		}
-		int uncollectedChips = Level.getChipsRequired() - getChips(); 
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof ComputerChip)){
+		//	throw new IllegalStateException("There is no ComputerChip here: " + getYPos() + getXPos());
+		//}
+		int uncollectedChips = level.getChipsRequired() - getChips(); 
 		chips++;
-		int uncollectedChips2 = Level.getChipsRequired() - getChips();
+		int uncollectedChips2 = level.getChipsRequired() - getChips();
 		assert uncollectedChips2 == uncollectedChips - 1;
 
 	}
@@ -118,92 +131,106 @@ public class Chap{
 		chips = 0;
 	}
 	
+	/*
+	 * Collection of methods for when Chap collects a key
+	 */
 	public void getRedKey(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
-			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		}
-		int count = inventory.get("red");
-		inventory.put("red", count+1);
-		int count2 = inventory.get("red");
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		//}
+		int count = level.getKey("red");
+		Map<String, Integer> temp = new HashMap<String, Integer>(level.getInv());
+		temp.put("red", count + 1);
+		level.setInv(temp);
+		int count2 = level.getKey("red");
 		assert count2 == count + 1;
 	}
 	public void getBlueKey(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
-			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		}
-		int count = inventory.get("blue");
-		inventory.put("blue", count+1);
-		int count2 = inventory.get("blue");
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		//}
+		int count = level.getKey("blue");
+		Map<String, Integer> temp = level.getInv();
+		temp.put("blue", count + 1);
+		level.setInv(temp);
+		int count2 = level.getKey("blue");
 		assert count2 == count + 1;
 	}
 	public void getYellowKey(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
-			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		}
-		int count = inventory.get("yellow");
-		inventory.put("yellow", count+1);
-		int count2 = inventory.get("yellow");
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		//}
+		int count = level.getKey("yellow");
+		Map<String, Integer> temp = level.getInv();
+		temp.put("yellow", count + 1);
+		level.setInv(temp);
+		int count2 = level.getKey("yellow");
 		assert count2 == count + 1;
 	}
 	public void getGreenKey(){
-		if(!(Level.getObject(this.xPos, this.yPos) instanceof Key)){
-			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
-		}
-		int count = inventory.get("green");
-		inventory.put("green", count+1);
-		int count2 = inventory.get("green");
+		//if(!(level.getObject(this.xPos, this.yPos) instanceof Key)){
+		//	throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
+		//}
+		int count = level.getKey("green");
+		Map<String, Integer> temp = level.getInv();
+		temp.put("green", count + 1);
+		level.setInv(temp);
+		int count2 = level.getKey("green");
 		assert count2 == count + 1;
 	}
-	public void loseKeys(){
-		inventory.forEach((k, v) -> inventory.put(k,0));
-	}
 	
+	/*
+	 * Collection of methods for when Chap uses a key
+	 */
 	public void useRedKey(){
-		int count = inventory.get("red");
+		int count = level.getKey("red");
 		if(count<=0){
 			throw new IllegalStateException("Chap has no Red Key");
 		} else{
-			inventory.put("red", count-1);
-			int count2 = inventory.get("red");
+			level.putKey("red", count-1);
+			int count2 = level.getKey("red");
 			assert count2 == count - 1;
 		}
 	}
 	public void useBlueKey(){
-		int count = inventory.get("blue");
+		int count = level.getKey("blue");
 		if(count<=0){
-			throw new IllegalStateException("Chap has no blue Key");
+			throw new IllegalStateException("Chap has no Blue Key");
 		} else{
-			inventory.put("blue", count-1);
-			int count2 = inventory.get("blue");
+			level.putKey("blue", count-1);
+			int count2 = level.getKey("blue");
 			assert count2 == count - 1;
 		}
 	}
 	public void useYellowKey(){
-		int count = inventory.get("yellow");
+		int count = level.getKey("yellow");
 		if(count<=0){
-			throw new IllegalStateException("Chap has no yellow Key");
+			throw new IllegalStateException("Chap has no Yellow Key");
 		} else{
-			inventory.put("yellow", count-1);
-			int count2 = inventory.get("yellow");
+			level.putKey("yellow", count-1);
+			int count2 = level.getKey("yellow");
 			assert count2 == count - 1;
 		}
 	}
 	public void useGreenKey(){
-		int count = inventory.get("green");
+		int count = level.getKey("green");
 		if(count<=0){
-			throw new IllegalStateException("Chap has no green Key");
+			throw new IllegalStateException("Chap has no Green Key");
 		} else{
-			inventory.put("green", count-1);
-			int count2 = inventory.get("green");
+			level.putKey("green", count-1);
+			int count2 = level.getKey("green");
 			assert count2 == count - 1;
 		}
 	}
 	
+	/*
+	 * Collection of methods that handle Chap's movement
+	 */
 	public void move(int dx, int dy){
-		if(!Level.getTile(xPos+dx, yPos+dy).isPassable()) {
+		if(!level.getTile(xPos+dx, yPos+dy).isPassable()) {
 			throw new IllegalArgumentException("Chap cannot phase through walls");
 		}
-		if(Level.hasObject(xPos + dx, yPos + dy)){
+		if(level.hasObject(xPos + dx, yPos + dy)){
 			CollisionCheck(xPos + dx, yPos + dy);
 		}
 		lastYPos = yPos;
@@ -211,6 +238,7 @@ public class Chap{
 		yPos += dy;
 		x += (dx * 24);
 		y += (dy * 24);
+		level.getTile(xPos, yPos).onWalk(this);
 	}
 	
 	public void moveUp(){
@@ -243,10 +271,20 @@ public class Chap{
 		}
 	}
 
+	/*
+	 * Method to handle SolidObject collisions
+	 */
 	public void CollisionCheck(int x, int y){
-		Level.getObject(x, y).onCollision(this);
+		level.getObject(x, y).onCollision(this);
 	}
-	
+
+	public Level getLevel(){
+		return this.level;
+	}
+
+	/*
+	 * return string for chap
+	 */
 	public String toString(){
 		return "chap";
 	}
