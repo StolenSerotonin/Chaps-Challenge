@@ -33,6 +33,9 @@ public enum Images {
     BlueKey("blueKey"),
     YellowKey("yellowKey"),
 
+    water("water"),
+    enemy("enemy"),
+
     InfoTile("infoField"),
 
     SideBar("sidebar"),
