@@ -2,6 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
+/*
+ * Class for Doors
+ */
 public class Door extends SolidObject{
 
 	private Images colour;
@@ -13,6 +16,9 @@ public class Door extends SolidObject{
 		initialize();
 	}
 	
+	/*
+	 * Handles Chip colliding with doors
+	 */
 	public void onCollision(Chap c){
 		if(getCollided()){}
 		else if(this.colour == Images.BlueDoor && c.getLevel().hasBlueKey()){

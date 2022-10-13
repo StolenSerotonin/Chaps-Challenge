@@ -2,7 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
-
+/*
+ * Class for Info tiles
+ */
 public class InfoTile extends Tile{
 	private String info;
 
