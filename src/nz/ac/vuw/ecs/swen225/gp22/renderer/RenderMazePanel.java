@@ -33,6 +33,7 @@ public class RenderMazePanel extends JPanel{
     private Level level;
 
     Sound sound;
+    Sound soundEffect;
 
     public static int tileSize = 72; 
     private int screenHeight = 520;
@@ -168,6 +169,7 @@ public class RenderMazePanel extends JPanel{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        // sound.setFile(0);
         sound.play();
         sound.loop();
     }
@@ -175,6 +177,18 @@ public class RenderMazePanel extends JPanel{
     public void stopMusic(){
         sound.stop();
     }
+
+    // public void playEffect(int i){
+    //     try {
+    //         soundEffect = new Sound();
+    //     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    //     soundEffect.setFile(i);
+    //     soundEffect.play();
+    // }
+
 
 
 }
