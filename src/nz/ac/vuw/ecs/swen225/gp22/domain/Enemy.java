@@ -1,9 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
+
 /*
  * Class for enemy actor
  */
-public class Enemy {
+public class Enemy extends SolidObject{
     private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
 	private int targetY1, targetY2, currentTarget;
@@ -19,6 +21,7 @@ public class Enemy {
 		this.targetY1 = yPos + 2;
 		this.targetY2 = yPos - 2;
 		this.currentTarget = 1;
+		setImg(Images.Enemy);
 		x = xPos * 24; //decided on 24 by carefull maths
 		y = yPos * 24;
 		direction = Direction.DOWN;
@@ -64,8 +67,7 @@ public class Enemy {
 		direction = dir;
 	}
 	/*
-	 * Enemy last Xpos on the board
-	 */
+	 * Enemy last Xpos on the boardhttps://gitlab.ecs.vuw.ac.nz/course-work/swen225/2022/project1/t23/chaps-challenge into Liams-Domain
 	public int getLastXPos(){
 		return lastXPos;
 	}
@@ -131,5 +133,18 @@ public class Enemy {
 	 */
 	public String toString(){
 		return "enemy";
+	}
+
+	@Override
+	public void onCollision(Chap c) {
+		c.getState().die();
+		
+	}
+
+	@Override
+	public void initialize() {
+		setImg(Images.Enemy);
+		setCollided(false);
+		
 	}
 }

@@ -11,7 +11,7 @@ public class WaterTile extends Tile{
 		setPosition(xPos, yPos);
 		setPassable(true); 
 		setPushable(false);
-		//setImg(Images.Water);
+		setImg(Images.Water);
 	}
 	
 	public void onWalk(Chap c){

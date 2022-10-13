@@ -183,7 +183,11 @@
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
@@ -213,7 +217,11 @@
     <tile>wall</tile>
     <tile>floor</tile>
     <tile>floor</tile>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
@@ -237,7 +245,11 @@
     <tile>computerChip</tile>
 =======
     <tile>floor</tile>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>wall</tile>
     <tile>wall</tile>
     <tile>wall</tile>
@@ -264,7 +276,11 @@
     <tile>redKey</tile>
 =======
     <tile>floor</tile>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>wall</tile>
     <tile>floor</tile>
     <tile>floor</tile>
@@ -311,7 +327,11 @@
     <tile>yellowDoor</tile>
 =======
     <tile>floor</tile>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>wall</tile>
     <tile>yellowDoor</tile>
     <tile>wall</tile>
@@ -361,7 +381,11 @@
     <tile>computerChip</tile>
 =======
     <tile>floor</tile>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>wall</tile>
     <tile>computerChip</tile>
     <tile>floor</tile>
@@ -387,7 +411,11 @@
     <tile>greenKey</tile>
 =======
     <tile>floor</tile>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>greenKey</tile>
@@ -527,7 +555,11 @@
   <hero>
     <xPos>11</xPos>
     <yPos>10</yPos>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
   </hero>
   <inventory>
     <key>
@@ -542,7 +574,11 @@
     <key>
       <name>blue</name>
 =======
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
       <count>1</count>
     </key>
     <key>
@@ -559,6 +595,10 @@
       <name>blue</name>
       <count>1</count>
     </key>
+<<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
+=======
+>>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
+>>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
   </inventory>
 </level>
