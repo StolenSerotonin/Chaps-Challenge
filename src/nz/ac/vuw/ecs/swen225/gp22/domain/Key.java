@@ -2,6 +2,9 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
+/*
+ * Class for keys
+ */
 public class Key extends SolidObject{
 	private Images colour;
 	
@@ -12,6 +15,9 @@ public class Key extends SolidObject{
 		initialize();
 	}
 	
+	/*
+	 * Handles Chap collsion with keys
+	 */
 	public void onCollision(Chap c){
 		if(!getCollided()){
 			if(this.colour == Images.BlueKey) {

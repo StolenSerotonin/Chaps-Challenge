@@ -3,6 +3,9 @@ package nz.ac.vuw.ecs.swen225.gp22.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * Class for Chap
+ */
 public class Chap{
 	private int chips;
 	private int x, y, xPos, yPos; 
