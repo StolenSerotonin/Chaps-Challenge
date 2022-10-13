@@ -169,7 +169,7 @@ public class RenderMazePanel extends JPanel{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        sound.setFile(0);
+        // sound.setFile(0);
         sound.play();
         sound.loop();
     }
@@ -178,16 +178,16 @@ public class RenderMazePanel extends JPanel{
         sound.stop();
     }
 
-    public void playEffect(int i){
-        try {
-            soundEffect = new Sound();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        soundEffect.setFile(i);
-        soundEffect.play();
-    }
+    // public void playEffect(int i){
+    //     try {
+    //         soundEffect = new Sound();
+    //     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    //     soundEffect.setFile(i);
+    //     soundEffect.play();
+    // }
 
 
 
