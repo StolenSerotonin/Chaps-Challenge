@@ -126,7 +126,7 @@ public class Recorder {
         Persistency.saveBoard(board, "recorderBoard.xml", "src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/", GUI.chap);
     }
 
-    public static void runAutoReplay(GUI app) {
+    
 
     /**
      * Runs the replay of the moves recorded

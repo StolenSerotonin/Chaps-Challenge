@@ -82,13 +82,6 @@ public class Enemy extends SolidObject{
      * Collection of movement methods for Enemy
      */
     public void move(int dx, int dy){
-<<<<<<< HEAD
-=======
-		if(!level.getTile(xPos+dx, yPos+dy).isPassable()) {
-			throw new IllegalArgumentException("Chap cannot phase through walls");
-		}
-		lastXPos = xPos;
->>>>>>> 8c9947ad25cac067150984a71f12a99fb436bed8
 		lastYPos = yPos;
 		xPos += dx;
 		yPos += dy;
