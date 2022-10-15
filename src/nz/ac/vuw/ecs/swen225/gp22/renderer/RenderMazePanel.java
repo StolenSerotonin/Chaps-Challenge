@@ -32,8 +32,7 @@ public class RenderMazePanel extends JPanel{
     private SolidObject[][] tileObjects;
     private Level level;
 
-    Sound sound;
-    Sound soundEffect;
+    Sound sound = new Sound();
 
     public static int tileSize = 72; 
     private int screenHeight = 520;
@@ -72,8 +71,6 @@ public class RenderMazePanel extends JPanel{
 
     /**
      * Preload all the images used in the game
-     * 
-     * @param g the graphics object used to draw the maze
      */
     public void loadAllImages(){
         Stream.of(Images.values()).forEach(img -> img.loadImg(img.getName())); //Stream through all of the images and load them
@@ -163,13 +160,7 @@ public class RenderMazePanel extends JPanel{
     }
 
     public void playMusic(){
-        try {
-            sound = new Sound();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // sound.setFile(0);
+        sound.setFile(0);
         sound.play();
         sound.loop();
     }
@@ -178,16 +169,13 @@ public class RenderMazePanel extends JPanel{
         sound.stop();
     }
 
-    // public void playEffect(int i){
-    //     try {
-    //         soundEffect = new Sound();
-    //     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-    //         // TODO Auto-generated catch block
-    //         e.printStackTrace();
-    //     }
-    //     soundEffect.setFile(i);
-    //     soundEffect.play();
-    // }
+    public void playSE(int i){
+        sound.setFile(i);
+        sound.play();
+    }
+
+
+
 
 
 
