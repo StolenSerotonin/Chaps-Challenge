@@ -123,7 +123,7 @@ public class Recorder {
      * @throws IOException file error
      */
     public static void saveBoard(Object board) throws IOException {
-        Persistency.saveBoard(board, "recorderBoard.xml", "src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/", GUI.chap);
+        GUI.persistency.saveBoard(board, "recorderBoard.xml", "src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/", GUI.chap);
     }
 
 
