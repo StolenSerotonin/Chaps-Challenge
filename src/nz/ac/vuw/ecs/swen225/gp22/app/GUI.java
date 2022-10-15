@@ -163,7 +163,7 @@ public class GUI extends JPanel implements Runnable {
         }
         System.out.println("LOADED REPLAY");
         try {
-            l1 = Persistency.loadBoard("recorderBoard.xml", "src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/");
+            l1 = persistency.loadBoard("recorderBoard.xml", "src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/");
         } catch (JDOMException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -222,7 +222,7 @@ public class GUI extends JPanel implements Runnable {
                 addButtons(); // add buttons
                 addMenu(); // add menu
                 try {
-                    l1 = Persistency.loadBoard("level1.xml", levelsURL);
+                    l1 = persistency.loadBoard("level1.xml", levelsURL);
                 } catch (JDOMException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -240,7 +240,7 @@ public class GUI extends JPanel implements Runnable {
                 System.out.println("LOADED LEVEL2222222");
                 addMenu(); // add menu
                 try {
-                    l1 = Persistency.loadBoard("level2.xml", levelsURL);
+                    l1 = persistency.loadBoard("level2.xml", levelsURL);
                 } catch (JDOMException | IOException e) {
                     e.printStackTrace();
                 }
@@ -257,7 +257,7 @@ public class GUI extends JPanel implements Runnable {
                     renderMazePanel.stopMusic();
                 }
                 try {
-                    l1 = Persistency.loadBoard("savedGame.xml",
+                    l1 = persistency.loadBoard("savedGame.xml",
                     savedGamesURL);
                     chap = new Chap(l1.getStartingX(), l1.getStartingY(), l1); // pass level
                     renderMazePanel = new RenderMazePanel(l1);
@@ -727,7 +727,7 @@ public class GUI extends JPanel implements Runnable {
         public void save(Level l, Chap c) {
             System.out.println("Saved");
             try {
-                Persistency.saveBoard(l, "savedGame.xml", savedGamesURL, c);
+                persistency.saveBoard(l, "savedGame.xml", savedGamesURL, c);
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
