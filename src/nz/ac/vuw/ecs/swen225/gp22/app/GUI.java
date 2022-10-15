@@ -68,6 +68,7 @@ public class GUI extends JPanel implements Runnable {
     public short level2 = 2;
     public short replay = 3;
     public short loadState = 4;
+    public short splashPage = 5;
     
     public static String timeDString; //time display string
 
@@ -198,7 +199,7 @@ public class GUI extends JPanel implements Runnable {
             if (d >= 1) {
                 updateGame();
                 this.requestFocus();
-                // repaint();
+
                 // System.out.println("GUI RUNNING");
                 d--;
             }
@@ -236,6 +237,7 @@ public class GUI extends JPanel implements Runnable {
                 System.out.println("LOADED LEVEL 2");
                 loadLv1Timer();
                 addButtons(); // add buttons
+                System.out.println("LOADED LEVEL2222222");
                 addMenu(); // add menu
                 try {
                     l1 = Persistency.loadBoard("level2.xml", levelsURL);
@@ -277,6 +279,8 @@ public class GUI extends JPanel implements Runnable {
             }
         } else if (gameState == menuState) {
             setUpMenu();
+        }else if(gameLevel == splashPage && gameState == pauseState){
+            setUpLevel2();
         }
     }
     
@@ -332,9 +336,6 @@ public class GUI extends JPanel implements Runnable {
     
     public void setUpMenu() {
         clearPanel();
-        // if(renderMazePanel != null){
-        //     renderMazePanel.stopMusic();
-        // }
         this.setBackground(new Color(69, 58, 47));
         JPanel panel = new JPanel();
         panel.setLocation(200, 200);
@@ -343,6 +344,26 @@ public class GUI extends JPanel implements Runnable {
         JLabel title1 = new JLabel("<html><p><br/><br/>Welcome to<p/></html>", SwingConstants.CENTER); //
         JLabel title2 = new JLabel("<html><p>Chap's Challenge<p/></html>", SwingConstants.CENTER);
         JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Play...<p/></html>",
+        SwingConstants.CENTER);
+        ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
+        labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
+        startText.setFont(new Font("Verdana", 1, 30));
+        labels.add(startText);
+        labels.forEach(l -> l.setForeground(new Color(196, 180, 133)));
+        labels.forEach(l -> panel.add(l));
+        this.setVisible(true);
+        this.add(panel, BorderLayout.CENTER);
+    }
+    public void setUpLevel2() {
+        clearPanel();
+        this.setBackground(new Color(69, 58, 47));
+        JPanel panel = new JPanel();
+        panel.setLocation(200, 200);
+        panel.setSize(new Dimension(600, 450));
+        panel.setBackground(new Color(69, 58, 47));
+        JLabel title1 = new JLabel("Well Done", SwingConstants.CENTER); //
+        JLabel title2 = new JLabel("<html><p><p/></html>", SwingConstants.CENTER);
+        JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Continue...<p/></html>",
         SwingConstants.CENTER);
         ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
         labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
@@ -385,10 +406,11 @@ public class GUI extends JPanel implements Runnable {
                         System.out.println("WIN Entire Game");
                         gameState = winState;
                         setWinGame();
-                    }else if(chap.getState() == chap.getWinState() && gameLevel==level1){
-                        gameLevel = level2;
+                    }else if(chap.getState() == chap.getDeadState()&& gameLevel==level2){
+                        System.out.println("Chap is Dead");
+                        gameState = gameOverState;
                         renderMazePanel.stopMusic();
-                        setUpLevel();
+                        setUpGameOver();
                     }
                 } else if (keyIn.down == 1) { // down
                     System.out.println("chap down");
@@ -397,14 +419,11 @@ public class GUI extends JPanel implements Runnable {
                     if (isRecording) { // record movement
                         Recorder.chapMove(Direction.DOWN); // record down
                     }
-                    if(chap.getState() == chap.getWinState() && gameLevel==level2){
-                        System.out.println("WIN");
-                        gameState = winState;
-                        setWinGame();
-                    }else if(chap.getState() == chap.getWinState() && gameLevel==level1){
-                        gameLevel = level2;
+                    if(chap.getState() == chap.getDeadState()&& gameLevel==level2){
+                        System.out.println("Chap is Dead");
+                        gameState = gameOverState;
                         renderMazePanel.stopMusic();
-                        setUpLevel();
+                        setUpGameOver();
                     }
                 } else if (keyIn.left == 1) { // left
                     System.out.println("chap left");
@@ -413,14 +432,17 @@ public class GUI extends JPanel implements Runnable {
                     if (isRecording) { // record movement
                         Recorder.chapMove(Direction.LEFT); // record left
                     }
-                    if(chap.getState() == chap.getWinState() && gameLevel==level2){
-                        System.out.println("WIN");
-                        gameState = winState;
-                        setWinGame();
-                    }else if(chap.getState() == chap.getWinState() && gameLevel==level1){
-                        gameLevel = level2;
+                    //if chap is in the win state, then set the game state to win state
+                    if(chap.getState() == chap.getWinState() && gameLevel==level1){
+                        gameState = pauseState;
+                        gameLevel = splashPage;
                         renderMazePanel.stopMusic();
                         setUpLevel();
+                    }else if(chap.getState() == chap.getDeadState()&& gameLevel==level2){
+                        System.out.println("Chap is Dead");
+                        gameState = gameOverState;
+                        renderMazePanel.stopMusic();
+                        setUpGameOver();
                     }
                 } else if (keyIn.right == 1) { // right
                     System.out.println("chap right");
@@ -428,26 +450,18 @@ public class GUI extends JPanel implements Runnable {
                     renderMazePanel.repaint();
                     if (isRecording) { // record movement
                         Recorder.chapMove(Direction.RIGHT); // record right
-                    }
-                    if(chap.getState() == chap.getWinState() && gameLevel==level2){
-                        System.out.println("WIN");
-                        gameState = winState;
-                        setWinGame();
-                    }
-                    else if(chap.getState() == chap.getWinState() && gameLevel==level1){
-                        gameLevel = level2;
-                        setUpLevel();
+                    }if(chap.getState() == chap.getDeadState()&& gameLevel==level2){
+                        System.out.println("Chap is Dead");
+                        gameState = gameOverState;
                         renderMazePanel.stopMusic();
+                        setUpGameOver();
                     }
                 }
             } catch (Exception e) {
-                // e.printStackTrace();
-                // System.out.println(e.getMessage());
             }
         }
         
         public void replayChap(Direction dir) {
-            
             try {
                 if (dir == Direction.UP) {
                     chap.moveUp();
@@ -680,9 +694,11 @@ public class GUI extends JPanel implements Runnable {
                         }
                     } else if (item.getText().equals("Load Level 2")) {
                         // should be in level 2
+                        if (gameLevel == level2 || gameLevel == level1) {
                             gameLevel = level2;
                             renderMazePanel.stopMusic();
                             setUpLevel();
+                        }
                     }
                 }
             });
