@@ -94,21 +94,21 @@ public class PersistencyTests {
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | W | W | W | W | W | F | W | W | W | W | W | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | W | F | F | F | W | W | W | F | F | F | W | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | W | F | C | F | W | E | W | F | C | F | W | F | F | F | F | F | \n" +
-        "| F | F | F | W | W | W | W | W | D | W | L | W | D | W | W | W | W | W | F | F | F | \n" +
-        "| F | F | F | W | F | K | F | D | F | F | F | F | F | D | F | K | F | W | F | F | F | \n" +
-        "| F | F | F | W | F | C | F | W | K | F | I | F | K | W | F | C | F | W | F | F | F | \n" +
-        "| F | F | F | W | W | W | W | W | C | F | F | F | C | W | W | W | W | W | F | F | F | \n" +
-        "| F | F | F | W | F | C | F | W | K | F | F | F | K | W | F | C | F | W | F | F | F | \n" +
-        "| F | F | F | W | F | F | F | D | F | F | F | F | F | D | F | F | F | W | F | F | F | \n" +
-        "| F | F | F | W | W | W | W | W | W | D | W | D | W | W | W | W | W | W | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | W | F | F | W | F | F | W | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | W | F | C | W | C | F | W | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | W | K | F | W | K | F | W | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | W | W | W | W | W | W | W | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
+        "| F | F | F | W | W | W | W | W | W | W | W | W | W | W | W | W | W | W | F | F | F | \n" +
+        "| F | F | F | W | C | F | F | F | F | F | I | F | F | F | F | F | C | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | F | F | F | F | F | F | F | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | W | W | W | W | W | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | K | F | F | W | W | W | A | A | A | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F |  | F | W | E | L | F | F | F | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | W | W | F | F | F | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | A | A | F | F | F | D | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | A | A | F | F | F | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | A | A | A | A | A | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | A | A | A | A | A | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | W | W | W | W | W | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | F | F | F | F | F | F | F | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | C | F | F | F | F | F | F | F | F | F | C | F | W | F | F | F | \n" +
+        "| F | F | F | W | W | W | W | W | W | W | W | W | W | W | W | W | W | W | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n";
@@ -129,21 +129,21 @@ public class PersistencyTests {
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | W | W | W | W | W | F | W | W | W | W | W | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | W | F | F | F | W | W | W | F | F | F | W | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | W | F | C | F | W | E | W | F | C | F | W | F | F | F | F | F | \n" +
-        "| F | F | F | W | W | W | W | W | D | W | L | W | D | W | W | W | W | W | F | F | F | \n" +
-        "| F | F | F | W | F | K | F | D | F | F | F | F | F | D | F | K | F | W | F | F | F | \n" +
-        "| F | F | F | W | F | C | F | W | K | F | I | F | K | W | F | C | F | W | F | F | F | \n" +
-        "| F | F | F | W | W | W | W | W | C | F | F | F | C | W | W | W | W | W | F | F | F | \n" +
-        "| F | F | F | W | F | C | F | W | K | F | F | F | K | W | F | C | F | W | F | F | F | \n" +
-        "| F | F | F | W | F | F | F | D | F | F | F | F | F | D | F | F | F | W | F | F | F | \n" +
-        "| F | F | F | W | W | W | W | W | W | D | W | D | W | W | W | W | W | W | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | W | F | F | W | F | F | W | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | W | F | C | W | C | F | W | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | W | K | F | W | K | F | W | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | W | W | W | W | W | W | W | F | F | F | F | F | F | F | \n" +
-        "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
+        "| F | F | F | W | W | W | W | W | W | W | W | W | W | W | W | W | W | W | F | F | F | \n" +
+        "| F | F | F | W | C | F | F | F | F | F | I | F | F | F | F | F | C | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | F | F | F | F | F | F | F | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | W | W | W | W | W | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | K | F | F | W | W | W | A | A | A | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F |  | F | W | E | L | F | F | F | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | W | W | F | F | F | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | A | A | F | F | F | D | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | A | A | F | F | F | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | A | A | A | A | A | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | A | A | A | A | A | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | W | W | W | W | W | W | W | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | F | F | F | F | F | F | F | F | F | F | F | F | W | F | F | F | \n" +
+        "| F | F | F | W | F | C | F | F | F | F | F | F | F | F | F | C | F | W | F | F | F | \n" +
+        "| F | F | F | W | W | W | W | W | W | W | W | W | W | W | W | W | W | W | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n";
