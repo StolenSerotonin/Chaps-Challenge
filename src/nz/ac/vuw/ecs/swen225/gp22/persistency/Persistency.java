@@ -51,15 +51,12 @@ public class Persistency {
      * @throws IOException
      */
     public static Level loadBoard(String fileName, String url) throws JDOMException, IOException{
-        
+
         //Setting up the variables
         SAXBuilder sax = new SAXBuilder();
         Document doc = sax.build(new File(url + fileName));
         Element rootElement = doc.getRootElement();
-        int chipsRequired = 0;
-        if(fileName.contains("1")){chipsRequired = 10;}
-        else{chipsRequired = 4;}
-        Level newLevel = new Level(COLUMNS,ROWS,chapStartX,chapStartY,chipsRequired);
+        Level newLevel = new Level(COLUMNS,ROWS,chapStartX,chapStartY,10);
         
         //Storing all the rows within the level tag in a list
         List<Element> rowsList = rootElement.getChildren("row");
@@ -67,6 +64,8 @@ public class Persistency {
         Element inventory = rootElement.getChild("inventory");
         Element storedTime = rootElement.getChild("time");
         Element chapPositions = rootElement.getChild("hero");
+        Element chipsRequired = rootElement.getChild("chipsRequired");
+
         newLevel.setInv(fromXMLInventory(inventory));
         chapPosSet(chapPositions);
         newLevel.setStartingPosition(chapStartX, chapStartY);
@@ -89,7 +88,7 @@ public class Persistency {
                 }
             }
         }
-        
+        newLevel.setChipsRequired(Integer.parseInt(chipsRequired.getText()));
         GUI.time = Integer.parseInt(storedTime.getText());
         return newLevel;
     }
@@ -158,7 +157,7 @@ public class Persistency {
         chapHero.addContent(new Element("xPos").setText(String.valueOf(chap.getXPos())));
         chapHero.addContent(new Element("yPos").setText(String.valueOf(chap.getYPos())));
         rootElement.addContent(chapHero);
-        
+        rootElement.addContent(new Element("chipsRequired").setText(String.valueOf(((Level) level).getChipsRequired() - chap.getChips())));
         Element inventory = new Element("inventory");
         rootElement.addContent(inventory);
         for(Map.Entry<String, Integer> pair: l.getInv().entrySet()){
