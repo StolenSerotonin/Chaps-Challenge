@@ -41,6 +41,18 @@ public class Persistency {
     private static int COLUMNS = 21;
     private static int chapStartX = 10;
     private static int chapStartY = 9;
+
+    private static Persistency instance;
+
+    private Persistency(){}
+
+    public static Persistency getInstance(){
+        if(instance == null){
+            instance = new Persistency();
+        }
+        return instance;
+    }
+
     /**
      * This is used to create a level object. A level object will store the positions 
      * of the tiles and objects on the board.
@@ -50,7 +62,9 @@ public class Persistency {
      * @throws JDOMException
      * @throws IOException
      */
-    public static Level loadBoard(String fileName, String url) throws JDOMException, IOException{
+
+
+    public Level loadBoard(String fileName, String url) throws JDOMException, IOException{
 
         //Setting up the variables
         SAXBuilder sax = new SAXBuilder();
@@ -98,7 +112,7 @@ public class Persistency {
      * @param inveElement Grabs everything stored within a tag called inventory
      * @return Map<String, Integer> Returns an inventory (which is stored as a map)
      */
-    public static Map<String, Integer> fromXMLInventory(Element inveElement){
+    public Map<String, Integer> fromXMLInventory(Element inveElement){
         Map<String, Integer> map = new HashMap<>();
         List<Element> keyList = inveElement.getChildren();
         String keyName = "";
@@ -111,7 +125,7 @@ public class Persistency {
         return map;
     }
 
-    public static void chapPosSet(Element chapPos){
+    public void chapPosSet(Element chapPos){
         chapStartX = Integer.parseInt(chapPos.getChild("xPos").getText());
         chapStartY = Integer.parseInt(chapPos.getChild("yPos").getText());
     }
@@ -127,7 +141,7 @@ public class Persistency {
      * @throws FileNotFoundException If the file is not found
      * @throws IOException
      */
-    public static void saveBoard(Object level, String fileName, String url, Chap chap) throws FileNotFoundException, IOException{
+    public void saveBoard(Object level, String fileName, String url, Chap chap) throws FileNotFoundException, IOException{
         assert level instanceof Level; 
         Level l = (Level) level;
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
@@ -177,7 +191,7 @@ public class Persistency {
      * @param xPos x position to be placed in the Tile 2D array
      * @return The correct Tile object needed.
      */
-    public static Tile getTile(String tile, int yPos, int xPos, Element tilElement){
+    public Tile getTile(String tile, int yPos, int xPos, Element tilElement){
         Tile tileObject = null;
         switch(tile){
             case "wall":
@@ -211,7 +225,7 @@ public class Persistency {
      * @param tilElement Passed incase a string needs to be stored
      * @return The correct SolidObject needed.
      */ 
-    public static SolidObject getSolidObject(String solidObj, int yPos, int xPos, Element tilElement){
+    public SolidObject getSolidObject(String solidObj, int yPos, int xPos, Element tilElement){
         SolidObject sObject = null;
         if(solidObj.contains("Key")){
             if(solidObj.contains("yellow")){sObject = new Key(yPos, xPos, Images.YellowKey);}
