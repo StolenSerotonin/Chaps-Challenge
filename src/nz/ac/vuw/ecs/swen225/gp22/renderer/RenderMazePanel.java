@@ -1,17 +1,11 @@
 package nz.ac.vuw.ecs.swen225.gp22.renderer;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.stream.Stream;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
@@ -28,37 +22,36 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
  *
  */
 public class RenderMazePanel extends JPanel{
-    private Tile[][] tiles;
-    private SolidObject[][] tileObjects;
-    private Level level;
+    private Tile[][] tiles; //2D array of tiles
+    private SolidObject[][] tileObjects; //2D array of tile objects
+    private Level level; //level object
 
-    Sound sound = new Sound();
+    public static int tileSize = 72; //size of each tile
+    private int screenHeight = 520; //height of the screen for the mazepanel
+    private int screenWidth = 520; //width of the screen for the mazepanel
 
-    public static int tileSize = 72; 
-    private int screenHeight = 520;
-    private int screenWidth = 520; 
+    private int worldX; //x coordinate of the world
+    private int worldY; //y coordinate of the world
 
-    private int worldX;
-    private int worldY;
+    private int screenX = screenWidth/2 - (tileSize/2); //x coordinate of the screen
+    private int screenY = screenHeight/2 - (tileSize/2); //y coordinate of the screen
 
-    private int screenX = screenWidth/2 - (tileSize/2);
-    private int screenY = screenHeight/2 - (tileSize/2);
+    private int maxWorldCol; //maximum number of columns in the maze
+    private int maxWorldRow; //maximum number of rows in the maze
 
-    private int maxWorldCol;
-    private int maxWorldRow;
-
-    private final int FIRSTINVKEYX= 336; 
-    private int invKeyWidth = 59;
-    private int invKeyHeight = 58;
-    private int sidebarX = screenWidth-10;
-    private int sidebarWidth = 290; 
-    private int sidebarHeight = 550;
+    private final int FIRSTINVKEYX= 336; //x coordinate of the first inventory key
+    private final int INVKEYWIDTH = 59;
+    private final int INVKEYHEIGHT = 58;
 
     private JLabel chipsLeft = new JLabel("");
     private JLabel chipTitle = new JLabel("Chips Left:");
     private JLabel timeTitle = new JLabel("Time Left:");
     private int chipsLeftTextX; 
     private Dimension size = new Dimension(200,200); 
+
+    private JLabel timerText = new JLabel();
+
+    Sound sound = new Sound();
 
     /**
      * Constructor for the RenderMazePanel
@@ -83,17 +76,26 @@ public class RenderMazePanel extends JPanel{
      */
     @Override
     public void paintComponent(Graphics g){
-        super.paintComponent(g); //Call the super class paintComponent method
-        Graphics2D g2d = (Graphics2D) g; //Cast the graphics object to a Graphics2d object
+        super.paintComponent(g); 
+
+        //Cast the graphics object to a Graphics2d object
+        Graphics2D g2d = (Graphics2D) g; 
+
+        //Get the tiles and tileObjects from the level
         tiles = level.getTiles(); 
         tileObjects = level.getObjects(); 
+        
+        //worldX and worldY are dependent on the chaps position multiplied by 3 to get the tile size
         worldX = GUI.chap.getX() *3;
         worldY = GUI.chap.getY() *3;
+
+        //Set the maxWorldCol and maxWorldRow to the size of the tile array
         maxWorldCol = tiles.length;
         maxWorldRow = tiles[0].length; 
         for(int worldRow = 0; worldRow < maxWorldRow; worldRow++){
             for(int worldCol = 0; worldCol < maxWorldCol; worldCol++){
 
+                //Calculate the screen position of the tile
                 Tile tile = tiles[worldCol][worldRow];
                 SolidObject object = tileObjects[worldCol][worldRow];
                 int wX = worldCol * tileSize;
@@ -106,69 +108,99 @@ public class RenderMazePanel extends JPanel{
                     wX - (tileSize) < worldX + screenX && 
                     wY + (tileSize*2)> worldY - screenX && 
                     wY - (tileSize*1)< worldY + screenY){
-                        g2d.drawImage(tile.getImg().getImg(), sX, sY, tileSize, tileSize, null);
+                    //Draw the tile
+                    g2d.drawImage(tile.getImg().getImg(), sX, sY, tileSize, tileSize, null);
+                    //Draw the tileObject if it exists
                     if(object != null) g2d.drawImage(object.getImg().getImg(), sX, sY, tileSize, tileSize, null);
                 }
             }
         }
+        //Draw the chap in the center of the screen
         g2d.drawImage(Images.Chap.getImg(), screenX, screenY, tileSize, tileSize, null);
+        //Draw the sidebar
         drawSidebarPanel(g2d);
     }
 
+    /**
+     * Draw the sidebar panel to the screen
+     * 
+     * @param g2d the graphics object used to draw the sidebar panel
+     */
     public void drawSidebarPanel(java.awt.Graphics g){
-        g.drawImage(Images.SideBar.getImg(), sidebarX, 0, sidebarWidth, sidebarHeight,null);
-        if(level.hasBlueKey()) g.drawImage(Images.BlueKey.getImg(), screenWidth+42, FIRSTINVKEYX, invKeyWidth, invKeyHeight, null);
-        if(level.hasRedKey()) g.drawImage(Images.RedKey.getImg(), screenWidth+109, FIRSTINVKEYX, invKeyWidth, invKeyHeight, null);
-        if(level.hasGreenKey()) g.drawImage(Images.GreenKey.getImg(), screenWidth+174, FIRSTINVKEYX, invKeyWidth, invKeyHeight, null);
-        if(level.hasYellowKey()) g.drawImage(Images.YellowKey.getImg(), screenWidth+41, FIRSTINVKEYX, invKeyWidth, invKeyHeight, null);
-        loadChipsLeft();
+        g.drawImage(Images.SideBar.getImg(), screenWidth-10, 0, 290, 550,null);
         
+        //Draw the Keys in the sidebar if they are in the inventory
+        if(level.hasBlueKey()) g.drawImage(Images.BlueKey.getImg(), screenWidth+42, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
+        if(level.hasRedKey()) g.drawImage(Images.RedKey.getImg(), screenWidth+109, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
+        if(level.hasGreenKey()) g.drawImage(Images.GreenKey.getImg(), screenWidth+174, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
+        if(level.hasYellowKey()) g.drawImage(Images.YellowKey.getImg(), screenWidth+41, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
+        
+        //Draw the chips left
+        loadChipsLeft();
     }
 
-    private JLabel timerText = new JLabel();
-
+    /**
+     * Load the chips left text to the sidebar panel
+     */
     private void loadChipsLeft(){      
         setLayout(null);          
         int chips = level.getChipsRequired() - GUI.chap.getChips(); 
         chipsLeft.setText("" + chips); 
         
+        //Set the chips left text to the correct position
         if(chips == level.getChipsRequired()) chipsLeftTextX = 80;
         else chipsLeftTextX = 110; 
+
+        //Put all the labels in an array
+        JLabel[] textPanels = {timerText, chipsLeft, chipTitle, timeTitle};
 
         timerText.setText(GUI.timeDString);
         timerText.setBounds(520 + 40, 20, size.width, size.height);
         timerText.setFont(new Font("Verdana", 1, 58)); 
-        timerText.setForeground(new Color(196, 180, 133));
+        // timerText.setForeground(new Color(196, 180, 133));
 
         chipsLeft.setBounds(screenWidth + chipsLeftTextX, 120, size.width, size.height);
         chipsLeft.setFont(new Font("Verdana", 1, 70)); 
-        chipsLeft.setForeground(new Color(196, 180, 133));
+        // chipsLeft.setForeground(new Color(196, 180, 133));
         
         chipTitle.setBounds(screenWidth + 75, 80, size.width, size.height);
         chipTitle.setFont(new Font("Verdana", 1, 20)); 
-        chipTitle.setForeground(new Color(196, 180, 133));
+        // chipTitle.setForeground(new Color(196, 180, 133));
 
         timeTitle.setBounds(screenWidth + 75, -15, size.width, size.height);
         timeTitle.setFont(new Font("Verdana", 1, 20)); 
-        timeTitle.setForeground(new Color(196, 180, 133));
+        // timeTitle.setForeground(new Color(196, 180, 133));
 
-        add(chipsLeft);
-        add(chipTitle);
-        add(timeTitle);
-        add(timerText); 
-
+        for(JLabel l : textPanels){
+            l.setForeground(new Color(196, 180, 133));
+            add(l);
+        }
+        // add(chipsLeft);
+        // add(chipTitle);
+        // add(timeTitle);
+        // add(timerText); 
     }
 
+    /*Play the music
+    * 
+    */
     public void playMusic(){
         sound.setFile(0);
         sound.play();
         sound.loop();
     }
 
+    /*Stop playing the music
+    *    
+    */
     public void stopMusic(){
         sound.stop();
     }
 
+    /* Play the sound effect for the give int
+    * 
+    * @param i the int of the sound effect to play
+    */
     public void playSE(int i){
         sound.setFile(i);
         sound.play();
