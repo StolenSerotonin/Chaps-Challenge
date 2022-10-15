@@ -14,6 +14,8 @@ public class Sound{
         soundURL[0] = getClass().getResource("Sounds/Scruffy.wav");
         soundURL[1] = getClass().getResource("Sounds/Computerchip.wav");
         soundURL[2] = getClass().getResource("Sounds/Key.wav");
+        soundURL[3] = getClass().getResource("Sounds/LevelWin.wav");
+
     }
 
     public void setFile(int i){

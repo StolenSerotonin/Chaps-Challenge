@@ -173,10 +173,4 @@ public class RenderMazePanel extends JPanel{
         sound.setFile(i);
         sound.play();
     }
-
-
-
-
-
-
 }
