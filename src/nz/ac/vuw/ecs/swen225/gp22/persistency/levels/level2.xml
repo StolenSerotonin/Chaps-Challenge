@@ -338,6 +338,29 @@
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+    </row>
+    <row>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
@@ -395,29 +418,6 @@
         <tile>wall</tile>
         <tile>wall</tile>
         <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>

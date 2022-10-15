@@ -41,8 +41,8 @@ public class PersistencyTests {
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n";
         String actual = "";
         try {
-            Level level1 = Persistency.loadBoard("level1.xml", levelsURL);
-            actual = makeStringBoard(level1);
+            Level level = Persistency.loadBoard("level1.xml", levelsURL);
+            actual = makeStringBoard(level);
             assertEquals("Actual matches expected",expected, actual);
         }
         catch (Exception e) {
@@ -50,7 +50,7 @@ public class PersistencyTests {
         }
     }
     @Test
-    //Testing game saving
+    //Testing game saving with level 1
     public void test2() {
         String expected =
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
@@ -76,10 +76,10 @@ public class PersistencyTests {
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n";
         String actual = "";
         try {
-            Level level1 = Persistency.loadBoard("level1.xml", levelsURL);
-            Chap chap = new Chap(level1.getStartingX(), level1.getStartingY(), level1);
-            Persistency.saveBoard(level1, "savedGame.xml", savedGamesURL, chap);
-            Level savedGame = Persistency.loadBoard("savedGame.xml", savedGamesURL);
+            Level level = Persistency.loadBoard("level1.xml", levelsURL);
+            Chap chap = new Chap(level.getStartingX(), level.getStartingY(), level);
+            Persistency.saveBoard(level, "level1saveTest.xml", savedGamesURL, chap);
+            Level savedGame = Persistency.loadBoard("level1saveTest.xml", savedGamesURL);
             actual = makeStringBoard(savedGame);
             assertEquals("Actual matches expected",actual, expected);
         }
@@ -88,7 +88,7 @@ public class PersistencyTests {
         }
     }
     @Test
-    //Testing game loading with level1
+    //Testing game loading with level2
     public void test3() throws JDOMException, IOException{
         String expected =
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
@@ -114,8 +114,8 @@ public class PersistencyTests {
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n";
         String actual = "";
         try {
-            Level level1 = Persistency.loadBoard("level1.xml", levelsURL);
-            actual = makeStringBoard(level1);
+            Level level = Persistency.loadBoard("level2.xml", levelsURL);
+            actual = makeStringBoard(level);
             assertEquals("Actual matches expected",expected, actual);
         }
         catch (Exception e) {
@@ -123,7 +123,7 @@ public class PersistencyTests {
         }
     }
     @Test
-    //Testing game saving
+    //Testing game saving with level 2
     public void test4() {
         String expected =
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n" +
@@ -149,10 +149,10 @@ public class PersistencyTests {
         "| F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | F | \n";
         String actual = "";
         try {
-            Level level1 = Persistency.loadBoard("level1.xml", levelsURL);
-            Chap chap = new Chap(level1.getStartingX(), level1.getStartingY(), level1);
-            Persistency.saveBoard(level1, "savedGame.xml", savedGamesURL, chap);
-            Level savedGame = Persistency.loadBoard("savedGame.xml", savedGamesURL);
+            Level level = Persistency.loadBoard("level2.xml", levelsURL);
+            Chap chap = new Chap(level.getStartingX(), level.getStartingY(), level);
+            Persistency.saveBoard(level, "level2saveTest.xml", savedGamesURL, chap);
+            Level savedGame = Persistency.loadBoard("level2saveTest.xml", savedGamesURL);
             actual = makeStringBoard(savedGame);
             assertEquals("Actual matches expected",actual, expected);
         }
