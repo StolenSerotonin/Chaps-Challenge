@@ -175,13 +175,9 @@
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
-<<<<<<< HEAD
     <tile>redDoor</tile>
     <tile>floor</tile>
     <tile>yellowKey</tile>
-=======
-    <tile>floor</tile>
-    <tile>floor</tile>
     <tile>floor</tile>
 <<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
@@ -203,25 +199,14 @@
     <tile>computerChip</tile>
     <tile>floor</tile>
     <tile>wall</tile>
-    <tile>floor</tile>
+    <tile>blueKey</tile>
     <tile>floor</tile>
     <tile>infoField</tile>
     <tile>floor</tile>
-<<<<<<< HEAD
     <tile>redKey</tile>
     <tile>wall</tile>
     <tile>floor</tile>
     <tile>computerChip</tile>
-=======
-    <tile>floor</tile>
-    <tile>wall</tile>
-    <tile>floor</tile>
-    <tile>floor</tile>
-<<<<<<< HEAD
->>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
-=======
->>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
->>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
@@ -237,19 +222,11 @@
     <tile>wall</tile>
     <tile>wall</tile>
     <tile>wall</tile>
-    <tile>floor</tile>
-    <tile>floor</tile>
-    <tile>floor</tile>
-    <tile>floor</tile>
-<<<<<<< HEAD
     <tile>computerChip</tile>
-=======
     <tile>floor</tile>
-<<<<<<< HEAD
->>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
-=======
->>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
->>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
+    <tile>floor</tile>
+    <tile>floor</tile>
+    <tile>computerChip</tile>
     <tile>wall</tile>
     <tile>wall</tile>
     <tile>wall</tile>
@@ -268,22 +245,14 @@
     <tile>computerChip</tile>
     <tile>floor</tile>
     <tile>wall</tile>
+    <tile>blueKey</tile>
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
-    <tile>floor</tile>
-<<<<<<< HEAD
     <tile>redKey</tile>
-=======
-    <tile>floor</tile>
-<<<<<<< HEAD
->>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
-=======
->>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
->>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>wall</tile>
     <tile>floor</tile>
-    <tile>floor</tile>
+    <tile>computerChip</tile>
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
@@ -304,7 +273,7 @@
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
-    <tile>floor</tile>
+    <tile>blueDoor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
@@ -323,15 +292,7 @@
     <tile>wall</tile>
     <tile>wall</tile>
     <tile>wall</tile>
-<<<<<<< HEAD
     <tile>yellowDoor</tile>
-=======
-    <tile>floor</tile>
-<<<<<<< HEAD
->>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
-=======
->>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
->>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>wall</tile>
     <tile>yellowDoor</tile>
     <tile>wall</tile>
@@ -377,15 +338,7 @@
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
-<<<<<<< HEAD
     <tile>computerChip</tile>
-=======
-    <tile>floor</tile>
-<<<<<<< HEAD
->>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
-=======
->>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
->>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>wall</tile>
     <tile>computerChip</tile>
     <tile>floor</tile>
@@ -407,15 +360,7 @@
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>wall</tile>
-<<<<<<< HEAD
     <tile>greenKey</tile>
-=======
-    <tile>floor</tile>
-<<<<<<< HEAD
->>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
-=======
->>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
->>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>greenKey</tile>
@@ -545,55 +490,29 @@
     <tile>floor</tile>
   </row>
   <message>Collect all the chips to get past the barrier!</message>
-<<<<<<< HEAD
-  <time>47</time>
+  <time>60</time>
   <hero>
     <xPos>10</xPos>
-    <yPos>11</yPos>
-=======
-  <time>19</time>
-  <hero>
-    <xPos>11</xPos>
-    <yPos>10</yPos>
-<<<<<<< HEAD
->>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
-=======
->>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
->>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
+    <yPos>9</yPos>
   </hero>
   <inventory>
     <key>
       <name>red</name>
-<<<<<<< HEAD
       <count>0</count>
     </key>
     <key>
       <name>green</name>
       <count>0</count>
     </key>
+<<<<<<< HEAD
+=======
     <key>
       <name>blue</name>
-=======
-<<<<<<< HEAD
->>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6
-=======
->>>>>>> 2978ea2ec6752da2635b9a63aa221245da7f7521
->>>>>>> 6315cd0401ef5e4ee6d086b93209813d6c8e5244
-      <count>1</count>
+      <count>0</count>
     </key>
     <key>
       <name>yellow</name>
       <count>0</count>
-    </key>
-<<<<<<< HEAD
-=======
-    <key>
-      <name>green</name>
-      <count>1</count>
-    </key>
-    <key>
-      <name>blue</name>
-      <count>1</count>
     </key>
 <<<<<<< HEAD
 >>>>>>> ac8444c77112555f71365202cde903d9b6ce90e6

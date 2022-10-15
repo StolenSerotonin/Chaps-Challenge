@@ -37,7 +37,7 @@ public class KeyInput implements KeyListener{
             keyGameOverState(keyCode);
         }else if (guiPanel.gameLevel == guiPanel.replay && guiPanel.gameState == guiPanel.pauseState){ //if the game is in the replay state
             keyReplayState(keyCode);
-            keyResumeRepState(keyCode);
+            // keyResumeRepState(keyCode);
         }else if(guiPanel.gameState == guiPanel.winState){ //if the game is in the win state
             keyWinState(keyCode);
         }
@@ -146,9 +146,12 @@ public class KeyInput implements KeyListener{
      * @param keyCode - the key code of the key pressed by the user.
      */
     public void keyReplayState(int keyCode){
-        if(keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_SPACE){
+        if(keyCode == KeyEvent.VK_RIGHT){
             System.out.println("REPLAYING");
             replaying = 1;
+        }else if(keyCode == KeyEvent.VK_ESCAPE){
+            guiPanel.gameState = guiPanel.menuState;
+            guiPanel.setUpLevel();
         }
     }
 
@@ -220,8 +223,6 @@ public class KeyInput implements KeyListener{
             //escape
             escape = 0;
         } 
-        
-        
         
     } 
     
