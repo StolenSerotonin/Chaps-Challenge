@@ -1,9 +1,21 @@
 package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
 import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
-import nz.ac.vuw.ecs.swen225.gp22.domain.*;
+import nz.ac.vuw.ecs.swen225.gp22.domain.FloorTile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.InfoTile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.WaterTile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.WallTile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
+import nz.ac.vuw.ecs.swen225.gp22.domain.ComputerChip;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Enemy;
+import nz.ac.vuw.ecs.swen225.gp22.domain.ExitLock;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
+import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
+import nz.ac.vuw.ecs.swen225.gp22.domain.SolidObject;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream; 
@@ -11,14 +23,20 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jdom2.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter; 
+import org.jdom2.output.XMLOutputter;
 
+/**
+ *
+ * @author jessiltomi Tomin Jessil
+ *
+ * Main file used to parse and generate XML
+ */
 public class Persistency {
-
     private static int ROWS = 21;
     private static int COLUMNS = 21;
     private static int chapStartX = 10;
@@ -27,8 +45,8 @@ public class Persistency {
      * This is used to create a level object. A level object will store the positions 
      * of the tiles and objects on the board.
      * 
-     * @param file The name of the file that is to be loaded.
-     * @return a level object
+     * @param fileName The name of the file that is to be loaded.
+     * @return a level object to be used
      * @throws JDOMException
      * @throws IOException
      */
@@ -54,7 +72,7 @@ public class Persistency {
         newLevel.setStartingPosition(chapStartX, chapStartY);
         //Iterating through all the rows in the list
         for(int y = 0; y < ROWS; y++){
-            //Grab the a row from the list and grab all the tile tags embeded within
+            //Grab a row from the list and grab all the tile tags embedded within
             Element row = rowsList.get(y);
             List<Element> tiles = row.getChildren("tile");
             for(int x = 0; x < COLUMNS; x++){
@@ -102,15 +120,19 @@ public class Persistency {
     /**
      * This is used to generate a level file to store the recent game
      * 
-     * @param l
-     * @throws FileNotFoundException
+     * @param level Current level
+     * @param fileName Game will be saved under this file name
+     * @param url Location of where the file will be saved
+     * @param chap Current chap object
+     *
+     * @throws FileNotFoundException If the file is not found
      * @throws IOException
      */
-    public static void saveBoard(Object level, String fileName,String url, Chap chap) throws FileNotFoundException, IOException{
+    public static void saveBoard(Object level, String fileName, String url, Chap chap) throws FileNotFoundException, IOException{
         assert level instanceof Level; 
         Level l = (Level) level;
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
-        FileOutputStream fileOutputStream =new FileOutputStream(url + fileName);
+        FileOutputStream fileOutputStream = new FileOutputStream(url + fileName);
         Document document = new Document();
         document.setRootElement(new Element("level"));
         Element rootElement = document.getRootElement();
@@ -149,7 +171,7 @@ public class Persistency {
         catch (Exception e){e.printStackTrace();}
     }
     /**
-     * Used to identify the correct tile object needed and then it returns it.
+     * Used to identify the correct tile object needed, then it returns it.
      * 
      * @param tile Name of the tile stored in a tile tag
      * @param yPos y position to be placed in the Tile 2D array
@@ -182,11 +204,12 @@ public class Persistency {
     }
     
     /**
-     * Used to indentify the correct tile object needed and then it returns it.
+     * Used to identify the correct tile object needed, then it returns it.
      * 
      * @param solidObj Name of the solid object stored in a tile tag
      * @param yPos y position to be placed in the solid object 2D array
      * @param xPos x position to be placed in the solid object 2D array
+     * @param tilElement Passed incase a string needs to be stored
      * @return The correct SolidObject needed.
      */ 
     public static SolidObject getSolidObject(String solidObj, int yPos, int xPos, Element tilElement){

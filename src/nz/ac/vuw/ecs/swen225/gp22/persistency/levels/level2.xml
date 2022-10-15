@@ -494,8 +494,8 @@
     <message>Collect all the chips to get past the barrier!</message>
     <time>60</time>
     <hero>
-        <xPos>10</xPos> 
-        <yPos>9</yPos>
+        <xPos>6</xPos>
+        <yPos>15</yPos>
     </hero>
     <inventory>
         <key>
