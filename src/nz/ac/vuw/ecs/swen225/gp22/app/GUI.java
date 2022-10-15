@@ -57,7 +57,7 @@ public class GUI extends JPanel implements Runnable {
     public static Level l1;
     public static Renderer renderer;
     public static RenderMazePanel renderMazePanel = null;
-    public static Persistency persistency;
+    public static Persistency persistency = Persistency.getInstance();
     public Timer timer;
     
     public static int time = 60;
