@@ -169,7 +169,7 @@
     <tile>floor</tile>
     <tile>yellowKey</tile>
     <tile>floor</tile>
-    <tile>blueDoor</tile>
+    <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
@@ -193,11 +193,11 @@
     <tile>computerChip</tile>
     <tile>floor</tile>
     <tile>wall</tile>
-    <tile>blueKey</tile>
+    <tile>floor</tile>
     <tile>floor</tile>
     <tile>infoField</tile>
     <tile>floor</tile>
-    <tile>redKey</tile>
+    <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
     <tile>computerChip</tile>
@@ -216,11 +216,11 @@
     <tile>wall</tile>
     <tile>wall</tile>
     <tile>wall</tile>
-    <tile>computerChip</tile>
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
-    <tile>computerChip</tile>
+    <tile>floor</tile>
+    <tile>floor</tile>
     <tile>wall</tile>
     <tile>wall</tile>
     <tile>wall</tile>
@@ -239,11 +239,11 @@
     <tile>computerChip</tile>
     <tile>floor</tile>
     <tile>wall</tile>
-    <tile>blueKey</tile>
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
-    <tile>redKey</tile>
+    <tile>floor</tile>
+    <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
     <tile>computerChip</tile>
@@ -484,14 +484,18 @@
     <tile>floor</tile>
   </row>
   <message>Collect all the chips to get past the barrier!</message>
-  <time>56</time>
+  <time>49</time>
   <hero>
-    <xPos>10</xPos>
-    <yPos>9</yPos>
+    <xPos>11</xPos>
+    <yPos>8</yPos>
   </hero>
   <inventory>
     <key>
       <name>red</name>
+      <count>2</count>
+    </key>
+    <key>
+      <name>yellow</name>
       <count>0</count>
     </key>
     <key>
@@ -500,11 +504,7 @@
     </key>
     <key>
       <name>blue</name>
-      <count>0</count>
-    </key>
-    <key>
-      <name>yellow</name>
-      <count>0</count>
+      <count>1</count>
     </key>
   </inventory>
 </level>

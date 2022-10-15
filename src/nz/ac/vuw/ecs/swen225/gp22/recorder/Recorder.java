@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jdom2.*;
+//import org.jdom2.*;
+import org.jdom2.JDOMException;
+import org.jdom2.Element;
+import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -21,36 +24,33 @@ import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
  *
  * @author Kevin Lee
  */
-
 public class Recorder {
-	private static ArrayList<Move> moves = new ArrayList<>();
+	private static final ArrayList<Move> moves = new ArrayList<>();
 	private static double replaySpeed = 1;
 	private static int count = 0;
 	
-    public record Move(String player, Direction dir, int index) {
-    }
+    public record Move(String player, Direction dir, int index) { }
+
 
     /**
-     *  Setter for Setting replay speed. 
-     * @param speed
+     * Setter for replay speed
+     * @param speed replay Speed selected by user
      */
-    
-    
     public static void setReplaySpeed(double speed) {
         replaySpeed = speed;
     }
 
+
     /**
-     * 
-     * Loading the xml file
-     * @throws IOException, JDOMException
+     * Loads the moves stored in the xml file
+     *
+     * @throws JDOMException Xml file Error
+     * @throws IOException File Error
      */
-    
-    
     public static void loadRecording() throws JDOMException, IOException { // load from xml file
         moves.clear(); // clearing the moves
         count = 0;
-        System.out.println("Loading recording from xml file");
+        //System.out.println("Loading recording from xml file"); //debugging code
 
         // loading File:
         SAXBuilder saxBuilder = new SAXBuilder();
@@ -79,23 +79,16 @@ public class Recorder {
             Move move = new Move(player, dir, moveId);
             moves.add(move);
         }
-
-        System.out.println("Loaded Recording : ");
-        for (Move m : moves) { // debugging
-            System.out.println(m.player() + " " + m.dir());
-        }
-
     }
 
+
     /**
-     * Saves the recorded moves into an xml file
+     * Saves the recorded moves into a xml file for replaying
      *
-     * @throws FileNotFoundException
-     *
+     * @throws JDOMException xml file Exception
+     * @throws FileNotFoundException invalid file
      */
-    
-    
-    public static void saveRecording() throws JDOMException, FileNotFoundException { // save to xml file
+    public static void saveRecording() throws JDOMException, FileNotFoundException {
         // output to Console :
         System.out.println("Saved Recording : ");
         moves.stream().forEach(m -> System.out.println(m.player + " " + m.dir()));
@@ -122,20 +115,29 @@ public class Recorder {
         }
     }
 
+
+    /**
+     * Saves the state of the board before recording the moves.
+     *
+     * @param board state of the board
+     * @throws IOException file error
+     */
     public static void saveBoard(Object board) throws IOException {
         Persistency.saveBoard(board, "recorderBoard.xml", "src/nz/ac/vuw/ecs/swen225/gp22/recorder/recordedFiles/", GUI.chap);
     }
 
 
+    /**
+     * Runs the replay of the moves recorded
+     * @param app GUI
+     */
     public static void runAutoReplay(GUI app) {
         app.setupReplay();
         Runnable runnable = () -> {
             System.out.println("AUTO REPLAY RUNNING");
             while (!moves.isEmpty()) {
                 try {
-                    if (moves.size() > 0) {
-                        Thread.sleep(250 / (long) replaySpeed); // TODO field with GUI
-                    }
+                    Thread.sleep(250 / (long) replaySpeed); // TODO field with GUI
                     // singleMove(app);
                     try {
                         if (moves.size() > 0) {
@@ -169,50 +171,19 @@ public class Recorder {
     }
 
     /**
-     *
+     * Records chap's movement when called
+     * @param dir Direction of Chap's movement
      */
-    public static void runStepReplay(GUI app) {
-        app.setupReplay();
-        System.out.println(app.keyIn.replaying);
-        if (app.gameState == app.pauseState && app.gameLevel == app.replay && app.replayType == app.manual) {
-            // app.moveChap();
-            try {
-                if (moves.size() > 0) {
-                    Move move = moves.get(0);
-                    if (move.player().equals("chap")) {
-                        if (app.keyIn.replaying == 1) {
-
-                            app.replayChap(move.dir());
-                            moves.remove(0);
-                        }
-                        // } else if (move.player().equals("enemy")) {
-                        // System.out.println("Enemy Moves");
-                    } else {
-                        System.out.println("Error finding chap");
-                    }
-                }
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("Index out of Bounds on Single Move");
-            }
-        }
-    }
-
-    // /**
-    // * Auto plays the moves loaded from the xml file
-    // */
-    // public static void autoPlay () {
-    // int count = moves.size(); // ideally use App's runnable peform replay using
-    // the set replay speed.
-    // for (int i=0; i<count; i++) {
-    // singleMove();
-    // }
-    // }
-
     public static void chapMove(Direction dir) {
         moves.add(new Move("chap", dir, count));
         count++;
     }
 
+
+    /**
+     * Records enemy's movement when called.
+     * @param dir Direction of enemy's movement
+     */
     public static void enemyMove(Direction dir) {
         moves.add(new Move("enemy", dir, count));
         count++;
