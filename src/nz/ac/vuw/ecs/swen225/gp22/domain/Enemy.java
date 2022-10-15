@@ -10,7 +10,6 @@ public class Enemy extends SolidObject{
 	private int lastXPos, lastYPos; 
 	private int targetY1, targetY2, currentTarget;
 	private Direction direction; 
-	private Level level;
 
     public enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -26,7 +25,6 @@ public class Enemy extends SolidObject{
 		x = xPos * 24; //decided on 24 by carefull maths
 		y = yPos * 24;
 		direction = Direction.DOWN;
-		this.level = level;
 	}
 
     	/*
@@ -68,13 +66,19 @@ public class Enemy extends SolidObject{
 	public void setDirection(Direction dir){
 		direction = dir;
 	}
-	/*
-	 * Enemy last Xpos on the boardhttps://gitlab.ecs.vuw.ac.nz/course-work/swen225/2022/project1/t23/chaps-challenge into Liams-Domain
+
+	/**
+	 * returns enemy last Xpos
+	 * @return
+	 */
 	public int getLastXPos(){
 		return lastXPos;
 	}
+	
+	 
 	/*
 	 * Enemy last Ypos on the board
+	 * @return
 	 */
 	public int getLastYPos(){
 		return lastYPos;
@@ -84,10 +88,6 @@ public class Enemy extends SolidObject{
      * Collection of movement methods for Enemy
      */
     public void move(int dx, int dy){
-		if(!level.getTile(xPos+dx, yPos+dy).isPassable()) {
-			throw new IllegalArgumentException("Chap cannot phase through walls");
-		}
-		lastXPos = xPos;
 		lastYPos = yPos;
 		xPos += dx;
 		yPos += dy;
@@ -101,6 +101,9 @@ public class Enemy extends SolidObject{
 		}
 	}
 	
+	/**
+	 * Moves enemy up
+	 */
 	public void moveUp(){
 			move(0, -1);
 			if(direction != Direction.UP)
