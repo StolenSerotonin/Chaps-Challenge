@@ -6,7 +6,7 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileOutputStream; 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +33,7 @@ public class Persistency {
      * @throws IOException
      */
     public static Level loadBoard(String fileName, String url) throws JDOMException, IOException{
-        //Stores the location of all levels 
-
+        
         //Setting up the variables
         SAXBuilder sax = new SAXBuilder();
         Document doc = sax.build(new File(url + fileName));
@@ -61,12 +60,8 @@ public class Persistency {
             for(int x = 0; x < COLUMNS; x++){
                 //Check whether the object to be created is of type Tile or of SolidObject
                 String tileText = tiles.get(x).getText();
-                // if(tileText.contains("chap")){
-                //     newLevel.setTile(y, x, new FloorTile(y, x));
-                //     newLevel.setStartingPosition(x, y);
-                // }
                 if(tileText.contains("wall") || tileText.contains("floor") || 
-                tileText.contains("infoField") || (tileText.contains("exit") &&
+                tileText.contains("infoField") || tileText.contains("water") || (tileText.contains("exit") &&
                 !tileText.contains("exitLock"))){
                     newLevel.setTile(y, x, getTile(tileText, y, x, infoFieldString));
                 }
@@ -80,7 +75,12 @@ public class Persistency {
         GUI.time = Integer.parseInt(storedTime.getText());
         return newLevel;
     }
-
+    /**
+     * This is used to read the inventory from a XML file
+     * 
+     * @param inveElement Grabs everything stored within a tag called inventory
+     * @return Map<String, Integer> Returns an inventory (which is stored as a map)
+     */
     public static Map<String, Integer> fromXMLInventory(Element inveElement){
         Map<String, Integer> map = new HashMap<>();
         List<Element> keyList = inveElement.getChildren();
@@ -100,14 +100,14 @@ public class Persistency {
     }
 
     /**
-     * This is used to generate a level file to store the recent
+     * This is used to generate a level file to store the recent game
      * 
      * @param l
      * @throws FileNotFoundException
      * @throws IOException
      */
     public static void saveBoard(Object level, String fileName,String url, Chap chap) throws FileNotFoundException, IOException{
-        assert level instanceof Level;
+        assert level instanceof Level; 
         Level l = (Level) level;
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
         FileOutputStream fileOutputStream =new FileOutputStream(url + fileName);
@@ -149,7 +149,7 @@ public class Persistency {
         catch (Exception e){e.printStackTrace();}
     }
     /**
-     * Used to indentify the correct tile object needed and then it returns it.
+     * Used to identify the correct tile object needed and then it returns it.
      * 
      * @param tile Name of the tile stored in a tile tag
      * @param yPos y position to be placed in the Tile 2D array
@@ -170,7 +170,9 @@ public class Persistency {
                 break;
             case "infoField":
                 tileObject = new InfoTile(yPos, xPos, tilElement.getText());
-                System.out.println(tilElement.getText());
+                break;
+            case "water":
+                tileObject = new WaterTile(yPos, xPos);
                 break;
             default://Code for debugging
                 System.out.println("Error Constructing Tile: " + tile + " at " + "X: " + xPos + " Y: " + yPos);
@@ -206,6 +208,9 @@ public class Persistency {
         }
         else if(solidObj.contains("computerChip")){
             sObject = new ComputerChip(xPos, yPos);
+        }
+        else if(solidObj.contains("enemy")){
+            sObject = new Enemy(xPos, yPos);
         }
         else{//Code for debugging
             System.out.println("Error Constructing Solid object: " + solidObj + " at " + "X: " + xPos + " Y: " + yPos);

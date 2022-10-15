@@ -23,7 +23,7 @@ public class ExitLock extends SolidObject{
 			setCollided(true);
 		}
 		else{
-			c.setPosition(c.getLastXPos(), c.getLastYPos());
+			throw new IllegalArgumentException("Chap does not have enough chips");
 		}
 	}
 	
