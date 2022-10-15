@@ -37,6 +37,8 @@ public class KeyInput implements KeyListener{
             // keyResumeRepState(keyCode);
         }else if(guiPanel.gameState == guiPanel.winState){ //if the game is in the win state
             keyWinState(keyCode);
+        }else if(guiPanel.gameLevel == guiPanel.splashPage && guiPanel.gameState == guiPanel.pauseState){
+            keyStart2(keyCode);
         }
     }
     
@@ -160,6 +162,14 @@ public class KeyInput implements KeyListener{
         if(keyCode == KeyEvent.VK_ESCAPE) {
             System.out.println("Back to main menu from replaying");
             guiPanel.gameState = guiPanel.menuState;
+            guiPanel.setUpLevel();
+        }
+    }
+
+    public void keyStart2(int keyCode){
+        if(keyCode == KeyEvent.VK_ENTER){
+            guiPanel.gameState = guiPanel.playState;
+            guiPanel.gameLevel = guiPanel.level2;
             guiPanel.setUpLevel();
         }
     }
