@@ -88,13 +88,14 @@ public class Persistency {
                 }
             }
         }
+        //Grab the number of chips required and time from the XML file
         newLevel.setChipsRequired(Integer.parseInt(chipsRequired.getText()));
         GUI.time = Integer.parseInt(storedTime.getText());
         return newLevel;
     }
     /**
-     * This is used to read the inventory from a XML file
-     * 
+     * This is used to read the inventory from an XML file
+     *
      * @param inveElement Grabs everything stored within a tag called inventory
      * @return Map<String, Integer> Returns an inventory (which is stored as a map)
      */
@@ -111,6 +112,11 @@ public class Persistency {
         return map;
     }
 
+    /**
+     * Sets chap's starting position
+     *
+     * @param chapPos Stores the x and y of chap (for saved and load games)
+     */
     public static void chapPosSet(Element chapPos){
         chapStartX = Integer.parseInt(chapPos.getChild("xPos").getText());
         chapStartY = Integer.parseInt(chapPos.getChild("yPos").getText());
@@ -128,14 +134,18 @@ public class Persistency {
      * @throws IOException
      */
     public static void saveBoard(Object level, String fileName, String url, Chap chap) throws FileNotFoundException, IOException{
-        assert level instanceof Level; 
+        //Ensure the object passed in is a Level object
+        assert level instanceof Level;
         Level l = (Level) level;
+        //Allow for nice formating of XML files using PrettyPrint
         XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
         FileOutputStream fileOutputStream = new FileOutputStream(url + fileName);
         Document document = new Document();
+        //Set the route element
         document.setRootElement(new Element("level"));
         Element rootElement = document.getRootElement();
         String infoText = "";
+        //Loop through all the elements in both 2D arrays and save them
         for(int y = 0; y < ROWS; y++){
             Element row = new Element("row");
             for(int x = 0; x < COLUMNS; x++) {
@@ -151,6 +161,7 @@ public class Persistency {
             }
             rootElement.addContent(row);
         }
+        //Other important information such as time and chap position in separate tags
         rootElement.addContent(new Element("message").setText(infoText));
         rootElement.addContent(new Element("time").setText(String.valueOf(GUI.time)));
         Element chapHero = new Element("hero");
@@ -160,6 +171,7 @@ public class Persistency {
         rootElement.addContent(new Element("chipsRequired").setText(String.valueOf(((Level) level).getChipsRequired() - chap.getChips())));
         Element inventory = new Element("inventory");
         rootElement.addContent(inventory);
+        //Store inventory
         for(Map.Entry<String, Integer> pair: l.getInv().entrySet()){
             Element key = new Element("key");
             key.addContent(new Element("name").setText(pair.getKey()));
@@ -179,6 +191,7 @@ public class Persistency {
      */
     public static Tile getTile(String tile, int yPos, int xPos, Element tilElement){
         Tile tileObject = null;
+        //Check what the tile name is, then make the appropriate object
         switch(tile){
             case "wall":
                 tileObject = new WallTile(yPos, xPos);
@@ -213,6 +226,7 @@ public class Persistency {
      */ 
     public static SolidObject getSolidObject(String solidObj, int yPos, int xPos, Element tilElement){
         SolidObject sObject = null;
+        //Check what the tile name is, then make the appropriate object
         if(solidObj.contains("Key")){
             if(solidObj.contains("yellow")){sObject = new Key(yPos, xPos, Images.YellowKey);}
             else if(solidObj.contains("red")){sObject = new Key(yPos, xPos, Images.RedKey);}
