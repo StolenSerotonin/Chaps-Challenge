@@ -194,7 +194,7 @@ public class RenderMazePanel extends JPanel{
     * @param i the int of the sound effect to play
     */
     public void playSE(int i){
-        sound.setFile(i);
-        sound.loop1();
+        sound.setSoundEF(i);
+        sound.playSoundE();
     }
 }
