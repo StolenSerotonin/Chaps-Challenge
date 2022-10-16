@@ -17,6 +17,7 @@
 
 #### For testing
 * Open the "test" folder and navigate down to "gp22"
+
   For Fuzz tests
   * Click and open FuzzTest.java
   * Click the play button next to a test to run the test
