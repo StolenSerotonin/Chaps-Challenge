@@ -1,11 +1,13 @@
-package nz.ac.vuw.ecs.swen225.gp22.domain;
+package nz.ac.vuw.ecs.swen225.gp22.persistency;
 
+import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
+import nz.ac.vuw.ecs.swen225.gp22.domain.SolidObject;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
 /*
  * Class for enemy actor
  */
-public class Enemy extends SolidObject{
+public class Enemy extends SolidObject {
     private int x, y, xPos, yPos; 
 	private int lastXPos, lastYPos; 
 	private int targetY1, targetY2, currentTarget;
