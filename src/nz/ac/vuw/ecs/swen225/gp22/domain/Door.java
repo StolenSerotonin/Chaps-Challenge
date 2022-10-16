@@ -19,27 +19,27 @@ public class Door extends SolidObject{
 	/*
 	 * Handles Chip colliding with doors
 	 */
-	public void onCollision(Chap c){
+	public void onCollision(Chap c, int x, int y){
 		if(getCollided()){}
 		else if(this.colour == Images.BlueDoor && c.getLevel().hasBlueKey()){
 				c.useBlueKey();
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 		}
 		else if(this.colour == Images.RedDoor && c.getLevel().hasRedKey()){
 				c.useRedKey();
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 		}
 		else if(this.colour == Images.GreenDoor && c.getLevel().hasGreenKey()){
 				c.useGreenKey();
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 		}
 		else if(this.colour == Images.YellowDoor && c.getLevel().hasYellowKey()){
 				c.useYellowKey();
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 		}
 		else{
 			throw new IllegalArgumentException("Chap does not have the key");

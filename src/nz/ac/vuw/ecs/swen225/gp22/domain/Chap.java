@@ -284,12 +284,7 @@ public class Chap{
 	 * Method to handle SolidObject collisions
 	 */
 	public void CollisionCheck(int x, int y){
-		if(level.getObject(x, y) instanceof Key){
-			Key key = (Key) level.getObject(x, y);
-			key.keyOnCollision(this, x, y);
-		}else{
-			level.getObject(x, y).onCollision(this);
-		}
+		level.getObject(x, y).onCollision(this, x, y);
 	}
 
 	public Level getLevel(){

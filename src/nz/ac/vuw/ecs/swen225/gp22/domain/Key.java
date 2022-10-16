@@ -18,52 +18,27 @@ public class Key extends SolidObject{
 	/*
 	 * Handles Chap collsion with keys
 	 */
-	public void onCollision(Chap c){
-		if(!getCollided()){
-			if(this.colour == Images.BlueKey) {
-				c.getBlueKey(c.getXPos(),c.getYPos());
-				setImg(Images.Floor);
-				setCollided(true);
-			}
-			else if(this.colour == Images.RedKey) {
-				c.getRedKey(c.getXPos(),c.getYPos());
-				setImg(Images.Floor);
-				setCollided(true);
-			}
-			else if(this.colour == Images.GreenKey) {
-				c.getGreenKey(c.getXPos(),c.getYPos());
-				setImg(Images.Floor);
-				setCollided(true);
-			}
-			else if(this.colour == Images.YellowKey) {
-				c.getYellowKey(c.getXPos(),c.getYPos());
-				setImg(Images.Floor);
-				setCollided(true);
-			}
-		}
-	}
-
-	public void keyOnCollision(Chap c, int x, int y){
+	public void onCollision(Chap c, int x, int y){
 		if(!getCollided()){
 			if(this.colour == Images.BlueKey) {
 				c.getBlueKey(x,y);
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 			}
 			else if(this.colour == Images.RedKey) {
 				c.getRedKey(x,y);
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 			}
 			else if(this.colour == Images.GreenKey) {
 				c.getGreenKey(x,y);
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 			}
 			else if(this.colour == Images.YellowKey) {
 				c.getYellowKey(x,y);
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 			}
 		}
 	}

@@ -16,11 +16,11 @@ public class ExitLock extends SolidObject{
 	/*
 	 * Handles Chap colliding with ExitLock
 	 */
-	public void onCollision(Chap c){
+	public void onCollision(Chap c, int x, int y){
 		if(getCollided()){}
 		else if(c.getChips() >= c.getLevel().getChipsRequired()){
-			setImg(Images.Floor);
 			setCollided(true);
+			c.getLevel().removeObject(x, y);
 		}
 		else{
 			throw new IllegalArgumentException("Chap does not have enough chips");

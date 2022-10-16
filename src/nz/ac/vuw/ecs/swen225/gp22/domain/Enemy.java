@@ -145,9 +145,8 @@ public class Enemy extends SolidObject{
 	}
 
 	@Override
-	public void onCollision(Chap c) {
+	public void onCollision(Chap c, int x, int y) {
 		c.getState().die();
-		
 	}
 
 	@Override
