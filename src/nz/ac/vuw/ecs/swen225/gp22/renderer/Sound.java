@@ -7,13 +7,12 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 /**
- * This class is used to play sounds in the game.
+ * This class is used to play sounds in the game and uses the singleton pattern.
  * 
  * @author livapurane
  *
  */
 public class Sound{
-
     private static Sound sound;
 
     private static Clip clip;
@@ -30,6 +29,10 @@ public class Sound{
         soundURL[3] = getClass().getResource("Sounds/LevelWin.wav");
     }
 
+    /*
+    * Used to make class singleton pattern
+    *
+    */
     public static Sound getInstance(){
         if(sound == null){
             sound = new Sound();
