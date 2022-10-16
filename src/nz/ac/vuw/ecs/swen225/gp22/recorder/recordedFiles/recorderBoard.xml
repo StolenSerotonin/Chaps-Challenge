@@ -236,7 +236,7 @@
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
-    <tile>computerChip</tile>
+    <tile>floor</tile>
     <tile>floor</tile>
     <tile>wall</tile>
     <tile>floor</tile>
@@ -261,7 +261,7 @@
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
-    <tile>redDoor</tile>
+    <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
     <tile>floor</tile>
@@ -487,12 +487,13 @@
   <time>49</time>
   <hero>
     <xPos>11</xPos>
-    <yPos>8</yPos>
+    <yPos>6</yPos>
   </hero>
+  <chipsRequired>7</chipsRequired>
   <inventory>
     <key>
       <name>red</name>
-      <count>2</count>
+      <count>1</count>
     </key>
     <key>
       <name>yellow</name>

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.Timer;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -103,7 +102,6 @@ public class GUI extends JPanel implements Runnable {
     
     public String levelsURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
     public String savedGamesURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
-    public static String infoText;
     // private ArrayList<JButton> allButtons = new ArrayList<>();
     
     Thread threadGame;
@@ -488,7 +486,7 @@ public class GUI extends JPanel implements Runnable {
                         gameLevel = splashPage;
                         stopGameSound();
                         setUpLevel();
-                    }
+                    } 
                 }
                 else if (chap.getState() == chap.getDeadState() && gameLevel == level2) {
                     System.out.println("Chap is Dead");
@@ -780,28 +778,6 @@ public class GUI extends JPanel implements Runnable {
             gameState = playState; // if no change game state to playState
             timer.start(); // start timer
         }
-    }
-
-    /**
-     *this method is used to show a popup when the chap is on the info tile
-     */
-    public void popupTile(){
-        //create a jdialogue
-        JDialog popup = new JDialog();
-        popup.setSize(300, 300);
-        //text area to show the info
-        JTextArea info = new JTextArea();
-        info.setEditable(false); 
-        info.setLineWrap(true);
-        info.setWrapStyleWord(true);
-        info.setText(infoText);
-        popup.add(info);
-        popup.setVisible(true);
-        //popup should be in the middle of the gui
-        popup.setLocationRelativeTo(null);
-        //dispose of the popup when the user clicks the anybutton
-        popup.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
     }
     
     /**

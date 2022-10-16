@@ -27,7 +27,6 @@ public class Sound{
         soundURL[1] = getClass().getResource("Sounds/Computerchip.wav");
         soundURL[2] = getClass().getResource("Sounds/Key.wav");
         soundURL[3] = getClass().getResource("Sounds/LevelWin.wav");
-        soundURL[4] = getClass().getResource("Sounds/DoorOpen.wav");
     }
 
     /*
@@ -60,6 +59,12 @@ public class Sound{
         clip.start();
     }
 
+    /*
+    * Loop once
+    */
+    public void loop1(){
+        clip.loop(1);
+    }
     /*Continue playing the sound
     *
      */

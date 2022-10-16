@@ -129,7 +129,6 @@ public class Chap{
 		chips++;
 		int uncollectedChips2 = level.getChipsRequired() - getChips();
 		assert uncollectedChips2 == uncollectedChips - 1;
-		GUI.playGameSound(1);
 
 	}
 	
@@ -144,7 +143,7 @@ public class Chap{
 		if(!(level.getObject(x, y) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		GUI.playGameSound(2);
+		//GUI.renderMazePanel.playKey();
 		int count = level.getKey("red");
 		Map<String, Integer> temp = new HashMap<String, Integer>(level.getInv());
 		temp.put("red", count + 1);
@@ -156,7 +155,7 @@ public class Chap{
 		if(!(level.getObject(x, y) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		GUI.playGameSound(2);
+		//GUI.renderMazePanel.playKey();
 		int count = level.getKey("blue");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("blue", count + 1);
@@ -168,7 +167,7 @@ public class Chap{
 		if(!(level.getObject(x, y) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		GUI.playGameSound(2);
+		//GUI.renderMazePanel.playKey();
 		int count = level.getKey("yellow");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("yellow", count + 1);
@@ -180,7 +179,7 @@ public class Chap{
 		if(!(level.getObject(x, y) instanceof Key)){
 			throw new IllegalStateException("There is no Key here: " + getYPos() + getXPos());
 		}
-		GUI.playGameSound(2);
+		//GUI.renderMazePanel.playKey();
 		int count = level.getKey("green");
 		Map<String, Integer> temp = level.getInv();
 		temp.put("green", count + 1);

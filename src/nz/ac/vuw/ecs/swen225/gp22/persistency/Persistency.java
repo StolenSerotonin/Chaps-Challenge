@@ -87,7 +87,6 @@ public class Persistency {
                 }
             }
         }
-        GUI.infoText = infoFieldString.getText();
         //Grab the number of chips required and time from the XML file
         newLevel.setChipsRequired(Integer.parseInt(chipsRequired.getText()));
         GUI.time = Integer.parseInt(storedTime.getText());
