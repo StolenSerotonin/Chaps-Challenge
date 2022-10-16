@@ -180,6 +180,7 @@ public class GUI extends JPanel implements Runnable {
         renderMazePanel.loadAllImages();
         renderMazePanel.paintComponent(getGraphics());
         playGameSound(0);
+        timer.start();
         add(renderMazePanel);
     }
     
@@ -374,7 +375,7 @@ public class GUI extends JPanel implements Runnable {
     public void setUpMenu() {
        
         clearPanel();
-        // stopGameSound();
+        stopGameSound();
         this.setBackground(new Color(69, 58, 47));
         JPanel panel = new JPanel();
         panel.setLocation(200, 200);
