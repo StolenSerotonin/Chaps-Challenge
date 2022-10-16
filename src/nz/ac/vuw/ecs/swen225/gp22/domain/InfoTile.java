@@ -20,9 +20,9 @@ public class InfoTile extends Tile{
 	
 	public void onWalk(Chap c){
 		//display info
-		if(c.getX() != this.getX() && c.getY() != this.getY()){
-			Main.gui.popupTile();
-		}
+		//if(c.getX() != this.getX() && c.getY() != this.getY()){
+		//GUI.popupTile();
+		//}
 	}
 
 	public void setInfo(String info){
