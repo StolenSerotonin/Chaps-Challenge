@@ -488,7 +488,7 @@ public class GUI extends JPanel implements Runnable {
                         gameLevel = splashPage;
                         stopGameSound();
                         setUpLevel();
-                    } 
+                    }
                 }
                 else if (chap.getState() == chap.getDeadState() && gameLevel == level2) {
                     System.out.println("Chap is Dead");
@@ -782,26 +782,26 @@ public class GUI extends JPanel implements Runnable {
         }
     }
 
+    /**
+     *this method is used to show a popup when the chap is on the info tile
+     */
     public void popupTile(){
-        //this method is used to show a popup when the chap is on the info tile
-
         //create a jdialogue
         JDialog popup = new JDialog();
         popup.setSize(300, 300);
         //text area to show the info
         JTextArea info = new JTextArea();
-        info.setEditable(false);
+        info.setEditable(false); 
         info.setLineWrap(true);
         info.setWrapStyleWord(true);
         info.setText(infoText);
+        popup.add(info);
+        popup.setVisible(true);
+        //popup should be in the middle of the gui
+        popup.setLocationRelativeTo(null);
+        //dispose of the popup when the user clicks the anybutton
+        popup.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-        //dialogue should be closed when user presses any arrow key
-        popup.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                popup.dispose();
-            }
-        });
     }
     
     /**
