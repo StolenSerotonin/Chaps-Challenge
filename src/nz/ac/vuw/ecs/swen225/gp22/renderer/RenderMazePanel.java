@@ -133,7 +133,7 @@ public class RenderMazePanel extends JPanel{
         if(level.hasBlueKey()) g.drawImage(Images.BlueKey.getImg(), screenWidth+42, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
         if(level.hasRedKey()) g.drawImage(Images.RedKey.getImg(), screenWidth+109, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
         if(level.hasGreenKey()) g.drawImage(Images.GreenKey.getImg(), screenWidth+174, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
-        if(level.hasYellowKey()) g.drawImage(Images.YellowKey.getImg(), screenWidth+41, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
+        if(level.hasYellowKey()) g.drawImage(Images.YellowKey.getImg(), screenWidth+41, FIRSTINVKEYX+63, INVKEYWIDTH, INVKEYHEIGHT, null);
         
         //Draw the chips left
         loadChipsLeft();
@@ -157,28 +157,20 @@ public class RenderMazePanel extends JPanel{
         timerText.setText(GUI.timeDString);
         timerText.setBounds(520 + 40, 20, size.width, size.height);
         timerText.setFont(new Font("Verdana", 1, 58)); 
-        // timerText.setForeground(new Color(196, 180, 133));
 
         chipsLeft.setBounds(screenWidth + chipsLeftTextX, 120, size.width, size.height);
         chipsLeft.setFont(new Font("Verdana", 1, 70)); 
-        // chipsLeft.setForeground(new Color(196, 180, 133));
         
         chipTitle.setBounds(screenWidth + 75, 80, size.width, size.height);
         chipTitle.setFont(new Font("Verdana", 1, 20)); 
-        // chipTitle.setForeground(new Color(196, 180, 133));
 
         timeTitle.setBounds(screenWidth + 75, -15, size.width, size.height);
         timeTitle.setFont(new Font("Verdana", 1, 20)); 
-        // timeTitle.setForeground(new Color(196, 180, 133));
 
         for(JLabel l : textPanels){
             l.setForeground(new Color(196, 180, 133));
             add(l);
         }
-        // add(chipsLeft);
-        // add(chipTitle);
-        // add(timeTitle);
-        // add(timerText); 
     }
 
     /*Play the music
