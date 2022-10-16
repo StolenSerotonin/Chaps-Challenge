@@ -149,6 +149,7 @@ public class KeyInput implements KeyListener{
             System.out.println("REPLAYING");
             replaying = 1;
         }else if(keyCode == KeyEvent.VK_ESCAPE){
+            replaying = 0;
             guiPanel.gameState = guiPanel.menuState;
             guiPanel.setUpLevel();
         }
@@ -166,6 +167,10 @@ public class KeyInput implements KeyListener{
         }
     }
 
+    /**
+     * This method is used to handle the key inputs from the user when the game is in the splash page state before starting level 2.
+     * @param keyCode
+     */
     public void keyStart2(int keyCode){
         if(keyCode == KeyEvent.VK_ENTER){
             guiPanel.gameState = guiPanel.playState;
@@ -173,6 +178,7 @@ public class KeyInput implements KeyListener{
             guiPanel.setUpLevel();
         }
     }
+
     
     /**
      * This method is used to handle the key inputs from the user when the game is in play state.
