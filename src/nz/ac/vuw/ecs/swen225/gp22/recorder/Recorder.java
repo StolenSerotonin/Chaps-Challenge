@@ -26,7 +26,7 @@ import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
  */
 public class Recorder {
 	private static final ArrayList<Move> moves = new ArrayList<>();
-	private static double replaySpeed = 1;
+	private static long replaySpeed = 1;
 	private static int count = 0;
 	
     public record Move(String player, Direction dir, int index) { }
@@ -36,8 +36,17 @@ public class Recorder {
      * Setter for replay speed
      * @param speed replay Speed selected by user
      */
-    public static void setReplaySpeed(double speed) {
+    public static void setReplaySpeed(long speed) {
         replaySpeed = speed;
+    }
+
+    /**
+     * Getter for replay speed field 
+     * 
+     * @return replay speed
+     */
+    public static long getReplaySpeed() {
+        return replaySpeed;
     }
 
 
@@ -152,8 +161,6 @@ public class Recorder {
                                     app.replayChap(move.dir());
                                     moves.remove(0);
                                 }
-                                // } else if (move.player().equals("enemy")) {
-                                // System.out.println("Enemy Moves");
                             } else {
                                 System.out.println("Error finding chap");
                             }
