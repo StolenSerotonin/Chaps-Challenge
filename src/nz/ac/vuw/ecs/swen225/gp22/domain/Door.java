@@ -1,5 +1,6 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
 /*
@@ -40,21 +41,25 @@ public class Door extends SolidObject{
 				c.useBlueKey();
 				setCollided(true);
 				c.getLevel().removeObject(x, y);
+				GUI.playGameSound(4);
 		}
 		else if(this.colour == Images.RedDoor && c.getLevel().hasRedKey()){
 				c.useRedKey();
 				setCollided(true);
 				c.getLevel().removeObject(x, y);
+				GUI.playGameSound(4);
 		}
 		else if(this.colour == Images.GreenDoor && c.getLevel().hasGreenKey()){
 				c.useGreenKey();
 				setCollided(true);
 				c.getLevel().removeObject(x, y);
+				GUI.playGameSound(4);
 		}
 		else if(this.colour == Images.YellowDoor && c.getLevel().hasYellowKey()){
 				c.useYellowKey();
 				setCollided(true);
 				c.getLevel().removeObject(x, y);
+				GUI.playGameSound(4);
 		}
 		else{
 			throw new IllegalArgumentException("Chap does not have the key");

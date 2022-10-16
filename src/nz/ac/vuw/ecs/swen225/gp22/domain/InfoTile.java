@@ -1,5 +1,7 @@
 package nz.ac.vuw.ecs.swen225.gp22.domain;
 
+import nz.ac.vuw.ecs.swen225.gp22.app.GUI;
+import nz.ac.vuw.ecs.swen225.gp22.app.Main;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
 
 /*
@@ -18,9 +20,9 @@ public class InfoTile extends Tile{
 	
 	public void onWalk(Chap c){
 		//display info
-		if(c.getX() != this.getX() && c.getY() != this.getY()){
-			//infopanel.dispose()
-		}
+		//if(c.getX() != this.getX() && c.getY() != this.getY()){
+		//GUI.popupTile();
+		//}
 	}
 
 	public void setInfo(String info){

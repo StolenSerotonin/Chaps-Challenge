@@ -16,6 +16,8 @@ public class Sound{
     private static Sound sound;
 
     private static Clip clip;
+
+    private static Clip c;
     private static URL soundURL[] = new URL[30];
 
 
@@ -59,12 +61,6 @@ public class Sound{
         clip.start();
     }
 
-    /*
-    * Loop once
-    */
-    public void loop1(){
-        clip.loop(1);
-    }
     /*Continue playing the sound
     *
      */
@@ -73,10 +69,28 @@ public class Sound{
 
     }
 
+
+    /*
+    * Sound clip for sound effects
+    *
+    * @param soundNum - the number of the sound to be played
+    */
+    public void setSoundEF(int i){
+        try{
+        AudioInputStream a = AudioSystem.getAudioInputStream(soundURL[i]);
+        c = AudioSystem.getClip();
+        c.open(a);
+        } catch (Exception e){}
+    }
+
+    public void playSoundE(){
+        c.start();
+    }
+
     /* Stop playing the sound
      * 
      */
     public void stop(){
-        clip.stop();
+        clip.close();
     }
 }
