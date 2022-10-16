@@ -155,7 +155,6 @@ public class Persistency {
                     }else{
                         row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
                     }
-                    row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
                 }
                 else{
                     row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
