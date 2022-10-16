@@ -26,7 +26,7 @@ import nz.ac.vuw.ecs.swen225.gp22.persistency.Persistency;
  */
 public class Recorder {
 	private static final ArrayList<Move> moves = new ArrayList<>();
-	private static long replaySpeed = 1;
+	private static double replaySpeed = 1;
 	private static int count = 0;
 	
     public record Move(String player, Direction dir, int index) { }
@@ -36,7 +36,7 @@ public class Recorder {
      * Setter for replay speed
      * @param speed replay Speed selected by user
      */
-    public static void setReplaySpeed(long speed) {
+    public static void setReplaySpeed(double speed) {
         replaySpeed = speed;
     }
 
@@ -45,7 +45,7 @@ public class Recorder {
      * 
      * @return replay speed
      */
-    public static long getReplaySpeed() {
+    public static double getReplaySpeed() {
         return replaySpeed;
     }
 
@@ -172,6 +172,8 @@ public class Recorder {
                     System.out.println("ERROR");
                 }
             }
+            app.gameState = app.menuState;
+            app.setUpLevel();
         };
         Thread thread = new Thread(runnable);
         thread.start();
