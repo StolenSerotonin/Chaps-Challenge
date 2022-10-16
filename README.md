@@ -10,7 +10,7 @@
 * Open IntelliJ
 * Go File -> New -> Project from Version Control...
 * Copy and paste the link to the repo
-* The project should be downloaded
+* The project will now download
 * Click "src" and navigate down to "app" and then finally open "Main".
 * Click the run button in the top toolbar, then click "Run..."
 * The game should now be running. 
