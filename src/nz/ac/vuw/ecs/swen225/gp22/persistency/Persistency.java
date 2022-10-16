@@ -15,7 +15,7 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Chap;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Tile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.SolidObject;
-import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream; 
@@ -221,16 +221,10 @@ public class Persistency {
         SolidObject sObject = null;
         //Check what the tile name is, then make the appropriate object
         if(solidObj.contains("Key")){
-            if(solidObj.contains("yellow")){sObject = new Key(yPos, xPos, Images.YellowKey);}
-            else if(solidObj.contains("red")){sObject = new Key(yPos, xPos, Images.RedKey);}
-            else if(solidObj.contains("blue")){sObject = new Key(yPos, xPos, Images.BlueKey);}
-            else if(solidObj.contains("green")){sObject = new Key(yPos, xPos, Images.GreenKey);}
+            sObject = new Key(yPos, xPos, solidObj);
         }
         else if(solidObj.contains("Door")){
-            if(solidObj.contains("yellow")){sObject = new Door(yPos, xPos, Images.YellowDoor);}
-            else if(solidObj.contains("red")){sObject = new Door(yPos, xPos, Images.RedDoor);}
-            else if(solidObj.contains("blue")){sObject = new Door(yPos, xPos, Images.BlueDoor);}
-            else if(solidObj.contains("green")){sObject = new Door(yPos, xPos, Images.GreenDoor);}
+             sObject = new Door(yPos, xPos, solidObj);
         }
         else if(solidObj.contains("exitLock")){
             sObject = new ExitLock(yPos, xPos);

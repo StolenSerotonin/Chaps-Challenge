@@ -9,11 +9,26 @@ public class Door extends SolidObject{
 
 	private Images colour;
 	
-	public Door(int xp, int yp, Images colour){
+	public Door(int xp, int yp, String stringImage){
 		setPosition(xp, yp);
-		this.colour = colour;
+		this.colour = getColourImage(stringImage);
 		setImg(colour);
 		initialize();
+	}
+
+	public Images getColourImage(String imageColour){
+		switch(imageColour){
+			case "greenDoor":
+				return Images.GreenDoor;
+			case "blueDoor":
+				return Images.BlueDoor;
+			case "yellowDoor":
+				return Images.YellowDoor;
+			case "redDoor":
+				return Images.RedDoor;
+			default:
+				return Images.RedDoor;
+		}
 	}
 	
 	/*

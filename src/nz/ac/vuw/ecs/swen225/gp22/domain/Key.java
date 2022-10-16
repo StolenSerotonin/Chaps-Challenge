@@ -7,14 +7,27 @@ import nz.ac.vuw.ecs.swen225.gp22.renderer.Images;
  */
 public class Key extends SolidObject{
 	private Images colour;
-	
-	public Key(int xp, int yp, Images colour){
+	public Key(int xp, int yp, String stringImage){
 		setPosition(xp, yp);
-		this.colour = colour;
+		this.colour = getColourImage(stringImage);
 		setImg(colour);
 		initialize();
 	}
-	
+	public Images getColourImage(String imageColour){
+		switch(imageColour){
+			case "greenKey":
+				return Images.GreenKey;
+			case "blueKey":
+				return Images.BlueKey;
+			case "yellowKey":
+				return Images.YellowKey;
+			case "redKey":
+				return Images.RedKey;
+			default:
+				return Images.BlueKey;
+		}
+	}
+
 	/*
 	 * Handles Chap collsion with keys
 	 */
@@ -42,7 +55,6 @@ public class Key extends SolidObject{
 			}
 		}
 	}
-	
 	public void initialize(){
 		setImg(this.colour);
 		setCollided(false);
@@ -51,6 +63,5 @@ public class Key extends SolidObject{
 	public String toString(){
 		return this.colour.getName();
 	}
-	
 }
 
