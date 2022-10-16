@@ -124,7 +124,7 @@ public class RenderMazePanel extends JPanel{
     /**
      * Draw the sidebar panel to the screen
      * 
-     * @param g2d the graphics object used to draw the sidebar panel
+     * @param g the graphics object used to draw the sidebar panel
      */
     public void drawSidebarPanel(java.awt.Graphics g){
         g.drawImage(Images.SideBar.getImg(), screenWidth-10, 0, 290, 550,null);
@@ -148,7 +148,7 @@ public class RenderMazePanel extends JPanel{
         chipsLeft.setText("" + chips); 
         
         //Set the chips left text to the correct position
-        if(chips == level.getChipsRequired()) chipsLeftTextX = 80;
+        if(chips == 10) chipsLeftTextX = 80;
         else chipsLeftTextX = 110; 
 
         //Put all the labels in an array
