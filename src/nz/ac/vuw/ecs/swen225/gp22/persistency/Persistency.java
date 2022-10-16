@@ -8,7 +8,6 @@ import nz.ac.vuw.ecs.swen225.gp22.domain.WallTile;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Exit;
 import nz.ac.vuw.ecs.swen225.gp22.domain.ComputerChip;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Door;
-import nz.ac.vuw.ecs.swen225.gp22.domain.Enemy;
 import nz.ac.vuw.ecs.swen225.gp22.domain.ExitLock;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Key;
 import nz.ac.vuw.ecs.swen225.gp22.domain.Level;
@@ -88,6 +87,7 @@ public class Persistency {
                 }
             }
         }
+        GUI.infoText = infoFieldString.getText();
         //Grab the number of chips required and time from the XML file
         newLevel.setChipsRequired(Integer.parseInt(chipsRequired.getText()));
         GUI.time = Integer.parseInt(storedTime.getText());
