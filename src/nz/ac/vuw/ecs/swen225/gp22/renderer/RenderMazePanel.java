@@ -51,7 +51,7 @@ public class RenderMazePanel extends JPanel{
 
     private JLabel timerText = new JLabel();
 
-    Sound sound = new Sound();
+    Sound sound = Sound.getInstance();
 
     /**
      * Constructor for the RenderMazePanel

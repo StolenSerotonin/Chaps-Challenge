@@ -13,17 +13,28 @@ import javax.sound.sampled.Clip;
  *
  */
 public class Sound{
-    Clip clip;
-    URL soundURL[] = new URL[30];
+
+    private static Sound sound;
+
+    private static Clip clip;
+    private static URL soundURL[] = new URL[30];
+
 
     /* Sound class Constructor
      * 
      */
-    public Sound(){
+    private Sound(){
         soundURL[0] = getClass().getResource("Sounds/Scruffy.wav");
         soundURL[1] = getClass().getResource("Sounds/Computerchip.wav");
         soundURL[2] = getClass().getResource("Sounds/Key.wav");
         soundURL[3] = getClass().getResource("Sounds/LevelWin.wav");
+    }
+
+    public static Sound getInstance(){
+        if(sound == null){
+            sound = new Sound();
+        }
+        return sound;
     }
 
     /* Set the sound to be played
