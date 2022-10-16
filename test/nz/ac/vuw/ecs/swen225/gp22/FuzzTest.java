@@ -60,6 +60,8 @@ public class FuzzTest{
         Main.gui.gameState = 1;//playState
         Main.gui.gameLevel = 2;
         Main.gui.setUpLevel();
+
+        //needed to run lvl 2 straight away
         rob.keyPress(KeyEvent.VK_CONTROL);
         rob.keyPress(KeyEvent.VK_2);
         rob.keyRelease(KeyEvent.VK_CONTROL);
@@ -71,8 +73,7 @@ public class FuzzTest{
             preDir = key;
             rob.pressAndRelease(key);
             System.out.println(Main.gui.gameState);
-            if(Main.gui.gameState == (short)4){//if gameOverState
-                System.out.println("DETECTEDFGAMOEVER");
+            if(Main.gui.gameState == (short)4){//if gameOverState, press enter to restart
                 rob.pressAndRelease(KeyEvent.VK_ENTER);
             }
         }
