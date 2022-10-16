@@ -60,12 +60,21 @@ public class FuzzTest{
         Main.gui.gameState = 1;//playState
         Main.gui.gameLevel = 2;
         Main.gui.setUpLevel();
+        rob.keyPress(KeyEvent.VK_CONTROL);
+        rob.keyPress(KeyEvent.VK_2);
+        rob.keyRelease(KeyEvent.VK_CONTROL);
+        rob.keyRelease(KeyEvent.VK_2);
 
         int preDir = DIRECTIONS.get(RAND.nextInt(4));
         for(int i = 0; i < 400; ++i){ //created robot presses random key 120 times every half second
             int key = NOTOPDIR.get(preDir).get(RAND.nextInt(3)); //Never uses opposite direction as previous
             preDir = key;
             rob.pressAndRelease(key);
+            System.out.println(Main.gui.gameState);
+            if(Main.gui.gameState == (short)4){//if gameOverState
+                System.out.println("DETECTEDFGAMOEVER");
+                rob.pressAndRelease(KeyEvent.VK_ENTER);
+            }
         }
     }
 }
