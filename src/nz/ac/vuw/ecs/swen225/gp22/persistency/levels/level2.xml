@@ -338,6 +338,29 @@
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+    </row>
+    <row>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>wall</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
+        <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
@@ -395,29 +418,6 @@
         <tile>wall</tile>
         <tile>wall</tile>
         <tile>wall</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-    </row>
-    <row>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
-        <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
         <tile>floor</tile>
@@ -494,8 +494,8 @@
     <message>Collect all the chips to get past the barrier!</message>
     <time>60</time>
     <hero>
-        <xPos>10</xPos> 
-        <yPos>9</yPos>
+        <xPos>6</xPos>
+        <yPos>15</yPos>
     </hero>
     <inventory>
         <key>
@@ -515,4 +515,5 @@
             <count>0</count>
         </key>
     </inventory>
+    <chipsRequired>4</chipsRequired>
 </level>

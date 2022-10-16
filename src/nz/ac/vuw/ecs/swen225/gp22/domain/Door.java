@@ -9,37 +9,52 @@ public class Door extends SolidObject{
 
 	private Images colour;
 	
-	public Door(int xp, int yp, Images colour){
+	public Door(int xp, int yp, String stringImage){
 		setPosition(xp, yp);
-		this.colour = colour;
+		this.colour = getColourImage(stringImage);
 		setImg(colour);
 		initialize();
+	}
+
+	public Images getColourImage(String imageColour){
+		switch(imageColour){
+			case "greenDoor":
+				return Images.GreenDoor;
+			case "blueDoor":
+				return Images.BlueDoor;
+			case "yellowDoor":
+				return Images.YellowDoor;
+			case "redDoor":
+				return Images.RedDoor;
+			default:
+				return Images.RedDoor;
+		}
 	}
 	
 	/*
 	 * Handles Chip colliding with doors
 	 */
-	public void onCollision(Chap c){
+	public void onCollision(Chap c, int x, int y){
 		if(getCollided()){}
 		else if(this.colour == Images.BlueDoor && c.getLevel().hasBlueKey()){
 				c.useBlueKey();
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 		}
 		else if(this.colour == Images.RedDoor && c.getLevel().hasRedKey()){
 				c.useRedKey();
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 		}
 		else if(this.colour == Images.GreenDoor && c.getLevel().hasGreenKey()){
 				c.useGreenKey();
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 		}
 		else if(this.colour == Images.YellowDoor && c.getLevel().hasYellowKey()){
 				c.useYellowKey();
-				setImg(Images.Floor);
 				setCollided(true);
+				c.getLevel().removeObject(x, y);
 		}
 		else{
 			throw new IllegalArgumentException("Chap does not have the key");

@@ -34,9 +34,11 @@ public class KeyInput implements KeyListener{
             keyGameOverState(keyCode);
         }else if (guiPanel.gameLevel == guiPanel.replay && guiPanel.gameState == guiPanel.pauseState){ //if the game is in the replay state
             keyReplayState(keyCode);
-            keyResumeRepState(keyCode);
+            // keyResumeRepState(keyCode);
         }else if(guiPanel.gameState == guiPanel.winState){ //if the game is in the win state
             keyWinState(keyCode);
+        }else if(guiPanel.gameLevel == guiPanel.splashPage && guiPanel.gameState == guiPanel.pauseState){
+            keyStart2(keyCode);
         }
     }
     
@@ -143,23 +145,29 @@ public class KeyInput implements KeyListener{
      * @param keyCode - the key code of the key pressed by the user.
      */
     public void keyReplayState(int keyCode){
-        if(keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_SPACE){
+        if(keyCode == KeyEvent.VK_RIGHT){
             System.out.println("REPLAYING");
             replaying = 1;
-        }
-    }
-
-    /**
-     * This method is used to handle the key inputs from the user when the game is in the replay state.
-     * @param keyCode - the key code of the key pressed by the user.
-     */
-    public void keyResumeRepState(int keyCode){
-        if(keyCode == KeyEvent.VK_ESCAPE) {
-            System.out.println("Back to main menu from replaying");
+        }else if(keyCode == KeyEvent.VK_ESCAPE){
+            GUI.stopGameSound();
+            replaying = 0;
             guiPanel.gameState = guiPanel.menuState;
             guiPanel.setUpLevel();
         }
     }
+
+    /**
+     * This method is used to handle the key inputs from the user when the game is in the splash page state before starting level 2.
+     * @param keyCode
+     */
+    public void keyStart2(int keyCode){
+        if(keyCode == KeyEvent.VK_ENTER){
+            guiPanel.gameState = guiPanel.playState;
+            guiPanel.gameLevel = guiPanel.level2;
+            guiPanel.setUpLevel();
+        }
+    }
+
     
     /**
      * This method is used to handle the key inputs from the user when the game is in play state.
@@ -182,7 +190,7 @@ public class KeyInput implements KeyListener{
             guiPanel.gameState = guiPanel.pauseState;
             guiPanel.isPaused = true;
             System.out.println("Paused");
-            GUI.renderMazePanel.stopMusic();
+            GUI.stopGameSound();
             guiPanel.timer.stop();
             guiPanel.pauseButton.setText("Resume");
         }
@@ -217,8 +225,6 @@ public class KeyInput implements KeyListener{
             //escape
             escape = 0;
         } 
-        
-        
         
     } 
     

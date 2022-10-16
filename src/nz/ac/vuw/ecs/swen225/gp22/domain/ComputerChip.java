@@ -16,11 +16,11 @@ public class ComputerChip extends SolidObject{
 	/*
 	 * Handles when Chap collides with this object
 	 */
-	public void onCollision(Chap c){
+	public void onCollision(Chap c, int x, int y){
 		if(!getCollided()){
 			setCollided(true);
-			setImg(Images.Floor);
 			c.obtainChip();
+			c.getLevel().removeObject(x, y);
 		}
 	}
 	

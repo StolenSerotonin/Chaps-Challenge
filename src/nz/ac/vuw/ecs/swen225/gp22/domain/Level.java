@@ -91,6 +91,10 @@ public class Level{
 	public void setObject(int x, int y, Key object){
 		objects[x][y] = object;
 	}
+
+	public void removeObject(int x, int y){
+		objects[x][y] = null;
+	}
 	
 	public Point getStartingPosition(){
 		return startingPosition;
