@@ -133,7 +133,7 @@ public class RenderMazePanel extends JPanel{
         if(level.hasBlueKey()) g.drawImage(Images.BlueKey.getImg(), screenWidth+42, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
         if(level.hasRedKey()) g.drawImage(Images.RedKey.getImg(), screenWidth+109, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
         if(level.hasGreenKey()) g.drawImage(Images.GreenKey.getImg(), screenWidth+174, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
-        if(level.hasYellowKey()) g.drawImage(Images.YellowKey.getImg(), screenWidth+41, FIRSTINVKEYX, INVKEYWIDTH, INVKEYHEIGHT, null);
+        if(level.hasYellowKey()) g.drawImage(Images.YellowKey.getImg(), screenWidth+41, FIRSTINVKEYX+63, INVKEYWIDTH, INVKEYHEIGHT, null);
         
         //Draw the chips left
         loadChipsLeft();
