@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.Timer;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -102,6 +103,7 @@ public class GUI extends JPanel implements Runnable {
     
     public String levelsURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
     public String savedGamesURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
+    public static String infoText;
     // private ArrayList<JButton> allButtons = new ArrayList<>();
     
     Thread threadGame;
@@ -778,6 +780,28 @@ public class GUI extends JPanel implements Runnable {
             gameState = playState; // if no change game state to playState
             timer.start(); // start timer
         }
+    }
+
+    public void popupTile(){
+        //this method is used to show a popup when the chap is on the info tile
+
+        //create a jdialogue
+        JDialog popup = new JDialog();
+        popup.setSize(300, 300);
+        //text area to show the info
+        JTextArea info = new JTextArea();
+        info.setEditable(false);
+        info.setLineWrap(true);
+        info.setWrapStyleWord(true);
+        info.setText(infoText);
+
+        //dialogue should be closed when user presses any arrow key
+        popup.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                popup.dispose();
+            }
+        });
     }
     
     /**
