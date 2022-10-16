@@ -149,19 +149,8 @@ public class KeyInput implements KeyListener{
             System.out.println("REPLAYING");
             replaying = 1;
         }else if(keyCode == KeyEvent.VK_ESCAPE){
+            GUI.stopGameSound();
             replaying = 0;
-            guiPanel.gameState = guiPanel.menuState;
-            guiPanel.setUpLevel();
-        }
-    }
-
-    /**
-     * This method is used to handle the key inputs from the user when the game is in the replay state.
-     * @param keyCode - the key code of the key pressed by the user.
-     */
-    public void keyResumeRepState(int keyCode){
-        if(keyCode == KeyEvent.VK_ESCAPE) {
-            System.out.println("Back to main menu from replaying");
             guiPanel.gameState = guiPanel.menuState;
             guiPanel.setUpLevel();
         }
@@ -201,7 +190,7 @@ public class KeyInput implements KeyListener{
             guiPanel.gameState = guiPanel.pauseState;
             guiPanel.isPaused = true;
             System.out.println("Paused");
-            GUI.renderMazePanel.stopMusic();
+            GUI.stopGameSound();
             guiPanel.timer.stop();
             guiPanel.pauseButton.setText("Resume");
         }

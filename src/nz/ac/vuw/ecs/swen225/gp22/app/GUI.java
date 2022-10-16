@@ -30,13 +30,13 @@ import nz.ac.vuw.ecs.swen225.gp22.recorder.*;
 import nz.ac.vuw.ecs.swen225.gp22.renderer.*;
 
 /**
- * This class is the GUI of the game.
- * 
- * @author Ecco Competente
- */
+* This class is the GUI of the game.
+* 
+* @author Ecco Competente
+*/
 
 public class GUI extends JPanel implements Runnable {
-
+    
     public short gameState;
     public final short playState = 1;
     public final short pauseState = 2;
@@ -44,14 +44,14 @@ public class GUI extends JPanel implements Runnable {
     public final short gameOverState = 4;
     public final short infoState = 5;
     public final short winState = 6;
-
+    
     public short replayType;
     public final short manual = 1;
     public final short auto = 2;
-
+    
     private boolean isRecording = false;
     public boolean isPaused = false;
-
+    
     public KeyInput keyIn = new KeyInput(this);
     public static Chap chap;
     public static Recorder recorder;
@@ -60,28 +60,28 @@ public class GUI extends JPanel implements Runnable {
     public static RenderMazePanel renderMazePanel = null;
     public static Persistency persistency;
     public Timer timer;
-
+    
     public static int time = 60;
     public ArrayList<JButton> buttons = new ArrayList<>();
-
+    
     public short gameLevel;
     public short level1 = 1;
     public short level2 = 2;
     public short replay = 3;
     public short loadState = 4;
     public short splashPage = 5;
-
+    
     public static String timeDString; // time display string
-
+    
     // Menu Buttons
     public JButton startButton = new JButton("Start");
     public JButton loadButton = new JButton("Load");
     public JButton exitButton = new JButton("Exit");
     public JButton saveButton = new JButton("Save");
     public JButton pauseButton = new JButton("Pause");
-
+    
     private JMenuBar menuBar;
-
+    
     private JMenuItem exitItem;
     private JMenuItem saveItem;
     private JMenuItem rulesItem;
@@ -89,29 +89,29 @@ public class GUI extends JPanel implements Runnable {
     private JMenuItem lvl1;
     private JMenuItem lvl2;
     private JMenuItem startR;
-
+    
     private JMenuItem startRecording;
     private JMenuItem stopRecording;
     private JMenuItem replaySpeedx1;
     private JMenuItem replaySpeedx150;
     private JMenuItem replaySpeedx200;
-
+    
     private JMenu recordGame;
     private JMenu replayGame;
     private JMenu mReplayGame;
-
+    
     public String levelsURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/levels/";
     public String savedGamesURL = "src/nz/ac/vuw/ecs/swen225/gp22/persistency/savedGames/";
     // private ArrayList<JButton> allButtons = new ArrayList<>();
-
+    
     Thread threadGame;
-
+    
     /**
-     * This class is the GUI of the game.
-     * 
-     * @author Ecco Competente
-     * 
-     */
+    * This class is the GUI of the game.
+    * 
+    * @author Ecco Competente
+    * 
+    */
     public GUI() {
         this.setPreferredSize(new Dimension(800, 600));
         this.setBackground(Color.BLACK);
@@ -121,43 +121,44 @@ public class GUI extends JPanel implements Runnable {
         this.setLayout(l);
         this.setFocusable(true);
     }
-
+    
     /**
-     * This method is used to start thread of the game
-     */
+    * This method is used to start thread of the game
+    */
     public void setUpThread() {
         threadGame = new Thread(this);
         threadGame.start();
     }
-
+    
     /**
-     * This method is used to setup the game and start the game
-     */
+    * This method is used to setup the game and start the game
+    */
     public void setup() {
         gameState = menuState;
         setUpMenu();
     }
-
+    
     /**
-     * This method restarts the game panel
-     */
+    * This method restarts the game panel
+    */
     public void clearPanel() {
         Main.gui.removeAll();
         Main.gui.revalidate();
         Main.gui.repaint();
-
+        
         // remove timer and restart it
         if (timer != null) {
             timer.stop();
             time = 60;
         }
-
+        
     }
-
+    
     /**
-     * This method is used to set up the replay board
-     */
+    * This method is used to set up the replay board
+    */
     public void setupReplay() {
+
         try {
             Recorder.loadRecording();
         } catch (JDOMException e1) {
@@ -178,13 +179,14 @@ public class GUI extends JPanel implements Runnable {
         renderMazePanel = new RenderMazePanel(l1);
         renderMazePanel.loadAllImages();
         renderMazePanel.paintComponent(getGraphics());
+        playGameSound(0);
         add(renderMazePanel);
     }
-
+    
     /**
-     * This method run is used to run the game multiple times constantly checking
-     * and updating the game
-     */
+    * This method run is used to run the game multiple times constantly checking
+    * and updating the game
+    */
     @Override
     public void run() {
         long timer = 0; // timer for the game
@@ -193,15 +195,15 @@ public class GUI extends JPanel implements Runnable {
         long elapseTime; // time elapsed
         double intDraw = 1000000000 / 15; // interval to draw
         double d = 0; // delta
-
+        
         while (threadGame != null) {
-
+            
             currTime = System.nanoTime();
             elapseTime = currTime - prevTime; // time elapsed
             d += elapseTime / intDraw;
             timer += elapseTime;
             prevTime = currTime;
-
+            
             if (d >= 1) {
                 updateGame();
                 this.requestFocus();
@@ -209,12 +211,37 @@ public class GUI extends JPanel implements Runnable {
             }
             timer = timer >= 1000000000 ? 0 : timer;
         }
-
+        
+    }
+    /**
+     * This method is used to play a specific sound
+     * @param i - the sound to be played
+     */
+    public static void playGameSound(int i){
+        if(i == 0){
+            renderMazePanel.playMusic();
+        } else {
+            renderMazePanel.playSE(i);
+        }
     }
 
+    public static void stopGameSound(){
+
+  
+            // System.out.println("Stopping music");
+
+            try{
+                System.out.println("Stopping music");
+
+                renderMazePanel.stopMusic();
+            } catch (Exception e){
+                System.out.println("Music already stopped");
+            }
+    }
+    
     /**
-     * This method is used to update base on the level of the game
-     */
+    * This method is used to update base on the level of the game
+    */
     public void setUpLevel() {
         clearPanel(); // clear the panel
         if (gameState == playState) {
@@ -235,7 +262,7 @@ public class GUI extends JPanel implements Runnable {
                 renderMazePanel = new RenderMazePanel(l1);
                 renderMazePanel.loadAllImages();
                 renderMazePanel.paintComponent(getGraphics());
-                renderMazePanel.playMusic();
+                playGameSound(0);
                 add(renderMazePanel);
             } else if (gameLevel == level2) { // if the game level is level 2
                 System.out.println("LOADED LEVEL 2");
@@ -251,29 +278,29 @@ public class GUI extends JPanel implements Runnable {
                 renderMazePanel = new RenderMazePanel(l1);
                 renderMazePanel.loadAllImages();
                 renderMazePanel.paintComponent(getGraphics());
-                renderMazePanel.playMusic();
+                playGameSound(0);
                 add(renderMazePanel);
             } else if (gameLevel == loadState) {
+                System.out.println("LOADED MODE");
                 addButtons(); // add buttons
                 addMenu(); // add menu
-                if (renderMazePanel != null) {
-                    renderMazePanel.stopMusic();
-                }
+                stopGameSound();
                 try {
                     l1 = Persistency.loadBoard("savedGame.xml",
-                            savedGamesURL);
+                    savedGamesURL);
                     chap = new Chap(l1.getStartingX(), l1.getStartingY(), l1); // level 2 position
                     renderMazePanel = new RenderMazePanel(l1);
                     renderMazePanel.loadAllImages();
                     renderMazePanel.paintComponent(getGraphics());
                     add(renderMazePanel);
                     timer.start(); // start timer
-                    renderMazePanel.playMusic();
+                    playGameSound(0);
                 } catch (JDOMException | IOException e) {
                     e.printStackTrace();
                 }
             }
         } else if (gameState == pauseState && gameLevel == replay) {
+            stopGameSound();
             if (replayType == manual) {
                 Recorder.runAutoReplay(this);
             } else if (replayType == auto) {
@@ -285,10 +312,10 @@ public class GUI extends JPanel implements Runnable {
             setUpLevel2(); // set up level 2
         }
     }
-
+    
     /**
-     * This method is used to set up the game over screen
-     */
+    * This method is used to set up the game over screen
+    */
     public void setUpGameOver() {
         clearPanel();
         System.out.println("Game Over");
@@ -301,7 +328,7 @@ public class GUI extends JPanel implements Runnable {
             JLabel title1 = new JLabel("<html><p><br/><br/>NICE TRY<p/></html>", SwingConstants.CENTER); //
             JLabel title2 = new JLabel("<html><p>Game Over<p/></html>", SwingConstants.CENTER);
             JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Retry...<p/></html>",
-                    SwingConstants.CENTER);
+            SwingConstants.CENTER);
             ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
             labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
             startText.setFont(new Font("Verdana", 1, 30));
@@ -312,15 +339,13 @@ public class GUI extends JPanel implements Runnable {
             this.add(panel, BorderLayout.CENTER);
         }
     }
-
+    
     /**
-     * This method is used to show the splash page saying the player won
-     */
+    * This method is used to show the splash page saying the player won
+    */
     public void setWinGame() {
         clearPanel();
-        if (renderMazePanel != null) {
-            renderMazePanel.stopMusic();
-        }
+        stopGameSound();
         System.out.println("Game WINNER");
         if (gameState == winState) {
             JPanel panel = new JPanel();
@@ -330,7 +355,7 @@ public class GUI extends JPanel implements Runnable {
             JLabel title1 = new JLabel("<html><p><br/><br/>WINNER<p/></html>", SwingConstants.CENTER); //
             JLabel title2 = new JLabel("<html><p></br><p/></html>", SwingConstants.CENTER);
             JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Retry...<p/></html>",
-                    SwingConstants.CENTER);
+            SwingConstants.CENTER);
             ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
             labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
             startText.setFont(new Font("Verdana", 1, 30));
@@ -341,13 +366,15 @@ public class GUI extends JPanel implements Runnable {
             this.add(panel, BorderLayout.CENTER);
         }
     }
-
+    
     /**
-     * This is the method that is called when the game is in the menu state and
-     * display menu texts
-     */
+    * This is the method that is called when the game is in the menu state and
+    * display menu texts
+    */
     public void setUpMenu() {
+       
         clearPanel();
+        // stopGameSound();
         this.setBackground(new Color(69, 58, 47));
         JPanel panel = new JPanel();
         panel.setLocation(200, 200);
@@ -356,7 +383,7 @@ public class GUI extends JPanel implements Runnable {
         JLabel title1 = new JLabel("<html><p><br/><br/>Welcome to<p/></html>", SwingConstants.CENTER); //
         JLabel title2 = new JLabel("<html><p>Chap's Challenge<p/></html>", SwingConstants.CENTER);
         JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Play...<p/></html>",
-                SwingConstants.CENTER);
+        SwingConstants.CENTER);
         ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
         labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
         startText.setFont(new Font("Verdana", 1, 30));
@@ -366,9 +393,10 @@ public class GUI extends JPanel implements Runnable {
         this.setVisible(true);
         this.add(panel, BorderLayout.CENTER);
     }
-
+    
     public void setUpLevel2() {
         clearPanel();
+        stopGameSound();
         this.setBackground(new Color(69, 58, 47));
         JPanel panel = new JPanel();
         panel.setLocation(200, 200);
@@ -377,7 +405,7 @@ public class GUI extends JPanel implements Runnable {
         JLabel title1 = new JLabel("Well Done", SwingConstants.CENTER); //
         JLabel title2 = new JLabel("<html><p><p/></html>", SwingConstants.CENTER);
         JLabel startText = new JLabel("<html><p><br/><br/><br/><br/><br/>Press ENTER To Continue...<p/></html>",
-                SwingConstants.CENTER);
+        SwingConstants.CENTER);
         ArrayList<JLabel> labels = new ArrayList<>(Arrays.asList(title1, title2));
         labels.forEach(l -> l.setFont(new Font("Verdana", 1, 70)));
         startText.setFont(new Font("Verdana", 1, 30));
@@ -387,11 +415,11 @@ public class GUI extends JPanel implements Runnable {
         this.setVisible(true);
         this.add(panel, BorderLayout.CENTER);
     }
-
-
+    
+    
     /**
-     * This method is used to update the game
-     */
+    * This method is used to update the game
+    */
     public void updateGame() {
         if (gameState == playState) {
             if (renderMazePanel != null) {
@@ -403,11 +431,11 @@ public class GUI extends JPanel implements Runnable {
             
         }
     }
-
+    
     /**
-     * This method is used to move the chap base on the input of player and records
-     * movement
-     */
+    * This method is used to move the chap base on the input of player and records
+    * movement
+    */
     public void moveChap() {
         try {
             if (keyIn.up == 1) { // up
@@ -421,11 +449,14 @@ public class GUI extends JPanel implements Runnable {
                     System.out.println("WIN Entire Game");
                     gameState = winState;
                     setWinGame();
-                } else if (chap.getState() == chap.getDeadState() && gameLevel == level2 || gameLevel == loadState) {
-                    System.out.println("Chap is Dead");
-                    gameState = gameOverState;
-                    renderMazePanel.stopMusic();
-                    setUpGameOver();
+                }  
+                else if(gameLevel == level2 || gameLevel == loadState){
+                    if (chap.getState() == chap.getDeadState()) {
+                        System.out.println("Chap is Dead");
+                        gameState = gameOverState;
+                        stopGameSound();
+                        setUpGameOver();
+                    }
                 }
             } else if (keyIn.down == 1) { // down
                 System.out.println("chap down");
@@ -437,7 +468,7 @@ public class GUI extends JPanel implements Runnable {
                 if (chap.getState() == chap.getDeadState() && gameLevel == level2) {
                     System.out.println("Chap is Dead");
                     gameState = gameOverState;
-                    renderMazePanel.stopMusic();
+                    stopGameSound();
                     setUpGameOver();
                 }
             } else if (keyIn.left == 1) { // left
@@ -448,15 +479,18 @@ public class GUI extends JPanel implements Runnable {
                     Recorder.chapMove(Direction.LEFT); // record left
                 }
                 // if chap is in the win state, then set the game state to win state
-                if (chap.getState() == chap.getWinState() && gameLevel == level1 || gameLevel == loadState) {
-                    gameState = pauseState;
-                    gameLevel = splashPage;
-                    renderMazePanel.stopMusic();
-                    setUpLevel();
-                } else if (chap.getState() == chap.getDeadState() && gameLevel == level2) {
+                if(gameLevel == level1 || gameLevel == loadState){
+                    if (chap.getState() == chap.getWinState()) {
+                        gameState = pauseState;
+                        gameLevel = splashPage;
+                        stopGameSound();
+                        setUpLevel();
+                    } 
+                }
+                else if (chap.getState() == chap.getDeadState() && gameLevel == level2) {
                     System.out.println("Chap is Dead");
                     gameState = gameOverState;
-                    renderMazePanel.stopMusic();
+                    stopGameSound();
                     setUpGameOver();
                 }
             } else if (keyIn.right == 1) { // right
@@ -469,17 +503,17 @@ public class GUI extends JPanel implements Runnable {
                 if (chap.getState() == chap.getDeadState() && gameLevel == level2) {
                     System.out.println("Chap is Dead");
                     gameState = gameOverState;
-                    renderMazePanel.stopMusic();
+                    stopGameSound();
                     setUpGameOver();
                 }
             }
         } catch (Exception e) {
         }
     }
-
+    
     /**
-     * This method is used to set up auto replay
-     */
+    * This method is used to set up auto replay
+    */
     public void replayChap(Direction dir) {
         try {
             if (dir == Direction.UP) {
@@ -498,12 +532,12 @@ public class GUI extends JPanel implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
     }
-
+    
     /**
-     * This method is used to add the buttons to the game
-     */
+    * This method is used to add the buttons to the game
+    */
     public void addButtons() {
         var buttonPanel = new JPanel(); // panel for buttons
         buttonPanel.setFocusable(false); // set focusable to false
@@ -521,7 +555,7 @@ public class GUI extends JPanel implements Runnable {
                     if (isPaused) { // if paused
                         jb.setText("Resume"); // change text to resume
                         timer.stop(); // stop timer
-                        renderMazePanel.stopMusic();
+                       stopGameSound();
                     } else {
                         jb.setText("Pause"); // change text to pause
                         timer.start(); // start timer
@@ -537,10 +571,10 @@ public class GUI extends JPanel implements Runnable {
             add(buttonPanel, BorderLayout.SOUTH);
         }
     }
-
+    
     /**
-     * This method is used to add the menu to the game
-     */
+    * This method is used to add the menu to the game
+    */
     public void addMenu() {
         menuBar = new JMenuBar(); // menu bar
         var Game = new JMenu("Game"); // game menu
@@ -551,7 +585,7 @@ public class GUI extends JPanel implements Runnable {
         menuBar.add(Options); // add options menu to menu bar
         menuBar.add(Level); // add level menu to menu bar
         menuBar.add(Help); // add help menu to menu bar
-
+        
         recordGame = new JMenu("Record Game"); // record game menu
         replayGame = new JMenu("Auto Replay"); // replay game menu
         mReplayGame = new JMenu("Manual Replay");
@@ -573,21 +607,21 @@ public class GUI extends JPanel implements Runnable {
         replaySpeedx150.addActionListener(e -> setSpeed150());
         replaySpeedx200.addActionListener(e -> setSpeed200());
         startR.addActionListener(e -> runMreplay());
-
+        
         // populate the menu items and key bindings
         populateMenuItems(saveItem, "Save", KeyEvent.VK_S,
-                InputEvent.CTRL_DOWN_MASK);
+        InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(exitItem, "Exit", KeyEvent.VK_X,
-                InputEvent.CTRL_DOWN_MASK);
+        InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(rulesItem, "Rules", KeyEvent.VK_H,
         InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(loadItem, "Load", KeyEvent.VK_R,
-                InputEvent.CTRL_DOWN_MASK);
+        InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(lvl1, "Load Level 1", KeyEvent.VK_1,
-                InputEvent.CTRL_DOWN_MASK);
+        InputEvent.CTRL_DOWN_MASK);
         populateMenuItems(lvl2, "Load Level 2", KeyEvent.VK_2,
-                InputEvent.CTRL_DOWN_MASK);
-
+        InputEvent.CTRL_DOWN_MASK);
+        
         // add menu items to menu
         recordGame.add(startRecording);
         recordGame.add(stopRecording);
@@ -606,10 +640,10 @@ public class GUI extends JPanel implements Runnable {
         Level.add(lvl2);
         add(menuBar, BorderLayout.NORTH); // add menu bar to gui
     }
-
+    
     /**
-     * This method is used to set recording to true
-     */
+    * This method is used to set recording to true
+    */
     public void startRecording() {
         isRecording = true;
         try {
@@ -619,10 +653,10 @@ public class GUI extends JPanel implements Runnable {
             e.printStackTrace();
         }
     }
-
+    
     /**
-     * This method is used to set recording to false
-     */
+    * This method is used to set recording to false
+    */
     public void stopRecording() {
         if (isRecording) { // if recording
             try {
@@ -639,10 +673,10 @@ public class GUI extends JPanel implements Runnable {
             JOptionPane.showMessageDialog(null, "You must be recording to save a recording");
         }
     }
-
+    
     /**
-     * This method is used to set the replay speed to 1
-     */
+    * This method is used to set the replay speed to 1
+    */
     public void setSpeed1() {
         Recorder.setReplaySpeed(1);
         gameState = pauseState;
@@ -650,10 +684,10 @@ public class GUI extends JPanel implements Runnable {
         replayType = auto;
         setUpLevel();
     }
-
+    
     /**
-     * This method is used to set the replay speed to 1.5
-     */
+    * This method is used to set the replay speed to 1.5
+    */
     public void setSpeed150() {
         Recorder.setReplaySpeed(1.50);
         gameState = pauseState;
@@ -661,10 +695,10 @@ public class GUI extends JPanel implements Runnable {
         replayType = auto;
         setUpLevel();
     }
-
+    
     /**
-     * This method is used to set the replay speed to 2
-     */
+    * This method is used to set the replay speed to 2
+    */
     public void setSpeed200() {
         Recorder.setReplaySpeed(2.0);
         gameState = pauseState;
@@ -672,27 +706,28 @@ public class GUI extends JPanel implements Runnable {
         replayType = auto;
         setUpLevel();
     }
-
+    
     /**
-     * This method is used to run the manual replay
-     */
+    * This method is used to run the manual replay
+    */
     public void runMreplay() {
         //jdialogue saying to press right arrow to do a step by step replay
         JOptionPane.showMessageDialog(null, "Press the right arrow key to do a step by step replay");
+        stopGameSound();
         replayType = manual;
         gameState = pauseState;
         gameLevel = replay;
         setUpLevel();
     }
-
+    
     /**
-     * This method is used to populate the menu items
-     *
-     * @param item       the menu item
-     * @param title      the text of the menu item
-     * @param keyEvent   the key of the menu item
-     * @param inputEvent the mask of the menu item
-     */
+    * This method is used to populate the menu items
+    *
+    * @param item       the menu item
+    * @param title      the text of the menu item
+    * @param keyEvent   the key of the menu item
+    * @param inputEvent the mask of the menu item
+    */
     public void populateMenuItems(JMenuItem item, String title, int keyEvent, int inputEvent) {
         item.setText(title); // set text
         item.setAccelerator(KeyStroke.getKeyStroke(keyEvent, inputEvent)); // set key binding
@@ -710,32 +745,32 @@ public class GUI extends JPanel implements Runnable {
                     rules();
                 } 
                 else if (item.getText().equals("Load Level 1")) {
-                    if (gameLevel == level1 ||  gameLevel == level2) {
+                    if (gameLevel == level1 ||  gameLevel == level2 || gameLevel == loadState) {
                         // reset game
                         gameLevel = level1;
-                        renderMazePanel.stopMusic();
+                        stopGameSound();
                         setUpLevel();
                     }
                 } else if (item.getText().equals("Load Level 2")) {
                     // should be in level 2
-                    if (gameLevel == level2 || gameLevel == level1) {
+                    if (gameLevel == level2 || gameLevel == level1 || gameLevel == loadState) {
                         gameLevel = level2;
-                        renderMazePanel.stopMusic();
+                        stopGameSound();
                         setUpLevel();
                     }
                 }
             }
         });
     }
-
+    
     /**
-     * This method is used to show a popup when the user tries to exit the game
-     */
+    * This method is used to show a popup when the user tries to exit the game
+    */
     public void exitQ() {
         gameState = pauseState; // pause game
         System.out.println("exit");
         int exit = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit",
-                JOptionPane.YES_NO_OPTION);
+        JOptionPane.YES_NO_OPTION);
         if (exit == JOptionPane.YES_OPTION) { // if yes
             System.exit(0); // exit game
         } else {
@@ -743,10 +778,10 @@ public class GUI extends JPanel implements Runnable {
             timer.start(); // start timer
         }
     }
-
+    
     /**
-     * This method is used to save the game
-     */
+    * This method is used to save the game
+    */
     public void save(Level l, Chap c) {
         System.out.println("Saved");
         try {
@@ -761,10 +796,10 @@ public class GUI extends JPanel implements Runnable {
         // exit
         System.exit(0);
     }
-
+    
     /**
-     * This method is used to show a window with all the rules and short cuts
-     */
+    * This method is used to show a window with all the rules and short cuts
+    */
     public void rules(){
         //Jdialogue with the rules and scroll pane
         String rules =  "Rules of Chap's Challenge:\n\n1. Move Chap around the maze using the arrow keys.\n\n2. Collect all the keys to unlock the door.\n\n3. Collect all the chips to win the game.\n\n4. Avoid the Monster and the water.\n\n5. Press space to pause the game.\n\n6. Press escape to Resume the game.\n\n7. Press ctrl + s to save the game.\n\n8. Press ctrl + x to exit the game.\n\n9. Press ctrl + h to view the rules.\n\n10. Press ctrl + r to resume a saved game -.\n\n11. Press ctrl + 1 to start a new game at level 1.\n\n12. Press ctrl + 2 to start a new game at level 2.\n\n13. Press Esc to exit game when GameOver.\n\n14. Press 1 to start a new game at level 1 when on Game Over.\n\n15. Press 2 to start a new game at level 2 when Game Over.\n\n16. Press Esc when Replaying is done to go back to Main Menu";
@@ -773,11 +808,11 @@ public class GUI extends JPanel implements Runnable {
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize( new Dimension( 500, 500 ) );
         JOptionPane.showMessageDialog(null, scrollPane, "Rules", JOptionPane.PLAIN_MESSAGE);
-
+        
     }
     /**
-     * This method is used to set up timer
-     */
+    * This method is used to set up timer
+    */
     public void loadLv1Timer() {
         timer = new Timer(1000, new ActionListener() { // populate timer
             @Override
@@ -790,17 +825,17 @@ public class GUI extends JPanel implements Runnable {
                 } else {
                     timer.stop(); // stop timer so that there is no leak
                     gameState = gameOverState; // change game state to game over
-                    renderMazePanel.stopMusic();
+                    stopGameSound();
                     setUpGameOver();
                 }
             }
         });
         timer.start();// start timer
     }
-
+    
     /**
-     * @return file that has the current game state of Game
-     */
+    * @return file that has the current game state of Game
+    */
     public File load() {
         // pause game
         gameState = pauseState;
@@ -824,5 +859,5 @@ public class GUI extends JPanel implements Runnable {
             return null; // return null
         }
     }
-
+    
 }
