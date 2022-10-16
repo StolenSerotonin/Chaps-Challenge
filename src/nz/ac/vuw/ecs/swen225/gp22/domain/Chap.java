@@ -129,7 +129,7 @@ public class Chap{
 		chips++;
 		int uncollectedChips2 = level.getChipsRequired() - getChips();
 		assert uncollectedChips2 == uncollectedChips - 1;
-		GUI.playGameSound(1);
+		//GUI.playGameSound(1);
 
 	}
 	
