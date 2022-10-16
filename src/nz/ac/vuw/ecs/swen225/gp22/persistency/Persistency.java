@@ -150,10 +150,15 @@ public class Persistency {
             Element row = new Element("row");
             for(int x = 0; x < COLUMNS; x++) {
                 if(l.getObject(y, x) != null){//if there is something in this tile
-                    row.addContent(new Element("tile").setText(l.getObject(y, x).getImg().getName()));//
+                    if(l.getObject(y, x).toString().contains("Empty")){
+                        row.addContent(new Element("tile").setText("floor"));
+                    }else{
+                        row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
+                    }
+                    row.addContent(new Element("tile").setText(l.getObject(y, x).toString()));
                 }
-                else{ 	
-                    row.addContent(new Element("tile").setText(l.getTile(y, x).getImg().getName()));
+                else{
+                    row.addContent(new Element("tile").setText(l.getTile(y, x).toString()));
                     if(l.getTile(y, x) instanceof InfoTile){
                         infoText = ((InfoTile) l.getTile(y, x)).getInfo();
                     }
@@ -192,25 +197,14 @@ public class Persistency {
     public static Tile getTile(String tile, int yPos, int xPos, Element tilElement){
         Tile tileObject = null;
         //Check what the tile name is, then make the appropriate object
-        switch(tile){
-            case "wall":
-                tileObject = new WallTile(yPos, xPos);
-                break;
-            case "floor":
-                tileObject = new FloorTile(yPos, xPos);
-                break;
-            case "exit":
-                tileObject = new Exit(yPos, xPos);
-                break;
-            case "infoField":
-                tileObject = new InfoTile(yPos, xPos, tilElement.getText());
-                break;
-            case "water":
-                tileObject = new WaterTile(yPos, xPos);
-                break;
-            default://Code for debugging
-                System.out.println("Error Constructing Tile: " + tile + " at " + "X: " + xPos + " Y: " + yPos);
-                break;
+        switch (tile) {
+            case "wall" -> tileObject = new WallTile(yPos, xPos);
+            case "floor" -> tileObject = new FloorTile(yPos, xPos);
+            case "exit" -> tileObject = new Exit(yPos, xPos);
+            case "infoField" -> tileObject = new InfoTile(yPos, xPos, tilElement.getText());
+            case "water" -> tileObject = new WaterTile(yPos, xPos);
+            default ->//Code for debugging
+                    System.out.println("Error Constructing Tile: " + tile + " at " + "X: " + xPos + " Y: " + yPos);
         }
         return tileObject;
     }
@@ -223,7 +217,7 @@ public class Persistency {
      * @param xPos x position to be placed in the solid object 2D array
      * @param tilElement Passed incase a string needs to be stored
      * @return The correct SolidObject needed.
-     */ 
+     */
     public static SolidObject getSolidObject(String solidObj, int yPos, int xPos, Element tilElement){
         SolidObject sObject = null;
         //Check what the tile name is, then make the appropriate object
