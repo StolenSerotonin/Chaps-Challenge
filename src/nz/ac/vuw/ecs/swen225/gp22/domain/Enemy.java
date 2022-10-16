@@ -18,8 +18,8 @@ public class Enemy extends SolidObject{
     public Enemy(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.targetY1 = yPos + 2;
-		this.targetY2 = yPos - 2;
+		this.targetY1 = yPos + 1;
+		this.targetY2 = yPos - 1;
 		this.currentTarget = 1;
 		setImg(Images.Enemy);
 		x = xPos * 24; //decided on 24 by carefull maths
